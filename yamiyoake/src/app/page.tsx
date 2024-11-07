@@ -1,9 +1,10 @@
 'use client'
-import {Leftnavigation} from "./components/navigation/left"
+import { LeftNavigation } from "./components/Navigations/left";
 export default function Home() {
   return (
-    <div>
-      <Leftnavigation/>
+    <div className="flex ">
+      <LeftNavigation/>
+      
     </div>
   );
 }
