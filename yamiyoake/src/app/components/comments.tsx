@@ -12,7 +12,7 @@ const Comments:React.FC<PostID> = ({post_id}) =>{
     return(
         <div className="flex flex-col w-[20%] h-screen  bg-[url('img/mokume.png')] p-3 items-center relative">
             {post_comments?(
-                <div className="object-cover w-full h-full flex flex-col items-center gap-10 hidden-scrollbar overflow-auto">
+                <div className="object-cover w-full h-full flex flex-col items-center gap-10 hidden-scrollbar overflow-auto text-white">
                     {post_comments.map((e)=>(
                         <div key={e.comment_id} className="object-cover w-[90%] relative ">
                             {e.user_id ===post?.user_id?(
@@ -35,9 +35,9 @@ const Comments:React.FC<PostID> = ({post_id}) =>{
                     </div>
                 )
             }
-            <div className="absolute bottom-3 left-1/2 w-[90%] transition -translate-x-1/2 rounded-xl bg-[#DCD5CD] flex justify-center">
-                <input type="text" className="bg-[#DCD5CD] outline-none" />
-                <button><Image src={send} alt="send" width={30} height={30} /></button>
+            <div className="absolute bottom-3 left-1/2 w-[90%] transition -translate-x-1/2 rounded-xl bg-[#DCD5CD] flex justify-center p-3 ">
+                <textarea  className="bg-[#DCD5CD] outline-none focus:h-56 resize-none hidden-scrollbar w-full"/>
+                <button className="absolute right-3 bottom-3"><Image src={send} alt="send" width={30} height={30} /></button>
             </div>
             
         </div>

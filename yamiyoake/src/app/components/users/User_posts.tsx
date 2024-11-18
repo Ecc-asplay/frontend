@@ -1,20 +1,17 @@
-//ポスト一覧
-import { SearchInput } from "./searchInput";
-import Image from "next/image";
+import { testData,comments } from "@/app/test_data";
 import Link from "next/link";
-import heart_icon from "@/app/img/heart-svgrepo-com.png";
-import comment_icon from "@/app/img/comment-4-svgrepo-com.png";
+import Image from "next/image";
 import bookmark_icon from "@/app/img/bookmark-svgrepo-com.png";
-import {testData,comments} from "@/app/test_data";
-const Main =()=>{
+import comment_icon from "@/app/img/comment-4-svgrepo-com.png";
+import heart_icon from "@/app/img/heart-svgrepo-com.png";
+interface UserID{
+    user_id:string | undefined
+}
+const User_Posts:React.FC<UserID> = ({user_id}) =>{
+    const user_posts = testData.filter(e=>e.user_id===user_id);
     return(
-        <div className="flex flex-col object-cover h-screen bg-[#E8E7E5] w-[60%] items-center ">
-            <div className="header bg-[#B8A193] object-cover w-full h-[30%]"/>
-            <SearchInput/>
-            <hr className="border-2 border-[#B4ACAA] w-full mt-5"/>
-            <div className="object-cover hidden-scrollbar overflow-auto  flex flex-col items-center ">
-                {
-                    testData.map((post,i)=>(
+        <div className="flex flex-col object-cover w-full h-full items-center hidden-scrollbar overflow-auto">
+            {user_posts.map((post,i)=>(
                         <div key={i} className={`w-[80%] bg-[#DDD4CF] rounded-md p-3 flex flex-col my-3`}>
                             <Link href={"/posts/" + post.post_id}>
                             <div className="flex items-center justify-between">
@@ -47,9 +44,8 @@ const Main =()=>{
                             </Link>
                         </div>
                     ))
-                }
-            </div>
+                    }
         </div>
     );
 }
-export {Main}
+export {User_Posts}

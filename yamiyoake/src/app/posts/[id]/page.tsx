@@ -9,6 +9,7 @@ import Image from "next/image";
 interface PostID{
     params:{id:string | null}
 }
+
 export default function Posts({params}:PostID){
     const [id, setId] = useState<string | null>(null);
     const [post, setPost] = useState<typeof testData[0] | undefined>(undefined);
@@ -27,6 +28,7 @@ export default function Posts({params}:PostID){
             setPost(foundPost);
         }
     }, [id]);
+    
 
     if (!post) {
         return <div>Post not found</div>;
