@@ -1,8 +1,8 @@
-import neutral from "@/app/img/reactions/face-neutral-svgrepo-com.png";
-import funny from "@/app/img/reactions/emoji-emoticon-funny-svgrepo-com.png";
-import frown from "@/app/img/reactions/face-frown-svgrepo-com.png";
-import smile from "@/app/img/reactions/emoji-smile-svgrepo-com.png";
-import sad from "@/app/img/reactions/sad-squint-svgrepo-com.png";
+import neutral from "@/app/img/reactions/white_neatural.png";
+import funny from "@/app/img/reactions/white_funny.png";
+import frown from "@/app/img/reactions/white_frown.png";
+import smile from "@/app/img/reactions/white_smile.png";
+import sad from "@/app/img/reactions/white_sad.png";
 
 import color_neutral from "@/app/img/reactions/color_neatural.png";
 import color_funny from "@/app/img/reactions/color_funny.png";
