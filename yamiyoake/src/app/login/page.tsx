@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import loginlogo from "@/app/img/login-logo.png";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 
 const Login: React.FC = () => {
@@ -12,11 +13,13 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState("");
     const [isShow, setShow] = useState(false);
 
+    const router = useRouter();
+
     const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
         try {
-            const response = await axios.post("http://localhost:8080/login", {
+            const response = await axios.post("http://44.199.138.134:8080/login", {
                 email,
                 password,
             });
@@ -24,22 +27,23 @@ const Login: React.FC = () => {
             if (response.status === 200) {
                 console.log("Login OK: ", response.data);
                 alert("Login Done");
+                // 画面遷移
+                router.push("/guidelines_main")
             } else {
                 console.log("Error: ", response.status);
                 alert("Error");
             }
         } catch (error) {
-            if (axios.isAxiosError(error)) {
-                console.error("Axios Error: ", error.response?.data || error.message);
-            } else {
+
                 console.error("Error: ", error);
-            }
+            
             alert("Error！");
         }
     };
 
     return(
         <div className="flex flex-col justify-center items-center min-h-screen bg-basebg space-y-16">
+            <div className="fixed top-0 w-full h-8 bg-headerbrown"></div>
             <div className="flex justify-center items-center">            
                 <Image src={loginlogo} height={120} width={120} alt="logo" className="mb-6"></Image>
             </div>
@@ -92,7 +96,7 @@ const Login: React.FC = () => {
             {/* 画面遷移 */}
             <div className="flex justify-between mt-4 w-full max-w-md">
                 <Link href={"/"} className="text-basegreen">パスワードを忘れた</Link>
-                <Link href={"/"} className="text-basegreen">新規登録はこちら</Link>
+                <Link href={"/register"} className="text-basegreen">新規登録はこちら</Link>
             </div>
         </div>
     )

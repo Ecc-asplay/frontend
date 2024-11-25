@@ -2,6 +2,7 @@
 "use client"
 import { useState } from "react";
 import RegisterLayout from "./RegisterLayout";
+import { useRouter } from "next/navigation";
 
 type FormData = {
     email : string;
@@ -33,6 +34,8 @@ const Register: React.FC = () => {
         lname: '',
         fname: '',
     });
+
+    const router = useRouter();
     const step = 3;
 
     const currentYear = new Date().getFullYear();
@@ -74,15 +77,36 @@ const Register: React.FC = () => {
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log('Register Data', FormData);
-        // APIなどの処理 StepBar処理
+
+        // パスワード一致性確認
+        if (regiformData.password !== regiformData.passwordcheck) {
+            alert("パスワード一致しません");
+            return;
+        }
+        try {
+            const response = await axios.post("api?/register", regiformData);
+
+            if (response.status === 201) {
+                alert("Registration successful!");
+                router.push("/main");
+            } else {
+                alert("Registration failed. Please try again");
+            }
+        } catch (error) {
+
+            console.error("Error: ", error);
+        
+        alert("Error！");
+    }
         
     };
 
     return(
         <RegisterLayout step={step}>
+            <div className="fixed top-0 w-full h-8 bg-headerbrown"></div>
             <div className="flex justify-center items-center min-h-screen bg-basebg">
                 {/* ここは第三Step */}
                 <form onSubmit={handleSubmit} className="p-5 rounded-lg w-full max-w-md space-y-4">
