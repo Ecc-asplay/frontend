@@ -22,19 +22,19 @@ const Login: React.FC = () => {
             });
     
             if (response.status === 200) {
-                console.log("登入成功: ", response.data);
-                alert("登入成功！");
+                console.log("Login OK: ", response.data);
+                alert("Login Done");
             } else {
-                console.log("登入失敗，回應狀態碼: ", response.status);
-                alert("登入失敗，請檢查您的帳號密碼！");
+                console.log("Error: ", response.status);
+                alert("Error");
             }
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                console.error("Axios 錯誤: ", error.response?.data || error.message);
+                console.error("Axios Error: ", error.response?.data || error.message);
             } else {
-                console.error("未知錯誤: ", error);
+                console.error("Error: ", error);
             }
-            alert("登入時發生錯誤，請稍後再試！");
+            alert("Error！");
         }
     };
 
