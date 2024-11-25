@@ -91,7 +91,7 @@ const Register: React.FC = () => {
 
             if (response.status === 201) {
                 alert("Registration successful!");
-                router.push("/main");
+                router.push("/");
             } else {
                 alert("Registration failed. Please try again");
             }
