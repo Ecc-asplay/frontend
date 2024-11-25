@@ -1,3 +1,4 @@
+// ヘッダ追加　画面遷移遷移（メイン）　API処理　CSS微調整
 "use client"
 import { useState } from "react";
 import RegisterLayout from "./RegisterLayout";
@@ -82,27 +83,27 @@ const Register: React.FC = () => {
 
     return(
         <RegisterLayout step={step}>
-            <div className="flex justify-center items-center min-h-screen">
+            <div className="flex justify-center items-center min-h-screen bg-basebg">
                 {/* ここは第三Step */}
                 <form onSubmit={handleSubmit} className="p-5 rounded-lg w-full max-w-md space-y-4">
                     {/* Email */}
                     <div className="flex flex-col">
                         <input type="email" id="email" name="email" placeholder="example@email.com" value={regiformData.email} onChange={handleChange} required 
-                            className="px-4 py-2 rounded-md bg-inputbg placeholder-middlebrown"/>
+                            className="px-4 py-2 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext placeholder-middlebrown"/>
                     </div>
 
                     {/* Password */}
                     <div className="bg-inputbg rounded-md p-4 space-y-2">
                         <div className="flex flex-col">
                             <input type="password" id="password" name="password" placeholder="パスワードを入力" value={regiformData.password} onChange={handleChange} required 
-                                className="bg-transparent border-none appearance-none focus:outline-none placeholder-middlebrown"/>
+                                className="bg-transparent border-none appearance-none focus:outline-none text-basetext placeholder-middlebrown"/>
                         </div>
 
                         <div className="h-px bg-middlebrown my-1"></div>
 
                         <div className="flex flex-col">
                             <input type="passwordcheck" id="passwordcheck" name="passwordcheck" placeholder="もう一回入力お願いします" value={regiformData.passwordcheck} onChange={handleChange} required 
-                                className="bg-transparent border-none appearance-none focus:outline-none placeholder-middlebrown"/>
+                                className="bg-transparent border-none appearance-none focus:outline-none text-basetext placeholder-middlebrown"/>
                         </div>
                     </div>
 
