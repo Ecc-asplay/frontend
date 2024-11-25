@@ -1,5 +1,5 @@
-export async function GET() {
-    const res = await fetch("http://localhost:8080/getposts");
-    const data = await res.json();
-    console.log(data);
+import axios from "axios";
+export async function GetAllPosts() {
+    const res = await axios.get("http://44.199.138.134:8080/getposts");
+    return res;
 }

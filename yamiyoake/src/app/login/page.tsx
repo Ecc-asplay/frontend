@@ -4,38 +4,25 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import loginlogo from "@/app/img/login-logo.png";
-import axios from "axios";
-
+import { login } from "../api/login";
+import {  useRouter } from "next/navigation";
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isShow, setShow] = useState(false);
-
+    const [loginError,setLoginError] = useState<string>("");
+    const router = useRouter();
     const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-
-        try {
-            const response = await axios.post("http://localhost:8080/login", {
-                email,
-                password,
-            });
-    
-            if (response.status === 200) {
-                console.log("Login OK: ", response.data);
-                alert("Login Done");
-            } else {
-                console.log("Error: ", response.status);
-                alert("Error");
-            }
-        } catch (error) {
-            if (axios.isAxiosError(error)) {
-                console.error("Axios Error: ", error.response?.data || error.message);
-            } else {
-                console.error("Error: ", error);
-            }
-            alert("Error！");
-        }
+        e.preventDefault(); 
+        const isLogin:boolean = await login(email,password);
+        if(!isLogin){
+            setLoginError("ログインエラー");
+        }else{
+            //ログインしたらmainに行く
+            router.push("/")
+        };
+        
     };
 
     return(
@@ -84,8 +71,9 @@ const Login: React.FC = () => {
                 </div>
             </form>
 
-            {/* ログインブタン */}
-            <div className="flex justify-center mt-10">
+            {/* ログインボタン */}
+            <div className="flex relative justify-center mt-10">
+                <span className="absolute -top-10 left-2 w-full text-red-500 ">{loginError}</span>
                 <button onClick={handleLogin} type="submit" className="w-24 h-10 py-1 bg-basegreen text-basebg font-medium rounded-md text-lg">ログイン</button>
             </div>
 
