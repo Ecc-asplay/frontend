@@ -15,7 +15,9 @@ const config: Config = {
         'basegreen': '#A5BBA2',
         'middlebrown': '#B8A193',
         'inputbg': '#DDD4CF',
-        'basetext': '#807267'
+        // darkbrown
+        'basetext': '#807267' ,
+        'baseyellow': '#DBA958',
 
       },
     },
