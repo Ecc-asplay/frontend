@@ -4,20 +4,39 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import loginlogo from "@/app/img/login-logo.png";
-import { useRouter } from "next/router";
+import axios from "axios";
 
 
 const Login: React.FC = () => {
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [isShow, setShow] = useState<boolean>(false);
-    // const router = useRouter();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [isShow, setShow] = useState(false);
 
-    const handleLogin = (e: React.FocusEvent) => {
+    const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        console.log('Login with', {email, password})
-        // APIなどの処理
-    }
+
+        try {
+            const response = await axios.post("http://localhost:8080/login", {
+                email,
+                password,
+            });
+    
+            if (response.status === 200) {
+                console.log("Login OK: ", response.data);
+                alert("Login Done");
+            } else {
+                console.log("Error: ", response.status);
+                alert("Error");
+            }
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.error("Axios Error: ", error.response?.data || error.message);
+            } else {
+                console.error("Error: ", error);
+            }
+            alert("Error！");
+        }
+    };
 
     return(
         <div className="flex flex-col justify-center items-center min-h-screen bg-basebg space-y-16">
@@ -67,7 +86,7 @@ const Login: React.FC = () => {
 
             {/* ログインブタン */}
             <div className="flex justify-center mt-10">
-                <button type="submit" className="w-24 h-10 py-1 bg-basegreen text-basebg font-medium rounded-md text-lg">ログイン</button>
+                <button onClick={handleLogin} type="submit" className="w-24 h-10 py-1 bg-basegreen text-basebg font-medium rounded-md text-lg">ログイン</button>
             </div>
 
             {/* 画面遷移 */}
