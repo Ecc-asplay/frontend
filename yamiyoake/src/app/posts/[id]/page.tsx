@@ -3,7 +3,7 @@ import { useState,useEffect } from "react";
 import { testData } from "@/app/test_data";
 import { Comments } from "@/app/components/comments";
 import { LeftNavigation } from "@/app/components/navigations/left";
-import { color_reactions } from "@/app/reactions"; 
+import { color_icons } from "@/app/feel_icons"; 
 import bookmark from "@/app/img/bookmark-svgrepo-com.png";
 import Image from "next/image";
 interface PostID{
@@ -40,7 +40,7 @@ export default function Posts({params}:PostID){
                 <div className="header bg-[#B8A193] object-cover w-full h-[10%]"/>
                 <div className="flex flex-col  m-10">
                     <div className="flex justify-between items-center">
-                        <Image src={color_reactions[post.reaction]} width={50} height={50} alt="reaction" />
+                        <Image src={color_icons[post.reaction]} width={50} height={50} alt="reaction" />
                         <p className="text-2xl font-extrabold">{post.title}</p>
                         <Image src={bookmark} width={50} height={50} alt="bookmark"/>
                     </div>

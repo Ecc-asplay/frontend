@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {  useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import home from "@/app/img/home-line-svgrepo-com.png";
@@ -6,9 +6,11 @@ import bell from "@/app/img/bell-svgrepo-com.png";
 import gear from "@/app/img/gear-svgrepo-com.png";
 import user from "@/app/img/user-svgrepo-com.png";
 import alert from "@/app/img/alert-square-svgrepo-com.png";
+import { GetToken } from "@/app/api/token";
 
 const LeftNavigation = () =>{
     const [islogin,setLogin] = useState(false);
+    console.log(GetToken());
     return(
         <div className="bg-[url('img/mokume.png')] bg-repeat-round w-[20%] h-screen flex flex-col">
             {
@@ -29,7 +31,7 @@ const LeftNavigation = () =>{
                         <p className="mt-3">あなたの不安を</p>
                         <p>打ち明けてみよう。</p>
                     </div>
-                    <Link href={""} className="object-cover rounded-lg bg-[#A5BBA2] w-[70%] h-[10%] flex items-center justify-center shadow-2xl">
+                    <Link href={"/login"} className="object-cover rounded-lg bg-[#A5BBA2] w-[70%] h-[10%] flex items-center justify-center shadow-2xl">
                         <button onClick={()=>{setLogin(!islogin)}} >ログイン</button>
                     </Link>
                 </div>
