@@ -18,6 +18,7 @@ const config: Config = {
         // darkbrown
         'basetext': '#807267' ,
         'baseyellow': '#DBA958',
+        'headerbrown': '#B8A193',
 
       },
     },
