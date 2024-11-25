@@ -11,7 +11,7 @@ import { draft } from '../test_data'
 import Image from 'next/image'
 import { LeftNavigation } from '../components/navigations/left'
 import { DraftNavigation } from '../components/post/draftnav'
-import { reaction_icons, color_reactions } from '../reactions'
+import { white_icons, color_icons } from '../feel_icons'
 type CustomElement = { type: 'paragraph'; children: CustomText[] };
 type CustomText = { text: string, fontsize: number, bold: boolean, italic: boolean, underline: boolean, strike: boolean, color: string };
 
@@ -35,11 +35,11 @@ export default function Test() {
   const [color, setColor] = useState("black");
   const [fontsize, setFontsize] = useState(100);
   const [reactionIcons, setReactionIcons] = useState([
-    { id: 1, isColor: true, white: reaction_icons[0], color: color_reactions[0] },
-    { id: 2, isColor: false, white: reaction_icons[1], color: color_reactions[1] },
-    { id: 3, isColor: false, white: reaction_icons[2], color: color_reactions[2] },
-    { id: 4, isColor: false, white: reaction_icons[3], color: color_reactions[3] },
-    { id: 5, isColor: false, white: reaction_icons[4], color: color_reactions[4] },
+    { id: 1, isColor: true, white: white_icons[0], color: color_icons[0] },
+    { id: 2, isColor: false, white: white_icons[1], color: color_icons[1] },
+    { id: 3, isColor: false, white: white_icons[2], color: color_icons[2] },
+    { id: 4, isColor: false, white: white_icons[3], color: color_icons[3] },
+    { id: 5, isColor: false, white: white_icons[4], color: color_icons[4] },
   ])
   const CustomEditor = {
     //それぞれのテキストの状態変更
@@ -126,8 +126,6 @@ export default function Test() {
       )
     );
 
-
-
   }
 
 
@@ -176,6 +174,7 @@ export default function Test() {
           <div className='flex items-center'>
             <select name="font-size" id="" className='outline-none'
               onChange={(e) => {
+                console.log(e.target.value);
                 setFontsize(e.target.value as unknown as number);
               }}
             >
@@ -219,11 +218,13 @@ export default function Test() {
             >
               <span className='line-through'>S</span>
             </button>
-            <div className='relative w-[15px] h-[15px] bg-red-400 rounded-full' onClick={() => { const colorinput = document.getElementById('color_input'); colorinput?.click() }}>
+            <div id="color_selector" className='relative w-[15px] h-[15px] bg-red-400 rounded-full' onClick={() => { const colorinput = document.getElementById('color_input'); colorinput?.click() }}>
               <input type="color" name="" id="color_input" className='hidden absolute top-0 right-0' 
                 onChange={event => {
                   setColor(event.target.value);
                   CustomEditor.setColorMark(editor);
+                  const color_selector = document.getElementById("color_selector");
+                  if(color_selector) color_selector.style.backgroundColor = event.target.value;
                 }}
               />
             </div>

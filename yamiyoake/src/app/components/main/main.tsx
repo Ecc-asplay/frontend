@@ -6,7 +6,13 @@ import heart_icon from "@/app/img/heart-svgrepo-com.png";
 import comment_icon from "@/app/img/comment-4-svgrepo-com.png";
 import bookmark_icon from "@/app/img/bookmark-svgrepo-com.png";
 import {testData,comments} from "@/app/test_data";
+import {GET} from "@/app/api/posts/route";
 const Main =()=>{
+    //福永の環境では実装不可
+    // const getAllposts = async ()=>{
+    //     await GET();
+    // }
+    // getAllposts();
     return(
         <div className="flex flex-col object-cover h-screen bg-[#E8E7E5] w-[60%] items-center ">
             <div className="header bg-[#B8A193] object-cover w-full h-[30%]"/>

@@ -29,7 +29,7 @@ const LeftNavigation = () =>{
                         <p className="mt-3">あなたの不安を</p>
                         <p>打ち明けてみよう。</p>
                     </div>
-                    <Link href={""} className="object-cover rounded-lg bg-[#A5BBA2] w-[70%] h-[10%] flex items-center justify-center shadow-2xl">
+                    <Link href={"/login"} className="object-cover rounded-lg bg-[#A5BBA2] w-[70%] h-[10%] flex items-center justify-center shadow-2xl">
                         <button onClick={()=>{setLogin(!islogin)}} >ログイン</button>
                     </Link>
                 </div>
