@@ -13,13 +13,14 @@ const DraftNavigation = () =>{
         console.log("started");
         console.log(localStorage.getItem("id"));
     }
+
     return(
         <div className="bg-[url('img/mokume.png')] bg-repeat-round w-[20%] h-screen relative flex flex-col items-center">
             <div className="flex -ml-8 items-center">
                 <Image src={happa} alt="happa" width={50} className="h-full" />
                 <p className="text-center m-3 text-xl text-green-300">下書き</p>
             </div>
-            <div id="image_add" className="w-[80%] h-[30%] bg-[#D9D9D9] my-3 rounded-lg flex items-center justify-center relative" draggable="true" onDragStart={e=>dragStart(e)}>
+            <div id="image_add" className="w-[80%] h-[30%] bg-[#D9D9D9] my-3 rounded-lg flex items-center justify-center relative" draggable="true" onDragStart={e=>dragStart(e)} onDragEnd={()=>{alert("end")}} >
                 <Image src={image} alt="image icon" className="w-[60%]" draggable="false"></Image>
                 <Image src={plus} alt="plus icon" width={30} height={30} className="absolute top-3 left-3" draggable="false"></Image>
             </div>

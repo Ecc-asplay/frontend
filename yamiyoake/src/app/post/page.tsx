@@ -138,33 +138,47 @@ export default function Test() {
 
   const dragOver = (e:React.DragEvent) =>{
     const parent:HTMLElement = e.target as HTMLElement;
-    parent.style.borderRight = "3px solid black";
+    const {id} = parent;
+    if(id != "content")return;
+    parent.style.backgroundColor = "black";
+
   }
   const dragLeave = (e:React.DragEvent) =>{
     const parent:HTMLElement = e.target as HTMLElement;
+    const {id} = parent;
+    if(id != "content")return;
     parent.style.border = "";
   }
-  const drop = (e:React.DragEvent) =>{
-    const parent:HTMLElement = e.target as HTMLElement;
-    const id  = localStorage.getItem("id");
-    console.log(localStorage);
-    if(!id)return;
-    const element = document.getElementById(id);
-    if(!element)return;
-    parent.appendChild(element);
+  const drop = () =>{
+    console.log("drop")
+    // const parent:HTMLElement = e.target as HTMLElement;
+    // const id  = localStorage.getItem("id");
+    // console.log(localStorage);
+    // console.log("droped")
+    // if(!id)return;
+    // const element = document.getElementById(id);
+    // if(!element)return;
+    // parent.appendChild(element);
   }
+  useEffect(()=>{
+    const body = document.getElementById("post_body");
+    if(!body)return;
+    body?.addEventListener("drop",drop);
+  },[])
 
   useEffect(() => {
     CustomEditor.setFontSizeMark(editor);
   }, [fontsize]);
-
+  useEffect(()=>{
+    window.document.getElementById("post_body")?.addEventListener('drop',(e)=>drop());
+  },[])
   
   return (
     <div className='flex'>
       <LeftNavigation />
-      <div id="post_body" onDrop={e=>drop(e)} onDragOver={e=>dragOver(e)} onDragLeave={e=>dragLeave(e)} className='w-[60%] h-screen overflow-y-auto hidden-scrollbar flex flex-col items-center relative'>
+      <div id="post_body"  onDropCapture={()=>alert("cap")} onDrop={()=>alert("asdd")} onDragOver={e=>dragOver(e)} onDragLeave={e=>dragLeave(e)} className='w-[60%] h-screen overflow-y-auto hidden-scrollbar flex flex-col items-center relative'>
         <hr className="header bg-[#B8A193] object-cover w-full h-[5%] absolute top-0 left-0" />
-        <input type="text" className='text-4xl outline-none m-5 mt-10' placeholder='title' />
+        <input type="text" onDrop={()=>drop()} className='text-4xl outline-none m-5 mt-10' placeholder='title' />
         <div className='flex flex-col bg-[#DDD4CF] w-[70%] h-[30%] rounded-xl p-6 place-items-center'>
           <span className='text-left w-full'>今、どんな気分?</span>
           <div className='grid grid-cols-5 gap-10 m-5'>
@@ -250,6 +264,7 @@ export default function Test() {
 
           </div>
           <Editable
+            id="content"
             className='w-[80%] m-3'
             renderElement={renderElement}
             renderLeaf={renderLeaf}
