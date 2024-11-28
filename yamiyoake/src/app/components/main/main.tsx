@@ -83,7 +83,7 @@ const Main = () => {
                                 </span>
                                 <div>
                                     <span className="m-3">
-                                        {post.created_at.slice(0,10)}
+                                        {post.created_at.slice(0,10).replace("-","年").replace("-","月")}日
                                     </span>
                                     <span className="m-3">
                                         {post.show_id}
