@@ -67,10 +67,10 @@ const Main = () => {
 
     return (
         <div className="flex flex-col object-cover h-screen bg-[#E8E7E5] w-[60%] items-center">
-            <div className="header bg-[#B8A193] object-cover w-full h-[30%]" />
+            <div className="header bg-[#B8A193] object-cover w-full h-[5%]" />
             <SearchInput />
             <hr className="border-2 border-[#B4ACAA] w-full mt-5" />
-            <div className="object-cover hidden-scrollbar overflow-auto flex flex-col items-center">
+            <div className="object-cover w-full hidden-scrollbar overflow-auto flex flex-col items-center">
                 {posts.posts.map((post, i) => (
                     <div
                         key={i}
@@ -79,23 +79,23 @@ const Main = () => {
                         <Link href={"/posts/" + post.post_id}>
                             <div className="flex items-center justify-between">
                                 <span className="font-bold text-2xl m-3">
-                                    {post.title}
+                                    {post.title.slice(0,20)}
                                 </span>
                                 <div>
                                     <span className="m-3">
-                                        {post.created_at}
+                                        {post.created_at.slice(0,10)}
                                     </span>
                                     <span className="m-3">
                                         {post.show_id}
                                     </span>
                                 </div>
                             </div>
-                            <span>
+                            <span className="m-3">
                                 {typeof post.content !== "string"
                                     ? post.content.map(c=>c.children.map((e:any,i:number)=>(<span key={i}>{e.text}</span>)))
                                     : JSON.stringify(post.content).slice(0, 87)}
                             </span>
-                            <div className="flex justify-between full">
+                            <div className="flex justify-between full m-3">
                                 <div className="object-cover w-1/2 flex justify-between items-center">
                                     <button className="flex gap-2 ml-3">
                                         <Image

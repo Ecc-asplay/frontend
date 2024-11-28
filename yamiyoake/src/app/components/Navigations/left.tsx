@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import {  useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import home from "@/app/img/home-line-svgrepo-com.png";
@@ -6,11 +6,18 @@ import bell from "@/app/img/bell-svgrepo-com.png";
 import gear from "@/app/img/gear-svgrepo-com.png";
 import user from "@/app/img/user-svgrepo-com.png";
 import alert from "@/app/img/alert-square-svgrepo-com.png";
-import { GetToken } from "@/app/api/token";
+import { getToken } from "@/app/api/token";
 
 const LeftNavigation = () =>{
     const [islogin,setLogin] = useState(false);
-    console.log(GetToken());
+    useEffect(()=>{
+        getToken().then((isToken)=>{
+            if(typeof isToken === "boolean"){
+                setLogin(isToken);
+            }
+            
+        });    
+    },[])
     return(
         <div className="bg-[url('img/mokume.png')] bg-repeat-round w-[20%] h-screen flex flex-col">
             {
