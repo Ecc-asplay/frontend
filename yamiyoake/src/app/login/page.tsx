@@ -27,6 +27,7 @@ const Login: React.FC = () => {
 
     return(
         <div className="flex flex-col justify-center items-center min-h-screen bg-basebg space-y-16">
+            <div className="fixed top-0 w-full h-8 bg-headerbrown"></div>
             <div className="flex justify-center items-center">            
                 <Image src={loginlogo} height={120} width={120} alt="logo" className="mb-6"></Image>
             </div>
@@ -80,7 +81,7 @@ const Login: React.FC = () => {
             {/* 画面遷移 */}
             <div className="flex justify-between mt-4 w-full max-w-md">
                 <Link href={"/"} className="text-basegreen">パスワードを忘れた</Link>
-                <Link href={"/"} className="text-basegreen">新規登録はこちら</Link>
+                <Link href={"/register"} className="text-basegreen">新規登録はこちら</Link>
             </div>
         </div>
     )

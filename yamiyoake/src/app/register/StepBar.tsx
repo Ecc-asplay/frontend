@@ -13,7 +13,7 @@ const steps = [
 
 const StepBar: React.FC<StepBarPosition> = ({step}) => {
     return(
-        <div className="flex justify-between items-center m-6">
+        <div className="flex justify-between items-center m-9">
             {steps.map((s) => (
                 <div key={s.id} className="flex gap-x-3">
                     <div className={`flex items-center justify-center w-10 h-10 rounded-full font-semibold border-2
