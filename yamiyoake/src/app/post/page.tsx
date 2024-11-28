@@ -144,10 +144,12 @@ export default function Test() {
     const parent:HTMLElement = e.target as HTMLElement;
     parent.style.border = "";
   }
-  const drop = (e:React.DragEvent) =>{
+  const drop = (e:DragEvent) =>{
+    console.log("drop")
     const parent:HTMLElement = e.target as HTMLElement;
     const id  = localStorage.getItem("id");
     console.log(localStorage);
+    console.log("droped")
     if(!id)return;
     const element = document.getElementById(id);
     if(!element)return;
@@ -157,12 +159,14 @@ export default function Test() {
   useEffect(() => {
     CustomEditor.setFontSizeMark(editor);
   }, [fontsize]);
-
+  useEffect(()=>{
+    window.document.getElementById("post_body")?.addEventListener('drop',(e)=>drop(e));
+  },[])
   
   return (
     <div className='flex'>
       <LeftNavigation />
-      <div id="post_body" onDrop={e=>drop(e)} onDragOver={e=>dragOver(e)} onDragLeave={e=>dragLeave(e)} className='w-[60%] h-screen overflow-y-auto hidden-scrollbar flex flex-col items-center relative'>
+      <div id="post_body" onDrop={()=>alert("drop")} onDragOver={e=>dragOver(e)} onDragLeave={e=>dragLeave(e)} className='w-[60%] h-screen overflow-y-auto hidden-scrollbar flex flex-col items-center relative'>
         <hr className="header bg-[#B8A193] object-cover w-full h-[5%] absolute top-0 left-0" />
         <input type="text" className='text-4xl outline-none m-5 mt-10' placeholder='title' />
         <div className='flex flex-col bg-[#DDD4CF] w-[70%] h-[30%] rounded-xl p-6 place-items-center'>
