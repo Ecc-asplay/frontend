@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const GuidelinesMain: React.FC = () => {
     return(
-        <div className="flex flex-col  justify-center items-center bg-basebg px-6">
+        <div className="flex flex-col justify-center items-center bg-basebg px-6">
             <div className="fixed top-0 w-full h-8 bg-headerbrown"></div>
             {/* ロゴ */}
             <div className="flex justify-center items-center m-12">

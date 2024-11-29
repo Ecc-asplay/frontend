@@ -107,7 +107,7 @@ const Register: React.FC = () => {
     return(
         <RegisterLayout step={step}>
             <div className="fixed top-0 w-full h-8 bg-headerbrown"></div>
-            <div className="flex justify-center items-center min-h-screen bg-basebg">
+            <div className="flex justify-center items-center overflowy-y-auto bg-basebg">
                 {/* ここは第三Step */}
                 <form onSubmit={handleSubmit} className="p-5 rounded-lg w-full max-w-md space-y-4">
                     {/* Email */}
