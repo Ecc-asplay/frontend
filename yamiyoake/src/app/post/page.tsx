@@ -136,7 +136,12 @@ export default function Test() {
     []
   );
 
+  const showColorPicker = ()=>{
+    document.getElementById("color_picker")?.classList.toggle("hidden");
+  }
+
   const dragOver = (e:React.DragEvent) =>{
+    e.preventDefault();
     const parent:HTMLElement = e.target as HTMLElement;
     const {id} = parent;
     if(id != "content")return;
@@ -144,41 +149,38 @@ export default function Test() {
 
   }
   const dragLeave = (e:React.DragEvent) =>{
+    e.preventDefault();
     const parent:HTMLElement = e.target as HTMLElement;
     const {id} = parent;
     if(id != "content")return;
     parent.style.border = "";
   }
-  const drop = () =>{
+  const drop = (e:React.DragEvent<HTMLDivElement>) =>{
     console.log("drop")
-    // const parent:HTMLElement = e.target as HTMLElement;
-    // const id  = localStorage.getItem("id");
-    // console.log(localStorage);
-    // console.log("droped")
-    // if(!id)return;
-    // const element = document.getElementById(id);
-    // if(!element)return;
-    // parent.appendChild(element);
+    const parent:HTMLElement = e.target as HTMLElement;
+    const id  = localStorage.getItem("id");
+    console.log(localStorage);
+    console.log("droped")
+    if(!id)return;
+    const element = document.getElementById(id);
+    if(!element)return;
+    const clone:HTMLElement = element.cloneNode(true) as HTMLElement;
+    console.log(clone);
+    parent.appendChild(clone);
   }
-  useEffect(()=>{
-    const body = document.getElementById("post_body");
-    if(!body)return;
-    body?.addEventListener("drop",drop);
-  },[])
+
 
   useEffect(() => {
     CustomEditor.setFontSizeMark(editor);
   }, [fontsize]);
-  useEffect(()=>{
-    window.document.getElementById("post_body")?.addEventListener('drop',(e)=>drop());
-  },[])
+
   
   return (
     <div className='flex'>
-      <LeftNavigation />
-      <div id="post_body"  onDropCapture={()=>alert("cap")} onDrop={()=>alert("asdd")} onDragOver={e=>dragOver(e)} onDragLeave={e=>dragLeave(e)} className='w-[60%] h-screen overflow-y-auto hidden-scrollbar flex flex-col items-center relative'>
+      <LeftNavigation  />
+      <div id="post_body" onDrop={(e)=>drop(e)} onDragOver={e=>dragOver(e)} onDragLeave={e=>dragLeave(e)} className='w-[60%] h-screen overflow-y-auto hidden-scrollbar flex flex-col items-center relative'>
         <hr className="header bg-[#B8A193] object-cover w-full h-[5%] absolute top-0 left-0" />
-        <input type="text" onDrop={()=>drop()} className='text-4xl outline-none m-5 mt-10' placeholder='title' />
+        <input type="text" onDrop={(e)=>drop(e)} className='text-4xl outline-none m-5 mt-10' placeholder='title' />
         <div className='flex flex-col bg-[#DDD4CF] w-[70%] h-[30%] rounded-xl p-6 place-items-center'>
           <span className='text-left w-full'>今、どんな気分?</span>
           <div className='grid grid-cols-5 gap-10 m-5'>
@@ -249,6 +251,23 @@ export default function Test() {
               }}
             >
               <span className='line-through'>S</span>
+            </button>
+            <button onClick={()=>{showColorPicker()}} className='relative'>
+              A
+              <div id="color_picker" className='hidden flex flex-col absolute top-5 left-0 object-cover w-28 border border-black rounded-lg '>
+                <div className='grid grid-cols-5 grid-rows-2  hover:cursor-pointer'>
+                  <p className='text-black'>A</p>
+                  <p className='text-gray-400'>A</p>
+                  <p className='text-headerbrown'>A</p>
+                  <p className='text-orange-400'>A</p>
+                  <p className='text-yellow-400'>A</p>
+                  <p className='text-green-300'>A</p>
+                  <p className='text-blue-300'>A</p>
+                  <p className='text-purple-400'>A</p>
+                  <p className='text-pink-400'>A</p>
+                  <p className='text-red-400'>A</p>
+                </div>
+              </div>
             </button>
             <div id="color_selector" className='relative w-[15px] h-[15px] bg-red-400 rounded-full' onClick={() => { const colorinput = document.getElementById('color_input'); colorinput?.click() }}>
               <input type="color" name="" id="color_input" className='hidden absolute top-0 right-0' 
