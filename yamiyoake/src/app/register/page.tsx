@@ -99,7 +99,6 @@ const Register: React.FC = () => {
         } catch (error) {
 
             console.error("Error: ", error);
-
             alert("Error！");
         }
 
