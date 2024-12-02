@@ -12,6 +12,7 @@ import Image from 'next/image'
 import { LeftNavigation } from '../components/navigations/left'
 import { DraftNavigation } from '../components/post/draftnav'
 import { white_icons, color_icons } from '../feel_icons'
+import { Header } from '../components/Header'
 type CustomElement = { type: 'paragraph'; children: CustomText[] };
 type CustomText = { text: string, fontsize: number, bold: boolean, italic: boolean, underline: boolean, strike: boolean, color: string };
 
@@ -266,7 +267,7 @@ export default function Test() {
     <div id="body" className='flex relative'>
       <LeftNavigation />
       <div id="post_body" onDrop={(e) => drop(e)} onDragOver={e => dragOver(e)} onDragLeave={e => dragLeave(e)} className='w-[60%] h-screen overflow-y-auto hidden-scrollbar flex flex-col items-center relative'>
-        <hr className="header bg-[#B8A193] object-cover w-full h-[5%] absolute top-0 left-0" />
+        <Header/>
         <input type="text" className='text-4xl outline-none m-5 mt-10' placeholder='今日のハイライト' />
         <div className='flex flex-col bg-[#DDD4CF] w-[70%] h-[30%] rounded-xl p-6 place-items-center'>
           <span className='text-left w-full'>今、どんな気分?</span>
