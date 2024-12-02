@@ -25,7 +25,7 @@ const LeftNavigation = () =>{
                 // ログインしている場合
                 <div className="object-cover w-full h-full flex flex-col items-center justify-center text-white text-3xl">
                     <p className="w-full pl-14 mb-3 -ml-3"><Link href={"/"} className="flex items-center"><Image src={home} width={45} height={45} alt="home"/>タイムライン</Link></p>
-                    <p className="w-full pl-14 my-3 -ml-3"><Link href={""} className="flex items-center"><Image src={bell} width={45} height={45} alt="home"/>通知</Link></p>
+                    <p className="w-full pl-14 my-3 -ml-3"><Link href={"/info/1"} className="flex items-center"><Image src={bell} width={45} height={45} alt="home"/>通知</Link></p>
                     <p className="w-full pl-14 my-3 -ml-3"><Link href={""} className="flex items-center"><Image src={gear} width={45} height={45} alt="home"/>設定</Link></p>
                     <p className="w-full pl-14 my-3 -ml-3"><Link href={"/users/1"} className="flex items-center"><Image src={user} width={45} height={45} alt="home"/>プロフィール</Link></p>
                     <p className="w-full pl-14 text-lime-300 mt-3 -ml-3"><Link href={"/guidelines_main"} className="flex items-center"><Image src={alert} width={45} height={45} alt="home"/>ガイドライン</Link></p>
