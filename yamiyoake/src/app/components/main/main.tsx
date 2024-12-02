@@ -34,7 +34,7 @@ const Main = () => {
     const getAllposts = async () => {
         if (loaded) return; // 既にロード済みの場合は終了
         const res = await GetAllPosts();
-        console.log(res);
+        if(!res){return;}
         const updatedPosts: Post[] = res.data?.map((e: Post) => {
             if (typeof e.content === "string") {
                 // Base64文字列をデコードしてJSONオブジェクトに変換
