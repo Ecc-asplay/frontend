@@ -6,6 +6,7 @@ import { LeftNavigation } from "@/app/components/navigations/left";
 import { color_icons } from "@/app/feel_icons"; 
 import bookmark from "@/app/img/bookmark-svgrepo-com.png";
 import Image from "next/image";
+import { Header } from "@/app/components/Header";
 interface PostID{
     params:{id:string | null}
 }
@@ -36,8 +37,8 @@ export default function Posts({params}:PostID){
     return(
         <div className="flex w-full h-screen">
             <LeftNavigation/>
-            <div className="flex flex-col w-[60%] bg-[#E8E7E6]">
-                <div className="header bg-[#B8A193] object-cover w-full h-[10%]"/>
+            <div className="flex flex-col w-[60%] bg-[#E8E7E6] relative">
+                <Header/>
                 <div className="flex flex-col  m-10">
                     <div className="flex justify-between items-center">
                         <Image src={color_icons[post.reaction]} width={50} height={50} alt="reaction" />

@@ -7,7 +7,7 @@ import comment_icon from "@/app/img/comment-4-svgrepo-com.png";
 import bookmark_icon from "@/app/img/bookmark-svgrepo-com.png";
 import { comments } from "@/app/test_data"; // 使用するデータ
 import { GetAllPosts } from "@/app/api/posts/route";
-
+import { Header } from "../Header";
 // 型定義
 interface Post {
     post_id: string;
@@ -67,7 +67,7 @@ const Main = () => {
 
     return (
         <div className="flex flex-col object-cover h-screen bg-[#E8E7E5] w-[60%] items-center">
-            <div className="header bg-[#B8A193] object-cover w-full h-[5%]" />
+            <Header/>
             <SearchInput />
             <hr className="border-2 border-[#B4ACAA] w-full mt-5" />
             <div className="object-cover w-full hidden-scrollbar overflow-auto flex flex-col items-center">

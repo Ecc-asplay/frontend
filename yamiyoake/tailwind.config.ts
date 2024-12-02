@@ -6,6 +6,11 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  safelist: [
+    {
+      pattern: /text-\[#([0-9a-fA-F]{6})\]/, // 動的な16進数カラーコード
+    },
+  ],
   theme: {
     extend: {
       colors: {

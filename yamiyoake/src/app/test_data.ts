@@ -520,3 +520,63 @@ export const draft = [
     }
     
 ];
+
+
+export const notification = [
+    {
+        user_id:1,
+        content:"いいね",
+        icon:"as",
+        is_Read:false,
+        created_at:2022-12-12
+    },
+    {
+        user_id:1,
+        content:"リアクション",
+        icon:"as",
+        is_Read:false,
+        created_at:2022-12-12
+    },
+    {
+        user_id:1,
+        content:"コメント表示",
+        icon:"as",
+        is_Read:false,
+        created_at:2022-12-12
+    },
+    {
+        user_id:1,
+        content:"通知",
+        icon:"as",
+        is_Read:true,
+        created_at:2022-12-12
+    },
+    {
+        user_id:1,
+        content:"通知",
+        icon:"as",
+        is_Read:true,
+        created_at:2022-12-12
+    },
+    {
+        user_id:1,
+        content:"通知",
+        icon:"as",
+        is_Read:true,
+        created_at:2022-12-12
+    },
+    {
+        user_id:1,
+        content:"通知",
+        icon:"as",
+        is_Read:false,
+        created_at:2022-12-12
+    },
+    {
+        user_id:1,
+        content:"通知",
+        icon:"as",
+        is_Read:false,
+        created_at:2022-12-12
+    },
+];

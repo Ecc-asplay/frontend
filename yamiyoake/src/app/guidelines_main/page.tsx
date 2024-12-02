@@ -2,11 +2,11 @@
 import { useState } from "react";
 import loginlogo from "@/app/img/login-logo.png";
 import Image from "next/image";
-
+import { Header } from "../components/Header";
 const GuidelinesMain: React.FC = () => {
     return(
-        <div className="flex flex-col justify-center items-center bg-basebg px-6">
-            <div className="fixed top-0 w-full h-8 bg-headerbrown"></div>
+        <div className="flex flex-col overflow-auto hidden-scrollbar h-screen justify-center items-center min-h-screen bg-basebg px-6">
+            <Header/>
             {/* ロゴ */}
             <div className="flex justify-center items-center m-12">
             <Image src={loginlogo} height={90} width={90} alt="logo" className="mb-6"></Image>
