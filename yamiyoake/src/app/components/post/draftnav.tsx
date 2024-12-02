@@ -20,11 +20,11 @@ const DraftNavigation = () =>{
                 <Image src={happa} alt="happa" width={50} className="h-full" />
                 <p className="text-center m-3 text-xl text-green-300">下書き</p>
             </div>
-            <div id="image_add" className="object-cover w-[80%] h-[30%] bg-[#D9D9D9] my-3 rounded-lg flex items-center justify-center relative" draggable="true" onDragStart={e=>dragStart(e)} >
+            <div id="image_add" className="object-cover w-[80%] h-[30%] bg-[#D9D9D9] my-3 rounded-lg flex items-center justify-center relative p-3" draggable="true" onDragStart={e=>dragStart(e)} >
                 <Image src={image} alt="image icon" className="object-cover w-[60%]" draggable="false"></Image>
                 <Image src={plus} alt="plus icon" className="absolute top-3 left-3 object-cover w-[20%] h-[20%]" draggable="false"></Image>
             </div>
-            <div id="page_add" className="object-cover w-[80%] h-[30%] bg-[#D9D9D9] mt-3 rounded-lg flex items-center justify-center relative" draggable="true" onDragStart={e=>dragStart(e)}>
+            <div id="page_add" className="object-cover w-[80%] h-[30%] bg-[#D9D9D9] mt-3 rounded-lg flex items-center justify-center relative p-3" draggable="true" onDragStart={e=>dragStart(e)}>
                 <Image src={file} alt="file icon" className="object-cover w-[60%]" draggable="false"></Image>
                 <Image src={plus} alt="plus icon" className="absolute top-3 left-3 object-cover w-[20%] h-[20%]" draggable="false"></Image>
             </div>
