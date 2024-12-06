@@ -1,9 +1,6 @@
 'use client'
-// Import React dependencies.
-import React, { useState, useCallback, useMemo, useEffect } from 'react'
-// Import the Slate editor factory.
+import React, { useState, useCallback, useMemo, useEffect, createElement } from 'react'
 import { createEditor, Transforms, Element, Editor, Node } from 'slate'
-// Import the Slate components and React plugin.
 import { Slate, Editable, withReact } from 'slate-react'
 import { BaseEditor, Descendant } from 'slate'
 import { ReactEditor } from 'slate-react'
@@ -13,6 +10,8 @@ import { LeftNavigation } from '../components/navigations/left'
 import { DraftNavigation } from '../components/post/draftnav'
 import { white_icons, color_icons } from '../feel_icons'
 import { Header } from '../components/Header'
+
+//保存する際の形式
 type CustomElement = { type: 'paragraph'; children: CustomText[] };
 type CustomText = { text: string, fontsize: number, bold: boolean, italic: boolean, underline: boolean, strike: boolean, color: string };
 
@@ -24,18 +23,30 @@ declare module 'slate' {
   }
 }
 
-let initialValue = [
+const initialValue: CustomElement[] = [
   {
     type: 'paragraph',
-    children: [{ text: 'A line of text in a paragraph.' }],
-  },
+    children: [{ text: 'type here',fontsize:16,bold:false,italic:false,underline:false,strike:false,color:"#000000" }],
+  }
 ]
+;
 
-export default function Test() {
-  const [editor] = useState(() => withReact(createEditor()));
+const initialPageData = () => ({
+  editor: withReact(createEditor()),
+  content: initialValue, // テキスト内容
+});
+
+export default function Post() {
+  //Slateで書かれたもののデコレーションや保存
+  const [editor,setEditor] = useState(() => withReact(createEditor()));
+  //テキストの色
   const [color, setColor] = useState("black");
+  //テキストの大きさ
   const [fontsize, setFontsize] = useState(100);
-  const [reactionIcons, setReactionIcons] = useState([
+  //ページエディターはそれぞれ別々にしている
+  const [page,setPage] = useState<Array<{ editor: ReactEditor; content: Descendant[] }>>();
+  //
+  const [feelIcons, setFeelIcons] = useState([
     { id: 1, isColor: true, white: white_icons[0], color: color_icons[0] },
     { id: 2, isColor: false, white: white_icons[1], color: color_icons[1] },
     { id: 3, isColor: false, white: white_icons[2], color: color_icons[2] },
@@ -108,7 +119,6 @@ export default function Test() {
       }
     },
     setFontSizeMark(editor: BaseEditor & ReactEditor) {
-      console.log(fontsize);
       Editor.addMark(editor, 'fontsize', fontsize);
     },
     setColorMark(editor: BaseEditor & ReactEditor) {
@@ -129,26 +139,34 @@ export default function Test() {
     [color, fontsize]
   )
 
-  const toggleReactionIcon = (id: number) => {
+  const toggleFeelIcon = (id: number) => {
     //押されたアイコンのURL
-    reactionIcons.forEach(i => i.isColor = false);
-    setReactionIcons((prev) =>
-      prev.map((reaction) =>
-        reaction.id === id
-          ? { ...reaction, isColor: !reaction.isColor }
-          : reaction
+    feelIcons.forEach(i => i.isColor = false);
+    setFeelIcons((prev) =>
+      prev.map((feel) =>
+        feel.id === id
+          ? { ...feel, isColor: !feel.isColor }
+          : feel
       )
     );
 
   }
 
-
-  initialValue = useMemo(
-    () =>
-      JSON.parse(localStorage.getItem('content') as string) || draft,
-
-    []
-  );
+  let initialLoad = false;
+  useEffect(()=>{
+    //localstorageに保存されているpageの取得
+    console.log("loaded");
+    if(initialLoad)return;
+    let list:Array<{editor:ReactEditor,content:Descendant[]}> = []; 
+    for(let i = 0; i < localStorage.length;i++){
+      const content = localStorage.getItem(`page${i+1}`);
+      if(content){
+        list.push({editor:withReact(createEditor()),content:JSON.parse(content)});
+      }
+    }
+    setPage(list);
+    initialLoad = true;
+  },[])
 
   const showColorPicker = () => {
     document.getElementById("color_picker")?.classList.toggle("hidden");
@@ -170,12 +188,10 @@ export default function Test() {
     parent.style.border = "";
   }
   const drop = (e: React.DragEvent<HTMLDivElement>) => {
-    console.log("drop")
     const parent: HTMLElement = e.target as HTMLElement;
     const parent_id: string = parent.id;
     if (!(parent_id == "post_body")) return;
     const id = localStorage.getItem("id");
-    console.log(localStorage);
     console.log("droped")
     if (!id) return;
     if (id === "image_add") {
@@ -195,7 +211,7 @@ export default function Test() {
   }
 
   const addPage = () => {
-
+    if(page)setPage([...page,initialPageData()]); 
   }
 
   const toggleHoverText = (e: React.MouseEvent, color_text: string) => {
@@ -219,7 +235,6 @@ export default function Test() {
     document.addEventListener("selectionchange", () => {
       const selection = window.getSelection();
       if (!selection) { isSelecting = false; return; }
-      console.log(selection);
       if (!selection.isCollapsed) {
         isSelecting = true;
       } else {
@@ -247,8 +262,6 @@ export default function Test() {
         text_navis.style.left = `${mouseX }px`;
         text_navis.style.top = `${mouseY - 50}px`;
       }
-
-
     });
   }, []);
 
@@ -262,6 +275,10 @@ export default function Test() {
     CustomEditor.setColorMark(editor);
   }, [color]);
 
+  useEffect(() => {
+    console.log(page);
+  }, [page]);
+
 
   return (
     <div id="body" className='flex relative'>
@@ -272,36 +289,54 @@ export default function Test() {
         <div className='flex flex-col bg-[#DDD4CF] w-[70%] h-[30%] rounded-xl p-6 place-items-center'>
           <span className='text-left w-full'>今、どんな気分?</span>
           <div className='grid grid-cols-5 gap-10 m-5'>
-            {reactionIcons.map((icon, i) => (
+            {feelIcons.map((icon, i) => (
               <div key={i}>
-                <button onClick={() => { toggleReactionIcon(icon.id) }}><Image src={icon.isColor ? icon.color : icon.white} alt="reaction icon" className='w-full h-full' /></button>
+                <button onClick={() => { toggleFeelIcon(icon.id) }}><Image src={icon.isColor ? icon.color : icon.white} alt="feel icon" className='w-full h-full' /></button>
               </div>
             ))}
           </div>
         </div>
         {/* テキスト入力欄 */}
-        <Slate
-          editor={editor}
-          initialValue={initialValue as Descendant[]}
-          onChange={value => {
-            const isAstChange = editor.operations.some(
-              op => 'set_selection' !== op.type
-            )
-            if (isAstChange) {
-              // Save the value to Local Storage.
-              const content = JSON.stringify(value)
-              localStorage.setItem('content', content)
-            }
-          }}
-        >
-          <Editable
-            id="content"
-            className='w-[80%] m-3'
-            onSelect={(e) => { }}
-            renderElement={renderElement}
-            renderLeaf={renderLeaf}
-          />
-        </Slate>
+        {
+          page?.map((p,i)=>(
+            <Slate
+              key={i}
+              editor={p.editor}
+              initialValue={p.content}
+              onChange={value => {
+                const isAstChange = editor.operations.some(
+                  op => 'set_selection' !== op.type
+                )
+                if (isAstChange) {
+                  // Save the value to Local Storage.
+                  const content = JSON.stringify(value)
+                  localStorage.setItem(`page${i+1}`, content)
+                  console.log(value);
+                  setPage(prevPages => {
+                    // 重複を避け、最新のページ内容を追加
+                    const newPages = [...prevPages as { editor: ReactEditor; content: Descendant[]; }[]];
+                    newPages[i].content = value; // 特定のインデックスのページを更新
+                    return newPages;
+                  });
+                }
+              }}
+            >
+              {i>0?(<div className='relative'>
+                      <hr className="object-cover w-96 h-2 bg-[#DDD4CF] rounded-lg relative "/>
+                      <p className="absolute left-1/2 -top-2 bg-white transition -translate-x-1/2 px-3">
+                        page{i+1}
+                      </p>
+                    </div>):(<></>)}
+              <Editable
+                className='w-[80%] m-3'
+                // エディターを押しているものにする
+                onSelect={()=>setEditor(p.editor)}
+                renderElement={renderElement}
+                renderLeaf={renderLeaf}
+              />
+            </Slate>
+          ))
+        }
       </div>
       <DraftNavigation />
       {/* テキストデコレーション */}
