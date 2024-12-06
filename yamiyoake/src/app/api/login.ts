@@ -5,7 +5,7 @@ export async function login(email:string,password:string){
         console.log(res);
         if(res.status === 200){
             if(res.data.token != null){
-                sessionStorage.setItem("token",res.data.token);
+                sessionStorage.setItem("acess_token",res.data.token);
                 console.log(res.data.login_at)
             }
             return true;

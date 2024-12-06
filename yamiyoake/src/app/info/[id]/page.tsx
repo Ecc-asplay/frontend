@@ -22,9 +22,9 @@ export default function info({params}:UserID){
     return(
         <div className="flex">
             <LeftNavigation/>
-            <div className="w-[60%] h-screen relative flex flex-col overflow-y-auto hidden-scrollbar">
+            <div className="w-[60%] h-screen relative flex flex-col ">
                 <Header/>
-                <div className="object-cover w-full h-full">
+                <div className="object-cover w-full h-full overflow-y-auto hidden-scrollbar">
                     {
                         notification.map((e,i)=>(
                             <div key={i} className={`object-cover w-full h-[17%] border-b border-[#DDD4CF]  flex items-center justify-around ${e.is_Read?"bg-[#DDD4CF]":"bg-white"}`}>

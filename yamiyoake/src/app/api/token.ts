@@ -8,7 +8,7 @@ export async function getToken() {
         });
         console.log(response);
         */
-        const token = sessionStorage.getItem("token");
+        const token = sessionStorage.getItem("acess_token");
         console.log(token !== null)
         return token !== null;
     }
