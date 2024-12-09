@@ -189,8 +189,8 @@ export default function Post() {
   }
   const drop = (e: React.DragEvent<HTMLDivElement>) => {
     const parent: HTMLElement = e.target as HTMLElement;
-    const parent_id: string = parent.id;
-    if (!(parent_id == "post_body")) return;
+    console.log(parent)
+    if (parent.role !== "textbox") return;
     const id = localStorage.getItem("id");
     console.log("droped")
     if (!id) return;
@@ -283,7 +283,7 @@ export default function Post() {
   return (
     <div id="body" className='flex relative'>
       <LeftNavigation />
-      <div id="post_body" onDrop={(e) => drop(e)} onDragOver={e => dragOver(e)} onDragLeave={e => dragLeave(e)} className='w-[60%] h-screen overflow-y-auto hidden-scrollbar flex flex-col items-center relative'>
+      <div id="post_body" className='w-[60%] h-screen overflow-y-auto hidden-scrollbar flex flex-col items-center relative'>
         <Header/>
         <input type="text" className='text-4xl outline-none m-5 mt-10' placeholder='今日のハイライト' />
         <div className='flex flex-col bg-[#DDD4CF] w-[70%] h-[30%] rounded-xl p-6 place-items-center'>
@@ -303,14 +303,16 @@ export default function Post() {
               key={i}
               editor={p.editor}
               initialValue={p.content}
-              onChange={value => {
+              onChange={(value) => {
                 const isAstChange = editor.operations.some(
                   op => 'set_selection' !== op.type
                 )
                 if (isAstChange) {
                   // Save the value to Local Storage.
-                  const content = JSON.stringify(value)
-                  localStorage.setItem(`page${i+1}`, content)
+                  const v = value as CustomElement[];
+                  if(v[0].children[0].text == ""){localStorage.removeItem(`page${i+1}`);return}
+                  const content = JSON.stringify(value);
+                  localStorage.setItem(`page${i+1}`, content);
                   console.log(value);
                   setPage(prevPages => {
                     // 重複を避け、最新のページ内容を追加
@@ -321,13 +323,17 @@ export default function Post() {
                 }
               }}
             >
-              {i>0?(<div className='relative'>
-                      <hr className="object-cover w-96 h-2 bg-[#DDD4CF] rounded-lg relative "/>
-                      <p className="absolute left-1/2 -top-2 bg-white transition -translate-x-1/2 px-3">
+              {i>0?(<div className='flex object-cover w-full items-center'>
+                      <hr className="object-cover w-1/2 h-2 bg-[#DDD4CF] rounded-lg mx-12  "/>
+                      <p className="px-3">
                         page{i+1}
                       </p>
+                      <hr className="object-cover w-1/2 h-2 bg-[#DDD4CF] rounded-lg mx-12 "/>
                     </div>):(<></>)}
               <Editable
+                onDrop={(e) => drop(e)}
+                onDragOver={e => dragOver(e)}
+                onDragLeave={e => dragLeave(e)} 
                 className='w-[80%] m-3'
                 // エディターを押しているものにする
                 onSelect={()=>setEditor(p.editor)}
