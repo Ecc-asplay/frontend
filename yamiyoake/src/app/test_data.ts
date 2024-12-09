@@ -126,7 +126,7 @@ export const testData = [
 
     },
     {
-        post_id: "1",
+        post_id: "10",
         user_id: "1",
         show_id: "1",
         title: "post 1",
@@ -140,7 +140,7 @@ export const testData = [
 
     },
     {
-        post_id: "1",
+        post_id: "11",
         user_id: "1",
         show_id: "1",
         title: "post 1",
@@ -154,7 +154,7 @@ export const testData = [
 
     },
     {
-        post_id: "1",
+        post_id: "12",
         user_id: "1",
         show_id: "1",
         title: "post 1",
@@ -168,7 +168,7 @@ export const testData = [
 
     },
     {
-        post_id: "1",
+        post_id: "13",
         user_id: "1",
         show_id: "1",
         title: "post 1",
@@ -182,7 +182,7 @@ export const testData = [
 
     },
     {
-        post_id: "1",
+        post_id: "14",
         user_id: "1",
         show_id: "1",
         title: "post 1",

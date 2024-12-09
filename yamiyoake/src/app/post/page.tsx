@@ -8,7 +8,7 @@ import { draft } from '../test_data'
 import Image from 'next/image'
 import { LeftNavigation } from '../components/navigations/left'
 import { DraftNavigation } from '../components/post/draftnav'
-import { white_icons, color_icons } from '../feel_icons'
+import { white_feel_icons, color_feel_icons } from '../feel_icons'
 import { Header } from '../components/Header'
 
 //保存する際の形式
@@ -47,11 +47,11 @@ export default function Post() {
   const [page,setPage] = useState<Array<{ editor: ReactEditor; content: Descendant[] }>>();
   //
   const [feelIcons, setFeelIcons] = useState([
-    { id: 1, isColor: true, white: white_icons[0], color: color_icons[0] },
-    { id: 2, isColor: false, white: white_icons[1], color: color_icons[1] },
-    { id: 3, isColor: false, white: white_icons[2], color: color_icons[2] },
-    { id: 4, isColor: false, white: white_icons[3], color: color_icons[3] },
-    { id: 5, isColor: false, white: white_icons[4], color: color_icons[4] },
+    { id: 1, isColor: true, white: white_feel_icons[0], color: color_feel_icons[0] },
+    { id: 2, isColor: false, white: white_feel_icons[1], color: color_feel_icons[1] },
+    { id: 3, isColor: false, white: white_feel_icons[2], color: color_feel_icons[2] },
+    { id: 4, isColor: false, white: white_feel_icons[3], color: color_feel_icons[3] },
+    { id: 5, isColor: false, white: white_feel_icons[4], color: color_feel_icons[4] },
   ]);
   const text_colors = [
     { color: "#000000", name: "黒色", },

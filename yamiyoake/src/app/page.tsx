@@ -1,16 +1,18 @@
 'use client'
-import { LeftNavigation } from "./components/navigations/left";
-import { RightNavigation } from "./components/navigations/right";
-import { useEffect, useState } from "react";
-import { SearchInput } from "./components/main/searchInput";
+
 import Image from "next/image";
 import Link from "next/link";
 import heart_icon from "@/app/img/heart-svgrepo-com.png";
 import comment_icon from "@/app/img/comment-4-svgrepo-com.png";
 import bookmark_icon from "@/app/img/bookmark-svgrepo-com.png";
+import { LeftNavigation } from "./components/navigations/left";
+import { RightNavigation } from "./components/navigations/right";
+import { useEffect, useState } from "react";
+import { SearchInput } from "./components/main/searchInput";
 import { comments, testData } from "@/app/test_data"; // 使用するデータ
 import { GetAllPosts } from "@/app/api/posts/route";
 import { Header } from "./components/Header";
+import { color_reaction_icons,white_reaction_icons } from "./reaction_icons";
 
 // 型定義
 interface Post {
@@ -25,14 +27,22 @@ interface Post {
   status: string;
   created_at: string;
   update_at: string;
+  reactions:{post_id:string, id: number, isColored: boolean, white: any, color: any}[]    
 }
 interface Posts {
   posts: Post[];
 }
-export default function Home() {
-  const [posts, setPosts] = useState<Posts>({ posts: [] }); // 初期状態
-    const [loaded, setLoaded] = useState(false); // ロード済み状態を管理
 
+const initializeReactions = (post_id:string) => [
+    {post_id:post_id, id: 0, isColored: false, white: white_reaction_icons[0], color: color_reaction_icons[0] },
+    {post_id:post_id, id: 1, isColored: false, white: white_reaction_icons[1], color: color_reaction_icons[1] },
+    {post_id:post_id, id: 2, isColored: false, white: white_reaction_icons[2], color: color_reaction_icons[2] },
+    {post_id:post_id, id: 3, isColored: false, white: white_reaction_icons[3], color: color_reaction_icons[3] },
+];
+
+export default function Home() {
+    const [posts, setPosts] = useState<Posts>({ posts: [] }); // 初期状態
+    const [loaded, setLoaded] = useState(false); // ロード済み状態を管理
     // APIから投稿を取得
     const getAllposts = async () => {
         if (loaded) return; // 既にロード済みの場合は終了
@@ -52,9 +62,10 @@ export default function Home() {
                 return {
                     ...e,
                     content: jsonObject,
+                    reactions:initializeReactions(e.post_id)
                 };
             }
-            return e; // そのまま返す場合
+            return {e,reactions:initializeReactions(e.post_id)}; // そのまま返す場合
         }) || [];
 
         setPosts((prev) => ({
@@ -76,9 +87,29 @@ export default function Home() {
         target.appendChild(report);
     }
 
+    //リアクションボタンを押した際
+    const toggleReactionColor = (index:number,post_id:string)=>{
+        setPosts((prev) => ({
+            posts: prev.posts.map((post, i) =>
+                post.post_id === post_id
+                    ? {
+                          ...post,
+                          reactions: post.reactions.map((reaction, j) =>
+                              j === index
+                                  ? { ...reaction, isColored: !reaction.isColored }
+                                  : reaction
+                          ),
+                      }
+                    : post
+            ),
+        }));
+    }
+
     // 初回レンダリング時に投稿を取得
     useEffect(() => {
         getAllposts();
+
+        //通報のやつが出ているときにほかのところをクリックすると非表示にする
         document.addEventListener("click",(e)=>{
             const target:HTMLElement = e.target as HTMLElement;
             if(target.classList.contains("reportButton"))return;
@@ -89,6 +120,7 @@ export default function Home() {
             }
         })
     }, []);
+
   return (
     <div className="flex w-full h-screen ">
       <LeftNavigation/>
@@ -97,7 +129,7 @@ export default function Home() {
         <SearchInput />
         <hr className="border-2 border-[#B4ACAA] w-full mt-5" />
         <div className="w-full h-[65%] hidden-scrollbar overflow-auto flex flex-col items-center">
-            {testData.map((post, i) => (
+            {posts.posts.map((post, i) => (
                 <div
                     key={i}
                     className="w-[80%] bg-[#DDD4CF] rounded-md p-3 flex flex-col my-3"
@@ -117,10 +149,10 @@ export default function Home() {
                             </div>
                         </div>
                         <span className="m-3">
-                            {post.content.slice(0,20)}
-                            {/* {typeof !== "string"
+                            {/* {post.content.slice(0,20)} */}
+                            {typeof post.content !== "string"
                                 ? post.content.map(c=>c.children.map((e:any,i:number)=>(<span key={i}>{e.text}</span>)))
-                                : JSON.stringify(post.content).slice(0, 87)} */}
+                                : JSON.stringify(post.content).slice(0, 87)}
                         </span>
                       </Link>
 
@@ -137,21 +169,30 @@ export default function Home() {
                                       (c) => post.post_id === c.post_id
                                   ).length}
                               </button>
-                              <button className="flex mr-10">
-                                  <Image
-                                      src={heart_icon}
-                                      width={30}
-                                      height={30}
-                                      alt="heart icon"
-                                  />
-                              </button>
+                              {
+                                post.reactions.map((e,i)=>(
+                                    <button
+                                            key={i} 
+                                            onClick={e=>toggleReactionColor(i,post.post_id)} 
+                                            className="flex items-center"
+                                        >
+                                            <Image
+                                                src={e.isColored?e.color:e.white}
+                                                width={50}
+                                                height={50}
+                                                alt="heart icon"
+                                            />
+                                            <p>0</p>
+                                        </button>
+                                ))
+                              }
+
                           </div>
                           <div className="object-cover flex w-1/2 justify-end">
                               <button className="reportButton relative mr-3" 
                               onClick={e=>toggleReport(e,false)}
                               >
-                                  ・・・
-                                  
+                                ・・・
                               </button>
                               <button>
                                   <Image
