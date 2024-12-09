@@ -167,9 +167,9 @@ export default function Home() {
             ))}
         </div>
         <div id="report" className="hidden object-cover w-44 absolute -top-3 -left-3 transition -translate-x-1/2 flex flex-col justify-start items-start bg-[#DCD5CD] rounded-xl shadow-2xl ">
-            <button className="object-cover w-full hover:bg-[#D1C6BC] text-left px-3 text-red-500" onClick={e=>toggleReport(e,true)}>この投稿を報告</button>
-            <button className="object-cover w-full hover:bg-[#D1C6BC] text-left px-3 text-red-500" onClick={e=>toggleReport(e,true)}>このユーザーをブロック</button>
-            <button className="object-cover w-full hover:bg-[#D1C6BC] text-left px-3" onClick={e=>toggleReport(e,true)}>このユーザーを報告</button>
+            <button className="object-cover w-full hover:bg-[#D1C6BC] text-left px-3 text-red-500" onClick={e=>toggleReport(e,true)}>この投稿を通報</button>
+            <button className="object-cover w-full hover:bg-[#D1C6BC] text-left px-3 text-red-500" onClick={e=>toggleReport(e,true)}>このユーザーを通報</button>
+            <button className="object-cover w-full hover:bg-[#D1C6BC] text-left px-3" onClick={e=>toggleReport(e,true)}>このユーザーをブロック</button>
             
         </div>
       </div>
