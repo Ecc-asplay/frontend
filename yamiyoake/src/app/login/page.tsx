@@ -6,7 +6,7 @@ import Image from "next/image";
 import loginlogo from "@/app/img/login-logo.png";
 import { login } from "../api/login";
 import {  useRouter } from "next/navigation";
-
+import { Header } from "../components/Header";
 const Login: React.FC = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -27,7 +27,7 @@ const Login: React.FC = () => {
 
     return(
         <div className="flex flex-col justify-center items-center min-h-screen bg-basebg space-y-16">
-            <div className="fixed top-0 w-full h-8 bg-headerbrown"></div>
+            <Header/>
             <div className="flex justify-center items-center">            
                 <Image src={loginlogo} height={120} width={120} alt="logo" className="mb-6"></Image>
             </div>

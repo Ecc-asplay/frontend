@@ -13,16 +13,16 @@ const steps = [
 
 const StepBar: React.FC<StepBarPosition> = ({step}) => {
     return(
-        <div className="flex justify-between items-center m-12">
+        <div className="flex justify-between items-center p-9">
             {steps.map((s) => (
                 <div key={s.id} className="flex gap-x-3">
                     <div className={`flex items-center justify-center w-10 h-10 rounded-full font-semibold border-2
                          ${
-                        s.id === step
-                            ? 'border-basegreen text-basegreen'
-                            : s.id < step
-                            ? 'border-basegreen bg-basegreen text-white'
-                            : 'border-middlebrown text-middlebrown'
+                            s.id === step
+                                ? 'border-basegreen text-basegreen'
+                                : s.id < step
+                                ? 'border-basegreen bg-basegreen text-white'
+                                : 'border-middlebrown text-middlebrown'
                         }`}>
                         {s.id}
                     </div>

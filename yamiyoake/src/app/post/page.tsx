@@ -12,6 +12,7 @@ import Image from 'next/image'
 import { LeftNavigation } from '../components/navigations/left'
 import { DraftNavigation } from '../components/post/draftnav'
 import { white_icons, color_icons } from '../feel_icons'
+import { Header } from '../components/Header'
 type CustomElement = { type: 'paragraph'; children: CustomText[] };
 type CustomText = { text: string, fontsize: number, bold: boolean, italic: boolean, underline: boolean, strike: boolean, color: string };
 
@@ -40,7 +41,20 @@ export default function Test() {
     { id: 3, isColor: false, white: white_icons[2], color: color_icons[2] },
     { id: 4, isColor: false, white: white_icons[3], color: color_icons[3] },
     { id: 5, isColor: false, white: white_icons[4], color: color_icons[4] },
-  ])
+  ]);
+  const text_colors = [
+    { color: "#000000", name: "黒色", },
+    { color: "#9ca3af", name: "灰色", },
+    { color: "#b8a193", name: "茶色", },
+    { color: "#fb923c", name: "オレンジ色", },
+    { color: "#facc15", name: "黄色", },
+    { color: "#86efac", name: "緑色", },
+    { color: "#93c5fd", name: "青色", },
+    { color: "#c084fc", name: "紫色", },
+    { color: "#f472b6", name: "ピンク色", },
+    { color: "#f87171", name: "赤色", },
+
+  ]
   const CustomEditor = {
     //それぞれのテキストの状態変更
     isBoldMarkActive(editor: BaseEditor & ReactEditor) {
@@ -132,53 +146,129 @@ export default function Test() {
   initialValue = useMemo(
     () =>
       JSON.parse(localStorage.getItem('content') as string) || draft,
-      
+
     []
   );
 
-  const dragOver = (e:React.DragEvent) =>{
-    const parent:HTMLElement = e.target as HTMLElement;
-    const {id} = parent;
-    if(id != "content")return;
+  const showColorPicker = () => {
+    document.getElementById("color_picker")?.classList.toggle("hidden");
+  }
+
+  const dragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    const parent: HTMLElement = e.target as HTMLElement;
+    const { id } = parent;
+    if (id != "content") return;
     parent.style.backgroundColor = "black";
 
   }
-  const dragLeave = (e:React.DragEvent) =>{
-    const parent:HTMLElement = e.target as HTMLElement;
-    const {id} = parent;
-    if(id != "content")return;
+  const dragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    const parent: HTMLElement = e.target as HTMLElement;
+    const { id } = parent;
+    if (id != "content") return;
     parent.style.border = "";
   }
-  const drop = () =>{
+  const drop = (e: React.DragEvent<HTMLDivElement>) => {
     console.log("drop")
-    // const parent:HTMLElement = e.target as HTMLElement;
-    // const id  = localStorage.getItem("id");
-    // console.log(localStorage);
-    // console.log("droped")
-    // if(!id)return;
-    // const element = document.getElementById(id);
-    // if(!element)return;
-    // parent.appendChild(element);
+    const parent: HTMLElement = e.target as HTMLElement;
+    const parent_id: string = parent.id;
+    if (!(parent_id == "post_body")) return;
+    const id = localStorage.getItem("id");
+    console.log(localStorage);
+    console.log("droped")
+    if (!id) return;
+    if (id === "image_add") {
+      const element = document.getElementById(id);
+      if (!element) return;
+      const clone: HTMLElement = element.cloneNode(true) as HTMLElement;
+      addImage(parent, clone);
+    } else {
+      addPage();
+    }
   }
-  useEffect(()=>{
-    const body = document.getElementById("post_body");
-    if(!body)return;
-    body?.addEventListener("drop",drop);
-  },[])
 
+  const addImage = (parent: HTMLElement, clone: HTMLElement) => {
+    clone.classList.remove("w-[80%]");
+    clone.classList.add("w-1/4");
+    parent.appendChild(clone);
+  }
+
+  const addPage = () => {
+
+  }
+
+  const toggleHoverText = (e: React.MouseEvent, color_text: string) => {
+    const hover_text: HTMLElement = document.getElementById("hover_text") as HTMLElement;
+    if (!hover_text) return;
+    const target: HTMLElement = e.target as HTMLElement;
+    const parent = target.parentNode;
+    if (!parent) return;
+    hover_text.classList.toggle("hidden");
+    if (hover_text.classList.contains("hidden")) return;
+    hover_text.innerText = color_text + "のテキスト";
+    parent?.appendChild(hover_text);
+  }
+
+  //contentの選択時
+  useEffect(() => {
+    const text_navis = document.getElementById("text_navis");
+    text_navis?.classList.add("hidden");
+    let isSelecting = false;
+    let isKeyup = false;
+    document.addEventListener("selectionchange", () => {
+      const selection = window.getSelection();
+      if (!selection) { isSelecting = false; return; }
+      console.log(selection);
+      if (!selection.isCollapsed) {
+        isSelecting = true;
+      } else {
+        isSelecting = false;
+      }
+    });
+
+    document.addEventListener("mouseup", () => {
+      if (isSelecting) {
+        isKeyup = true;
+      }
+      setTimeout(() => { isKeyup = false; }, 100)
+    });
+    // マウス移動時のイベントを監視
+    document.addEventListener('mousemove', (event) => {
+      if (!text_navis) return;
+      if (!isKeyup && !isSelecting) {
+        text_navis.classList.add("hidden");
+      } else if (isKeyup) {
+        text_navis.classList.remove("hidden");
+        const mouseX = event.clientX; // マウスのX座標
+        const mouseY = event.clientY; // マウスのY座標
+        
+        // ツールチップをマウスカーソル付近に配置
+        text_navis.style.left = `${mouseX }px`;
+        text_navis.style.top = `${mouseY - 50}px`;
+      }
+
+
+    });
+  }, []);
+
+
+
+  //動的に変更されるスタイルの更新
   useEffect(() => {
     CustomEditor.setFontSizeMark(editor);
-  }, [fontsize]);
-  useEffect(()=>{
-    window.document.getElementById("post_body")?.addEventListener('drop',(e)=>drop());
-  },[])
-  
+  }, [fontsize])
+  useEffect(() => {
+    CustomEditor.setColorMark(editor);
+  }, [color]);
+
+
   return (
-    <div className='flex'>
+    <div id="body" className='flex relative'>
       <LeftNavigation />
-      <div id="post_body"  onDropCapture={()=>alert("cap")} onDrop={()=>alert("asdd")} onDragOver={e=>dragOver(e)} onDragLeave={e=>dragLeave(e)} className='w-[60%] h-screen overflow-y-auto hidden-scrollbar flex flex-col items-center relative'>
-        <hr className="header bg-[#B8A193] object-cover w-full h-[5%] absolute top-0 left-0" />
-        <input type="text" onDrop={()=>drop()} className='text-4xl outline-none m-5 mt-10' placeholder='title' />
+      <div id="post_body" onDrop={(e) => drop(e)} onDragOver={e => dragOver(e)} onDragLeave={e => dragLeave(e)} className='w-[60%] h-screen overflow-y-auto hidden-scrollbar flex flex-col items-center relative'>
+        <Header/>
+        <input type="text" className='text-4xl outline-none m-5 mt-10' placeholder='今日のハイライト' />
         <div className='flex flex-col bg-[#DDD4CF] w-[70%] h-[30%] rounded-xl p-6 place-items-center'>
           <span className='text-left w-full'>今、どんな気分?</span>
           <div className='grid grid-cols-5 gap-10 m-5'>
@@ -189,6 +279,7 @@ export default function Test() {
             ))}
           </div>
         </div>
+        {/* テキスト入力欄 */}
         <Slate
           editor={editor}
           initialValue={initialValue as Descendant[]}
@@ -203,76 +294,86 @@ export default function Test() {
             }
           }}
         >
-          <div className='flex items-center'>
-            <select name="font-size" id="" className='outline-none'
-              onChange={(e) => {
-                console.log(e.target.value);
-                setFontsize(e.target.value as unknown as number);
-              }}
-            >
-              <option value="16">normal</option>
-              <option value="24">h1</option>
-              <option value="32">h2</option>
-            </select>
-            <button
-              className='mx-1'
-              onMouseDown={event => {
-                event.preventDefault()
-                CustomEditor.toggleBoldMark(editor)
-              }}
-            >
-              <span className='font-bold'>B</span>
-            </button>
-            <button
-              className='mx-1'
-              onMouseDown={event => {
-                event.preventDefault()
-                CustomEditor.toggleItalicMark(editor)
-              }}
-            >
-              <span className='italic'>I</span>
-            </button>
-            <button
-              className='mx-1'
-              onMouseDown={event => {
-                event.preventDefault()
-                CustomEditor.toggleUnderlineMark(editor)
-              }}
-            >
-              <span className='underline'>U</span>
-            </button>
-            <button
-              className='mx-1'
-              onMouseDown={event => {
-                event.preventDefault()
-                CustomEditor.toggleStrikeMark(editor)
-              }}
-            >
-              <span className='line-through'>S</span>
-            </button>
-            <div id="color_selector" className='relative w-[15px] h-[15px] bg-red-400 rounded-full' onClick={() => { const colorinput = document.getElementById('color_input'); colorinput?.click() }}>
-              <input type="color" name="" id="color_input" className='hidden absolute top-0 right-0' 
-                onChange={event => {
-                  setColor(event.target.value);
-                  CustomEditor.setColorMark(editor);
-                  const color_selector = document.getElementById("color_selector");
-                  if(color_selector) color_selector.style.backgroundColor = event.target.value;
-                }}
-              />
-            </div>
-            
-
-          </div>
           <Editable
             id="content"
             className='w-[80%] m-3'
+            onSelect={(e) => { }}
             renderElement={renderElement}
             renderLeaf={renderLeaf}
           />
         </Slate>
       </div>
-
       <DraftNavigation />
+      {/* テキストデコレーション */}
+      <div id="text_navis" className='flex justify-between p-1 w-52 absolute top-3 z-10 bg-[#DDD4CF] rounded-lg'>
+        <select name="font-size" id="" className='outline-none bg-transparent'
+          onChange={(e) => {
+            console.log(e.target.value);
+            setFontsize(e.target.value as unknown as number);
+          }}
+        >
+          <option value="16">normal</option>
+          <option value="24">h1</option>
+          <option value="32">h2</option>
+        </select>
+        <button
+          className='mx-1'
+          onMouseDown={event => {
+            event.preventDefault()
+            CustomEditor.toggleBoldMark(editor)
+          }}
+        >
+          <span className='font-bold'>B</span>
+        </button>
+        <button
+          className='mx-1'
+          onMouseDown={event => {
+            event.preventDefault()
+            CustomEditor.toggleItalicMark(editor)
+          }}
+        >
+          <span className='italic'>I</span>
+        </button>
+        <button
+          className='mx-1'
+          onMouseDown={event => {
+            event.preventDefault()
+            CustomEditor.toggleUnderlineMark(editor)
+          }}
+        >
+          <span className='underline'>U</span>
+        </button>
+        <button
+          className='mx-1'
+          onMouseDown={event => {
+            event.preventDefault()
+            CustomEditor.toggleStrikeMark(editor)
+          }}
+        >
+          <span className='line-through'>S</span>
+        </button>
+        <button onClick={() => { showColorPicker() }} className='relative'>
+          A
+          <div id="color_picker" className='hidden flex flex-col absolute top-5 left-0 object-cover w-28 border border-black rounded-lg '>
+            <div className='grid grid-cols-5 grid-rows-2  hover:cursor-pointer'>
+              {
+                text_colors.map((text_color, i) => (
+                  <div key={i}
+                    onMouseEnter={(e) => { toggleHoverText(e, text_color.name) }}
+                    onMouseLeave={(e) => { toggleHoverText(e, text_color.name) }}
+                    onClick={() => { setColor(text_color.color); CustomEditor.setColorMark(editor); }}
+                    className='relative'>
+                    <p style={{ color: text_color.color }}>A</p>
+                  </div>
+                ))
+              }
+
+            </div>
+          </div>
+        </button>
+
+      </div>
+      <p id="hover_text" className='bg-black text-white rounded-lg absolute -top-5 -left-10 hidden w-36 text-nowrap '></p>
     </div>
   );
 }
