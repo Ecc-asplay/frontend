@@ -189,8 +189,6 @@ export default function Post() {
   }
   const drop = (e: React.DragEvent<HTMLDivElement>) => {
     const parent: HTMLElement = e.target as HTMLElement;
-    console.log(parent)
-    if (parent.role !== "textbox") return;
     const id = localStorage.getItem("id");
     console.log("droped")
     if (!id) return;
@@ -283,7 +281,7 @@ export default function Post() {
   return (
     <div id="body" className='flex relative'>
       <LeftNavigation />
-      <div id="post_body" className='w-[60%] h-screen overflow-y-auto hidden-scrollbar flex flex-col items-center relative'>
+      <div id="post_body" onDrop={(e) => drop(e)} onDragOver={e => dragOver(e)} onDragLeave={e => dragLeave(e)} className='w-[60%] h-screen overflow-y-auto hidden-scrollbar flex flex-col items-center relative'>
         <Header/>
         <input type="text" className='text-4xl outline-none m-5 mt-10' placeholder='今日のハイライト' />
         <div className='flex flex-col bg-[#DDD4CF] w-[70%] h-[30%] rounded-xl p-6 place-items-center'>
@@ -331,9 +329,6 @@ export default function Post() {
                       <hr className="object-cover w-1/2 h-2 bg-[#DDD4CF] rounded-lg mx-12 "/>
                     </div>):(<></>)}
               <Editable
-                onDrop={(e) => drop(e)}
-                onDragOver={e => dragOver(e)}
-                onDragLeave={e => dragLeave(e)} 
                 className='w-[80%] m-3'
                 // エディターを押しているものにする
                 onSelect={()=>setEditor(p.editor)}
