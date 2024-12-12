@@ -2,17 +2,18 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import heart_icon from "@/app/img/heart-svgrepo-com.png";
 import comment_icon from "@/app/img/comment-4-svgrepo-com.png";
 import bookmark_icon from "@/app/img/bookmark-svgrepo-com.png";
+import search from "@/app/img/search-svgrepo-com.png"; 
+import filter from "@/app/img/filter-svgrepo-com.png"; 
 import { LeftNavigation } from "./components/navigations/left";
 import { RightNavigation } from "./components/navigations/right";
 import { useEffect, useState } from "react";
-import { SearchInput } from "./components/main/searchInput";
 import { comments, testData } from "@/app/test_data"; // 使用するデータ
-import { GetAllPosts } from "@/app/api/posts/route";
+import { GetAllPosts,SearchPosts } from "@/app/api/posts";
 import { Header } from "./components/Header";
 import { color_reaction_icons,white_reaction_icons } from "./reaction_icons";
+import { StaticImageData } from "next/image";
 
 // 型定義
 interface Post {
@@ -27,7 +28,7 @@ interface Post {
   status: string;
   created_at: string;
   update_at: string;
-  reactions:{post_id:string, id: number, isColored: boolean, white: any, color: any}[]    
+  reactions:{post_id:string, id: number, isColored: boolean, white: StaticImageData, color: StaticImageData}[]    
 }
 interface Posts {
   posts: Post[];
@@ -43,11 +44,14 @@ const initializeReactions = (post_id:string) => [
 export default function Home() {
     const [posts, setPosts] = useState<Posts>({ posts: [] }); // 初期状態
     const [loaded, setLoaded] = useState(false); // ロード済み状態を管理
+    const [keyword,setKeyword] = useState<string>("");
     // APIから投稿を取得
     const getAllposts = async () => {
         if (loaded) return; // 既にロード済みの場合は終了
         const res = await GetAllPosts();
+        console.log(res);
         if(!res){return;}
+        if(!Array.isArray(res.data))return;
         const updatedPosts: Post[] = res.data?.map((e: Post) => {
             if (typeof e.content === "string") {
                 // Base64文字列をデコードしてJSONオブジェクトに変換
@@ -65,7 +69,7 @@ export default function Home() {
                     reactions:initializeReactions(e.post_id)
                 };
             }
-            return {e,reactions:initializeReactions(e.post_id)}; // そのまま返す場合
+            return {...e,reactions:initializeReactions(e.post_id),}; // そのまま返す場合
         }) || [];
 
         setPosts((prev) => ({
@@ -105,6 +109,40 @@ export default function Home() {
         }));
     }
 
+    //検索欄が更新し次第検索する
+    useEffect(()=>{
+        const KeywordChange = async()=>{
+            if(keyword == "")return;
+            const res = await SearchPosts(keyword);
+            if(!res)return;
+            if(!Array.isArray(res.data))return;
+            const updatedPosts: Post[] = res.data?.map((e: Post) => {
+                if (typeof e.content === "string") {
+                    // Base64文字列をデコードしてJSONオブジェクトに変換
+                    const decodedBytes = Uint8Array.from(atob(e.content), (c) =>
+                        c.charCodeAt(0)
+                    );
+                    const decoder = new TextDecoder("utf-8");
+                    const jsonString = decoder.decode(decodedBytes);
+                    const jsonObject = JSON.parse(jsonString);
+                    //content以外そのまま返す
+                    //contentは文字列に変換されているのでjsonにしてから返す
+                    return {
+                        ...e,
+                        content: jsonObject,
+                        reactions:initializeReactions(e.post_id)
+                    };
+                }
+                return {...e,reactions:initializeReactions(e.post_id),}; // そのまま返す場合
+            }) || [];
+            setPosts((prev) => ({
+                posts: [...prev.posts, ...updatedPosts],
+            }));
+        }
+        KeywordChange();
+    },[keyword]);
+    
+
     // 初回レンダリング時に投稿を取得
     useEffect(() => {
         getAllposts();
@@ -126,7 +164,11 @@ export default function Home() {
       <LeftNavigation/>
       <div className="w-[60%] h-screen flex flex-col items-center relative">
         <Header />
-        <SearchInput />
+        <div className="flex object-cover w-[80%] items-center m-10 bg-[#DDD4CF] rounded-2xl p-1">
+            <Image src={search} width={30} height={30} alt={"search"} className="mx-3"/>
+            <input type="text" placeholder="検索" className="object-cover w-full rounded-xl bg-transparent  outline-none px-3" onChange={(e)=>setKeyword(e.target.value)}/>
+            <Image src={filter} width={30} height={30} alt={"search"} className="mx-3"/>
+        </div>
         <hr className="border-2 border-[#B4ACAA] w-full mt-5" />
         <div className="w-full h-[65%] hidden-scrollbar overflow-auto flex flex-col items-center">
             {posts.posts.map((post, i) => (

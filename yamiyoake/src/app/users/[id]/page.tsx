@@ -6,6 +6,7 @@ import { LeftNavigation } from "@/app/components/navigations/left";
 import { RightNavigation } from "@/app/components/navigations/right";
 import { Items } from "@/app/components/users/Items";
 import { Header } from "@/app/components/Header";
+import { GetUserData } from "@/app/api/users";
 interface UserID {
     params: { id: string | null }
 }
@@ -29,7 +30,7 @@ export default function Users({ params }: UserID) {
     const [userData, setUserData] = useState<UserData>();
     const [year_rate, setYearRate] = useState<number>();
     const [select, setSelect] = useState<number>(0);
-
+    GetUserData();
     useEffect(() => {
         async function getID() {
             const resolvedParams = await params;

@@ -15,7 +15,7 @@ const Login: React.FC = () => {
     const router = useRouter();
     const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault(); 
-        const isLogin:boolean = await login(email,password);
+        const isLogin = await login(email,password);
         if(!isLogin){
             setLoginError("ログインエラー");
         }else{
