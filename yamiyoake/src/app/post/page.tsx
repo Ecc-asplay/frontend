@@ -203,6 +203,7 @@ export default function Post() {
   }
 
   const addImage = (parent: HTMLElement, clone: HTMLElement) => {
+    if(!(parent.classList.contains("SlateParent")))return;
     clone.classList.remove("w-[80%]");
     clone.classList.add("w-1/4");
     parent.appendChild(clone);
@@ -297,45 +298,46 @@ export default function Post() {
         {/* テキスト入力欄 */}
         {
           page?.map((p,i)=>(
-            <Slate
-              key={i}
-              editor={p.editor}
-              initialValue={p.content}
-              onChange={(value) => {
-                const isAstChange = editor.operations.some(
-                  op => 'set_selection' !== op.type
-                )
-                if (isAstChange) {
-                  // Save the value to Local Storage.
-                  const v = value as CustomElement[];
-                  if(v[0].children[0].text == ""){localStorage.removeItem(`page${i+1}`);return}
-                  const content = JSON.stringify(value);
-                  localStorage.setItem(`page${i+1}`, content);
-                  console.log(value);
-                  setPage(prevPages => {
-                    // 重複を避け、最新のページ内容を追加
-                    const newPages = [...prevPages as { editor: ReactEditor; content: Descendant[]; }[]];
-                    newPages[i].content = value; // 特定のインデックスのページを更新
-                    return newPages;
-                  });
-                }
-              }}
-            >
-              {i>0?(<div className='flex object-cover w-full items-center'>
-                      <hr className="object-cover w-1/2 h-2 bg-[#DDD4CF] rounded-lg mx-12  "/>
-                      <p className="px-3">
-                        page{i+1}
-                      </p>
-                      <hr className="object-cover w-1/2 h-2 bg-[#DDD4CF] rounded-lg mx-12 "/>
-                    </div>):(<></>)}
-              <Editable
-                className='w-[80%] m-3'
-                // エディターを押しているものにする
-                onSelect={()=>setEditor(p.editor)}
-                renderElement={renderElement}
-                renderLeaf={renderLeaf}
-              />
-            </Slate>
+            <div className='SlateParent object-cover w-full h-96 flex flex-col items-center' key={i}>
+              <Slate
+                editor={p.editor}
+                initialValue={p.content}
+                onChange={(value) => {
+                  const isAstChange = editor.operations.some(
+                    op => 'set_selection' !== op.type
+                  )
+                  if (isAstChange) {
+                    // Save the value to Local Storage.
+                    const v = value as CustomElement[];
+                    if(v[0].children[0].text == ""){localStorage.removeItem(`page${i+1}`);return}
+                    const content = JSON.stringify(value);
+                    localStorage.setItem(`page${i+1}`, content);
+                    console.log(value);
+                    setPage(prevPages => {
+                      // 重複を避け、最新のページ内容を追加
+                      const newPages = [...prevPages as { editor: ReactEditor; content: Descendant[]; }[]];
+                      newPages[i].content = value; // 特定のインデックスのページを更新
+                      return newPages;
+                    });
+                  }
+                }}
+              >
+                {i>0?(<div className='flex object-cover w-full items-center'>
+                        <hr className="object-cover w-1/2 h-2 bg-[#DDD4CF] rounded-lg mx-12  "/>
+                        <p className="px-3">
+                          page{i+1}
+                        </p>
+                        <hr className="object-cover w-1/2 h-2 bg-[#DDD4CF] rounded-lg mx-12 "/>
+                      </div>):(<></>)}
+                <Editable
+                  className='w-[80%] m-3'
+                  // エディターを押しているものにする
+                  onSelect={()=>setEditor(p.editor)}
+                  renderElement={renderElement}
+                  renderLeaf={renderLeaf}
+                />
+              </Slate>
+            </div>
           ))
         }
       </div>
