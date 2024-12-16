@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { FiChevronDown } from "react-icons/fi";
 
 const FAQ: React.FC = () => {
     const faqData = [
@@ -47,8 +48,8 @@ const FAQ: React.FC = () => {
 
     ]
     return(
-        <div className="flex flex-col items-center px-6 py-12">
-            <h1 className="text-basetext font-extrabold">よくある質問</h1>
+        <div className="flex flex-col px-6 py-12">
+            <h1 className="text-middlebrown font-bold ml-2">よくある質問</h1>
             <div className="w-full max-w-2xl">
                 {faqData.map((item, index) => (
                     <Accordion key={index} question={item.question} answer={item.answer} />
@@ -70,19 +71,19 @@ const Accordion: React.FC<AccordionData> = ({question, answer}) => {
     const [isOpen, setOpen] = useState(false);
 
     return(
-        <div >
+        <div className="ml-3">
             {/* 質問 */}
             <button
-                className="w-full text-left text-basetext font-bold py-2 focus:outline-none flex justify-between items-center"
+                className="w-full text-left text-basetext font-semibold py-2 focus:outline-none flex justify-between items-center"
                 onClick={()=> setOpen(!isOpen)}
             >
                 {question}
                 <span className={`transform transition-transform ${isOpen ? "rotate-180" : "rotate-0"}`}>
-                    　▼　
+                    　<FiChevronDown/>　
                 </span>
             </button>
             {/* 答え */}
-            {isOpen && <p className="text-basetext mt-2">{answer}</p>}
+            {isOpen && <p className="text-basetext mt-2 leading-8">{answer}</p>}
         </div>
     )
 }

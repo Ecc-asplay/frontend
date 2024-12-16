@@ -1,22 +1,24 @@
 import GuidelinesMain from "../guidelines_main/page";
 import Blocklist from "./blocklist";
+import Contact from "./contact";
 import FAQ from "./faq";
 import Logout from "./logout";
+import Notifications from "./notifications";
 
 const SideBarSelected: Record<string, JSX.Element> = {
     
     about:(
-        <div>
-            <h1 className="text-basetext font-extrabold">サイトについて</h1>
+        <div className="flex flex-col px-6 py-12">
+            <h1 className="text-middlebrown font-bold ml-2">サイトについて</h1>
 
-            <div className="flex flex-col items-center px-6 py-12">
-                <p className="mb-4">
+            <div className="text-basetext leading-relaxed max-w-screen-md ml-3">
+                <p className="mt-4 mb-4 leading-8">
                 このサイトは、患者さんやそのサポーターの方々が安全で温かく、匿名で体験を共有できる場を提供することを目的としています。
                 日記や経験を共有することで、不安を和らげ、力を分かち合い、すべてのユーザーが理解とサポートを感じられる場所を目指しています。
                 </p>
 
-                <h2 className="text-basetext font-semibold">主要機能</h2>
-                <ul className="list-disc list-inside pl-4 mt-2">
+                <h2 className="text-basetext font-semibold">■ 主要機能</h2>
+                <ul className="list-disc list-inside pl-4 mt-2 space-y-4">
                     <li className="mb-2">
                         <strong>匿名投稿：</strong>
                         ユーザーは匿名で、自分の闘病日記や生活の感想を自由に書き、共有することができます。
@@ -37,8 +39,8 @@ const SideBarSelected: Record<string, JSX.Element> = {
                     </li>
                 </ul>
 
-                <h2 className="text-basetext font-semibold">ご利用上の注意</h2>
-                <ul className="list-disc list-inside pl-4 mt-2">
+                <h2 className="text-basetext font-semibold">■ ご利用上の注意</h2>
+                <ul className="list-disc list-inside pl-4 mt-2 space-y-4">
                     <li className="mb-2">
                         本プラットフォームは個人の経験を共有するためのものであり、特効薬や治療法、民間療法に関する内容は慎重に取り扱ってください。
                     </li>
@@ -50,8 +52,8 @@ const SideBarSelected: Record<string, JSX.Element> = {
                     </li>
                 </ul>
 
-                <h2 className="text-basetext font-semibold">私たちのビジョン</h2>
-                <p className="mt-2">
+                <h2 className="text-basetext font-semibold">■ 私たちのビジョン</h2>
+                <p className="mt-2 leading-8">
                     個人の体験を共有することで、お互いに励まし合い、ストレスを軽減する場を目指します。
                     すべてのユーザーが、このコミュニティを通じて温かさや共感、そして力を見つけられるように、一緒に素晴らしい空間を作り上げましょう。
                 </p>
@@ -62,29 +64,29 @@ const SideBarSelected: Record<string, JSX.Element> = {
         </div>
     ),
     terms:(
-        <div className="flex flex-col items-center px-6 py-12">
-            <h1 className="text-basetext font-extrabold">利用規約</h1>
+        <div className="flex flex-col px-6 py-12">
+            <h1 className="text-middlebrown font-bold ml-2">利用規約</h1>
             {/* 本文 */}
-            <div className="text-basetext leading-relaxed max-w-screen-md">
+            <div className="text-basetext leading-relaxed max-w-screen-md ml-3">
                 <h2 className="font-semibold mt-6">第1条（適用）</h2>
-                <p className="mt-2">
+                <p className="mt-2 leading-8">
                     本利用規約（以下、「本規約」といいます。）は、「やみよあけ」（以下、「本サイト」といいます。）が提供するサービス（以下、「本サービス」といいます。）の利用条件を定めるものです。本サイトをご利用いただく際には、本規約に同意したものとみなされます。
                 </p>
 
                 <h2 className="font-semibold mt-6">第2条（利用登録）</h2>
-                <p className="mt-2">
+                <p className="mt-2 leading-8">
                     １．本サービスをご利用いただくためには、登録手続きを行い、運営が承認する必要があります。<br />
                     ２．登録時には、正確かつ最新の情報を提供してください。虚偽の情報を提供した場合、登録が無効になる場合があります。
                 </p>
 
                 <h2 className="font-semibold mt-6">第3条（匿名性とプライバシー保護）</h2>
-                <p className="mt-2">
+                <p className="mt-2 leading-8">
                     １．本サイトでは、利用者のプライバシーを保護するため、公開される情報は匿名化されます。<br />
                     ２．利用登録時に提供された個人情報は、運営が厳重に管理し、法令に基づく場合を除き、第三者に開示することはありません。
                 </p>
 
                 <h2 className="font-semibold mt-6">第4条（禁止事項）</h2>
-                <p className="mt-2">
+                <p className="mt-2 leading-8">
                     利用者は、本サービスの利用にあたり、以下の行為を行ってはなりません：<br />
                     　１．他の利用者に対する誹謗中傷、攻撃、差別的発言<br />
                     　２．虚偽の情報を投稿する行為<br />
@@ -95,14 +97,14 @@ const SideBarSelected: Record<string, JSX.Element> = {
                 </p>
 
                 <h2 className="font-semibold mt-6">第5条（コメントの取り扱い）</h2>
-                <p className="mt-2">
+                <p className="mt-2 leading-8">
                     １．登録ユーザーのみコメントが可能です。<br />
                     ２．コメントはすべて運営が審査を行った後、投稿者に公開されます。<br />
                     ３．投稿者はコメントを公開するかどうかを自由に選択できます。
                     </p>
 
                 <h2 className="font-semibold mt-6">第6条（投稿内容の削除）</h2>
-                <p className="mt-2">
+                <p className="mt-2 leading-8">
                 以下の場合、運営は事前の通知なく投稿内容を削除できるものとします：<br />
                     　１．本規約に違反する内容<br />
                     　２．公序良俗に反する内容<br />
@@ -111,24 +113,24 @@ const SideBarSelected: Record<string, JSX.Element> = {
                 </p>
 
                 <h2 className="font-semibold mt-6">第7条（免責事項）</h2>
-                <p className="mt-2">
+                <p className="mt-2 leading-8">
                     １．本サービスにおける利用者間のトラブルについて、運営は一切責任を負いません。<br />
                     ２．本サービスで提供される情報の正確性、完全性、適用性について、運営は保証しません。<br />
                     ３．運営は、システム障害や不可抗力によるサービス停止に伴う損害について、一切の責任を負いません。
                 </p>
 
                 <h2 className="font-semibold mt-6">第8条（サービスの変更・終了）</h2>
-                <p className="mt-2">
+                <p className="mt-2 leading-8">
                     運営は、事前の通知なく本サービスの内容を変更または終了することができるものとします。
                 </p>
 
                 <h2 className="font-semibold mt-6">第9条（規約の変更）</h2>
-                <p className="mt-2">
+                <p className="mt-2 leading-8">
                     運営は、必要に応じて本規約を変更することができます。変更後の規約は、本サイト上に掲示された時点から効力を有するものとします。
                 </p>
 
                 <h2 className="font-semibold mt-6">第10条（準拠法および管轄）</h2>
-                <p className="mt-2">
+                <p className="mt-2 leading-8">
                     １．本規約の解釈および適用は、日本法に準拠します。<br />
                     ２．本規約に関して紛争が生じた場合、運営所在地を管轄する裁判所を専属的合意管轄とします。
                 </p>
@@ -136,22 +138,22 @@ const SideBarSelected: Record<string, JSX.Element> = {
         </div>
     ),
     privacy:(
-        <div className="flex flex-col items-center px-6 py-12">
-            <h1 className="text-basetext font-extrabold">プライバシーポリシー</h1>
+        <div className="flex flex-col px-6 py-12">
+            <h1 className="text-middlebrown font-bold ml-2">プライバシーポリシー</h1>
             {/* 本文 */}
-            <div className="text-basetext leading-relaxed max-w-screen-md">
+            <div className="text-basetext leading-relaxed max-w-screen-md ml-3">
                 <h2 className="font-semibold mt-6">第1条（基本方針）</h2>
-                <p className="mt-2">
+                <p className="mt-2 leading-8">
                     「やみよあけ」（以下、「本サイト」といいます。）は、ユーザーのプライバシーを尊重し、個人情報の保護を重要な責務と考えています。本プライバシーポリシー（以下、「本ポリシー」といいます。）は、本サイトがユーザーの個人情報をどのように収集、利用、管理、保護するかを説明するものです。
                 </p>
 
                 <h2 className="font-semibold mt-6">第2条（適用範囲）</h2>
-                <p className="mt-2">
+                <p className="mt-2 leading-8">
                     本ポリシーは、本サイトを利用するすべてのユーザーに適用されます。また、ユーザーが本サイトを利用することで、本ポリシーに同意したものとみなします。
                 </p>
 
                 <h2 className="font-semibold mt-6">第3条（収集する情報）</h2>
-                <p className="mt-2">
+                <p className="mt-2 leading-8">
                     本サイトは、以下の情報を収集することがあります：<br />
                     　１．利用登録時に提供される情報（例：メールアドレス、ニックネームなど）<br />
                     　２．コメントや日記の投稿内容<br />
@@ -159,7 +161,7 @@ const SideBarSelected: Record<string, JSX.Element> = {
                 </p>
 
                 <h2 className="font-semibold mt-6">第4条（情報の利用目的）</h2>
-                <p className="mt-2">
+                <p className="mt-2 leading-8">
                 本サイトが収集した情報は、以下の目的で利用します：<br />
                     　１．サービスの提供、運営、改善<br />
                     　２．ユーザーの本人確認<br />
@@ -169,7 +171,7 @@ const SideBarSelected: Record<string, JSX.Element> = {
                 </p>
 
                 <h2 className="font-semibold mt-6">第5条（個人情報の管理）</h2>
-                <p className="mt-2">
+                <p className="mt-2 leading-8">
                     本サイトは、ユーザーの個人情報を適切に管理し、不正アクセス、紛失、破壊、改ざん、漏洩を防ぐために、以下の措置を講じます：<br />
                     　１．個人情報へのアクセスを制限する管理体制<br />
                     　２．SSLなどのセキュリティ技術を使用した情報通信の暗号化<br />
@@ -177,7 +179,7 @@ const SideBarSelected: Record<string, JSX.Element> = {
                     </p>
 
                 <h2 className="font-semibold mt-6">第6条（第三者への提供）</h2>
-                <p className="mt-2">
+                <p className="mt-2 leading-8">
                 本サイトは、以下の場合を除き、ユーザーの個人情報を第三者に提供することはありません：<br />
                     　１．ユーザーの同意がある場合<br />
                     　２．法令に基づき開示が必要な場合<br />
@@ -186,12 +188,12 @@ const SideBarSelected: Record<string, JSX.Element> = {
                 </p>
 
                 <h2 className="font-semibold mt-6">第7条（クッキー（Cookie）の使用）</h2>
-                <p className="mt-2">
+                <p className="mt-2 leading-8">
                     本サイトでは、ユーザー体験の向上やアクセス解析のためにクッキーを使用することがあります。クッキーの使用を望まない場合、ブラウザの設定を変更することで拒否することができますが、サービスの一部が利用できなくなる場合があります。                
                 </p>
 
                 <h2 className="font-semibold mt-6">第8条（ユーザーの権利）</h2>
-                <p className="mt-2">
+                <p className="mt-2 leading-8">
                     ユーザーは、以下の権利を有します：<br />
                     　１．自身の個人情報の開示、訂正、削除を求める権利<br />
                     　２．個人情報の利用停止を求める権利
@@ -200,7 +202,7 @@ const SideBarSelected: Record<string, JSX.Element> = {
                 </p>
 
                 <h2 className="font-semibold mt-6">第9条（プライバシーポリシーの変更）</h2>
-                <p className="mt-2">
+                <p className="mt-2 leading-8">
                     本サイトは、本ポリシーを必要に応じて改定することができます。改定後のポリシーは、本サイト上に掲示された時点で効力を有します。
                 </p>
             </div>
@@ -208,22 +210,16 @@ const SideBarSelected: Record<string, JSX.Element> = {
     ),
     guideline:(
         // 画面導入
-        <div>
-            <GuidelinesMain/>
-        </div>
+        <GuidelinesMain/>
+
     ),
     faq:(
         // 画面導入
-        <div>
-            <FAQ/>
-        </div>
+        <FAQ/>
     ),
     notifications:(
         // 通知のカスタマイズ部分　
-        // 内容はちょっとわかんない
-        <div>
-            なにを追加する？
-        </div>
+        <Notifications/>
     ),
     blocklist:(
         // 画面導入
@@ -234,23 +230,7 @@ const SideBarSelected: Record<string, JSX.Element> = {
     ),
     contact:(
         // お問い合わせ
-        <div className="flex flex-col items-center px-6 py-12">
-            <h1 className="text-basetext font-extrabold">お問い合わせ</h1>
-            <div className="text-basetext leading-relaxed max-w-screen-md mt-6">
-                <p className="mt-4">
-                サイトに関するご質問やご意見がございましたら、以下のメールアドレスにご連絡ください。
-                </p>
-                <p className="text-center text-baseyellow">
-                    ✉ <a href="mailto:yamiyoake-support@gmail.com" className="hover:underline">yamiyoake-support@gmail.com</a>
-                </p>
-                <p className="mt-4">
-                メールには、お問い合わせの内容を明確に記載してください。できるだけ早く返信いたします。<br />
-                ご協力ありがとうございます！
-                </p>
-
-            </div>
-
-        </div>
+        <Contact/>
     ),
     logout:(
         <div>

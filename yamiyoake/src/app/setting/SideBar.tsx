@@ -28,11 +28,12 @@ const SideBar = ({onselect} : {onselect: (key:string) => void}) => {
     }
 
     return(
-        <div className="mt-4">
+        <div className="mt-6">
             <ul className="w-56 p-0">
                 {items.map((item) => (
                     <li key={item.key}
                     onClick={() => !item.isHeader && handleSelect(item.key)}
+                    // 色設定　選択設定
                     className={`flex items-center justify-between px-4 py-2 ${
                         item.isHeader
                         ? "text-middlebrown font-bold cursor-default"
@@ -46,6 +47,7 @@ const SideBar = ({onselect} : {onselect: (key:string) => void}) => {
                     }
                         `}
                     >
+                        {/* タイトル表示 */}
                         <span className={`${item.isHeader ? "" : "ml-3"}`}>
                             {item.label}
                         </span>
