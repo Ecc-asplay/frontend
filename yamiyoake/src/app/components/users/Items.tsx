@@ -25,6 +25,8 @@ const Items:React.FC<Item_number> = ({user_id,index}) =>{
                 return(
                     <User_Drafts user_id={user_id}/>
                 ); 
+            case -1:
+                return<></>    
             default:
                 return(
                     <div>not found</div>

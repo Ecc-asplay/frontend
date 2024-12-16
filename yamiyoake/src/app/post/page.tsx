@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useCallback, useMemo, useEffect, createElement } from 'react'
+import React, { useState, useCallback, useMemo, useEffect, createElement, Children } from 'react'
 import { createEditor, Transforms, Element, Editor, Node } from 'slate'
 import { Slate, Editable, withReact } from 'slate-react'
 import { BaseEditor, Descendant } from 'slate'
@@ -10,7 +10,7 @@ import { LeftNavigation } from '../components/navigations/left'
 import { DraftNavigation } from '../components/post/draftnav'
 import { white_feel_icons, color_feel_icons } from '../feel_icons'
 import { Header } from '../components/Header'
-
+import { CreatePost } from '../api/posts'
 //保存する際の形式
 type CustomElement = { type: 'paragraph'; children: CustomText[] };
 type CustomText = { text: string, fontsize: number, bold: boolean, italic: boolean, underline: boolean, strike: boolean, color: string };
@@ -37,6 +37,7 @@ const initialPageData = () => ({
 });
 
 export default function Post() {
+  //CreatePost("123asd","test_title","満足",[{type:"paragraph",children:[{bold:true,text:"test"}]}],13178326,"処理中");
   //Slateで書かれたもののデコレーションや保存
   const [editor,setEditor] = useState(() => withReact(createEditor()));
   //テキストの色

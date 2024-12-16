@@ -48,11 +48,10 @@ export default function Home() {
     // APIから投稿を取得
     const getAllposts = async () => {
         if (loaded) return; // 既にロード済みの場合は終了
-        const res = await GetAllPosts();
-        console.log(res);
-        if(!res){return;}
-        if(!Array.isArray(res.data))return;
-        const updatedPosts: Post[] = res.data?.map((e: Post) => {
+        const data = await GetAllPosts();
+        if(!data){return;}
+        if(!Array.isArray(data))return;
+        const updatedPosts: Post[] = data?.map((e: Post) => {
             if (typeof e.content === "string") {
                 // Base64文字列をデコードしてJSONオブジェクトに変換
                 const decodedBytes = Uint8Array.from(atob(e.content), (c) =>
@@ -61,6 +60,8 @@ export default function Home() {
                 const decoder = new TextDecoder("utf-8");
                 const jsonString = decoder.decode(decodedBytes);
                 const jsonObject = JSON.parse(jsonString);
+                // console.log(typeof jsonObject === "object");
+                console.log(jsonObject)
                 //content以外そのまま返す
                 //contentは文字列に変換されているのでjsonにしてから返す
                 return {
@@ -191,9 +192,9 @@ export default function Home() {
                             </div>
                         </div>
                         <span className="m-3">
-                            {/* {post.content.slice(0,20)} */}
+                            {/* {post.content.slice(0,20)}*/}
                             {typeof post.content !== "string"
-                                ? post.content.map(c=>c.children.map((e:any,i:number)=>(<span key={i}>{e.text}</span>)))
+                                ? post.content.map(c=>c.children?.map((e:any,i:number)=>(<span key={i}>{e.text}</span>)))
                                 : JSON.stringify(post.content).slice(0, 87)}
                         </span>
                       </Link>

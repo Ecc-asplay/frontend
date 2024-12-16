@@ -29,21 +29,21 @@ export default function Users({ params }: UserID) {
     const [id, setId] = useState<string | null>();
     const [userData, setUserData] = useState<UserData>();
     const [year_rate, setYearRate] = useState<number>();
-    const [select, setSelect] = useState<number>(0);
-    GetUserData();
+    const [select, setSelect] = useState<number>(-1);
     useEffect(() => {
         async function getID() {
             const resolvedParams = await params;
             setId(resolvedParams.id);
         }
         getID();
+        async function getUserData() {
+            return await GetUserData();
+        }
+        getUserData().then((result)=>{
+            setUserData(result as UserData);
+        })
     }, []);
 
-    useEffect(() => {
-        if (id) {
-            setUserData(users.find(e => e.user_id === id));
-        }
-    }, [id]);
 
     useEffect(() => {
         if (userData) {
@@ -80,7 +80,7 @@ export default function Users({ params }: UserID) {
                     <button type="button" value={3} className={`w-[25%] h-full bg-[#807267] ${select == 3 ? "bg-[#A5BCA2]" : ""}`} onClick={() => { setSelect(3) }}>下書き</button>
                 </div>
                 <div className="object-cover w-full h-[60%]">
-                    <Items user_id={userData?.user_id} index={select}></Items>
+                    <Items user_id={id as string} index={select}></Items>
                 </div>
             </div>
             <RightNavigation />
