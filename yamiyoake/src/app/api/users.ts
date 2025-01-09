@@ -2,6 +2,7 @@ import axios from "axios";
 export async function GetUserData(){
     try{
         const token = sessionStorage.getItem("acess_token");
+        if(!token) return;
         const res = await axios.get(`http://44.199.138.134:8080/users`,{
             headers:{
                 Authorization:`Bearer ${token}`
@@ -17,5 +18,6 @@ interface UserID{
 }
 export async function GetUserID() {
     const data = await GetUserData() as UserID;
+    console.log(data)
     return data.user_id;
 }
