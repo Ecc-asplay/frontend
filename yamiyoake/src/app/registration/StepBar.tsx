@@ -5,10 +5,11 @@ type StepBarPosition = {
 }
 
 const steps = [
-    {id:1, label: '登録'},
-    {id:2, label: 'メール認証'},
-    {id:3, label: '情報を入力'},
-    {id:4, label: '完了'},
+    {id:1, label: '確認同意'},
+    {id:2, label: '登録'},
+    {id:3, label: 'メール認証'},
+    {id:4, label: '情報を入力'},
+    {id:5, label: '完了'},
 ]
 
 const StepBar: React.FC<StepBarPosition> = ({step}) => {
