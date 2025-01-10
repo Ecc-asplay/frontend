@@ -1,20 +1,26 @@
 import AdminUsers from './adminusers'; 
-
+import Report from './report';
+import Comments from './comments';
+import Contact from './contact';
+import View from './view';
 const SelectedPage:  Record<string, JSX.Element> ={
     adminUsers:(
-        <AdminUsers/>        
+        <AdminUsers />        
     ),
     report:(
-        <div>report</div>
+        <Report />
     ),
     comment:(
-        <div>comment</div>
+        <Comments />
     ),
     contact:(
-        <div>contact</div>
+        <Contact />
     ),
-    setting:(
-        <div>setting</div>
+    view:(
+        <View />
+    ),
+    feature:(
+        <div>feature</div>
     ),
     logout:(
         <div>logout</div>

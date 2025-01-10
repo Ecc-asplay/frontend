@@ -18,6 +18,6 @@ interface UserID{
 }
 export async function GetUserID() {
     const data = await GetUserData() as UserID;
-    console.log(data)
+    if(!data)return;
     return data.user_id;
 }

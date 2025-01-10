@@ -1,4 +1,4 @@
-import {Line,LineChart,XAxis} from 'recharts';
+import {Line,LineChart,XAxis,ResponsiveContainer} from 'recharts';
 import { useState } from 'react';
 import { ChangeEvent } from 'react';
 import Image from 'next/image';
@@ -37,31 +37,35 @@ const AdminUsers = () =>{
         <div className='w-full h-full flex'>
             <div className='w-[80%] h-full flex flex-col  items-center'>
                 <div className='analitics w-full flex justify-around items-center'>
-                    <div className='bg-white rounded-lg relative m-5 -mr-3'>
+                    <div className='bg-white rounded-lg relative m-5 -mr-3 w-[40%]'>
                         <p className='absolute top-3 left-3'>アナリティクス</p>
-                        <LineChart width={400} height={200} data={testData} >
-                            <Line type="monotone" dataKey="value" stroke="#E09A96" dot={false} />
-                            <XAxis tick={false}/>
-                        </LineChart>
+                        <ResponsiveContainer width="100%" height={200}>
+                            <LineChart  data={testData} >
+                                <Line type="monotone" dataKey="value" stroke="#E09A96" dot={false} />
+                                <XAxis tick={false}/>
+                            </LineChart>
+                        </ResponsiveContainer>
                     </div>
-                    <div className='bg-white rounded-lg relative m-3'>
+                    <div className='bg-white rounded-lg relative m-3 w-[40%]'>
                         <p className='absolute top-3 left-3'>アナリティクス</p>
-                        <LineChart width={400} height={200} data={testData} >
-                            <Line type="monotone" dataKey="value" stroke="#E09A96" dot={false} />
-                            <XAxis tick={false}/>
-                        </LineChart>
+                        <ResponsiveContainer width="100%" height={200}>
+                            <LineChart  data={testData} >
+                                <Line type="monotone" dataKey="value" stroke="#E09A96" dot={false} />
+                                <XAxis tick={false}/>
+                            </LineChart>
+                        </ResponsiveContainer>
                     </div>
                 </div>
                 <div className='w-[90%] h-[50%] flex flex-col  bg-white rounded-lg'>
                     <div className='w-full flex justify-between items-center text-xl text-[#A5BBA2] font-bold'>
-                        <p className='text-[#5A6C58] m-5'>管理ユーザー一覧</p>
+                        <p className='text-[#5A6C58] m-5'>管理ユーザ一覧</p>
                         <p className='m-5 mr-12'>選択1/3</p>
                     </div>
                     <div className='flex justify-center'>
                         <table className='w-[80%] border-2 border-[#CAD9BA] border-spacing-0 border-separate rounded-lg text-center text-[#CAD9BA]'>
                             <tbody>
                                 <tr>
-                                    <th>管理ユーザーID</th>
+                                    <th>管理ユーザID</th>
                                     <th>メールアドレス</th>
                                     <th>名前</th>
                                     <th>権限</th>
@@ -92,8 +96,8 @@ const AdminUsers = () =>{
                 </div>
             </div>
             <div className='w-[20%] h-full bg-white flex flex-col'>
-                <p className='m-3 font-bold'>選択ユーザーリスト</p>
-                <div className='object-cover flex flex-col h-full overflow-y-auto hidden-scrollbar'>
+                <p className='m-3 font-bold'>選択ユーザリスト</p>
+                <div className='object-cover flex flex-col h-[80%] overflow-y-auto hidden-scrollbar'>
                     {checked.map((e,i)=>(
                         <div key={i} className='flex my-1 items-center justify-around w-full'>
                             <Image src={usercircle} alt='usercircle' width={24} height={24} />
