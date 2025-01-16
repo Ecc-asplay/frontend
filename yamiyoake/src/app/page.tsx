@@ -187,7 +187,7 @@ export default function Home() {
                                     {post.created_at.slice(0,10).replace("-","年").replace("-","月")}日
                                 </span>
                                 <span className="mx-3">
-                                    {post.show_id}
+                                    {post.show_id.split("-")[0]}
                                 </span>
                             </div>
                         </div>
