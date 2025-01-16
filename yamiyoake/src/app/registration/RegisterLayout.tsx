@@ -9,7 +9,7 @@ type RegisterLayoutProps = {
 const RegisterLayout: React.FC<RegisterLayoutProps> = ({ step, children }) => {
   return (
     <div className="min-h-screen flex flex-col items-center overflow-y-auto bg-basebg " >
-        <div className="w-3/4">
+        <div className="w-3/4 mt-6">
           <StepBar step={step} />
         </div>
         

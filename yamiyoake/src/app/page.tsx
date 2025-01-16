@@ -165,13 +165,14 @@ export default function Home() {
       <LeftNavigation/>
       <div className="w-[60%] h-screen flex flex-col items-center relative">
         <Header />
-        <div className="flex object-cover w-[80%] items-center m-10 bg-[#DDD4CF] rounded-2xl p-1">
+        <div className="flex object-cover w-[80%] h-[6%] items-center mx-10 my-5 bg-[#DDD4CF] rounded-full p-1">
             <Image src={search} width={30} height={30} alt={"search"} className="mx-3"/>
-            <input type="text" placeholder="検索" className="object-cover w-full rounded-xl bg-transparent  outline-none px-3" onChange={(e)=>setKeyword(e.target.value)}/>
-            <Image src={filter} width={30} height={30} alt={"search"} className="mx-3"/>
+            <input type="text" placeholder="検索" className="object-cover w-full rounded-xl bg-transparent placeholder:text-xl outline-none px-3" onChange={(e)=>setKeyword(e.target.value)}/>
+            <Image src={filter} width={30} height={30} alt={"search"} className="mx-3 "/>
         </div>
-        <hr className="border-2 border-[#B4ACAA] w-full mt-5" />
-        <div className="w-full h-[65%] hidden-scrollbar overflow-auto flex flex-col items-center">
+
+        <hr className="border-2 border-[#B4ACAA] w-full mt-2" />
+        <div className="w-full h-full hidden-scrollbar overflow-auto flex flex-col items-center mt-5">
             {posts.posts.map((post, i) => (
                 <div
                     key={i}
@@ -201,7 +202,7 @@ export default function Home() {
 
                       <div className="flex justify-between full m-3">
                           <div className="object-cover w-1/2 flex justify-between items-center">
-                              <button className="flex  ml-3">
+                              <button className="flex ml-3">
                                   <Image
                                       src={comment_icon}
                                       width={30}
