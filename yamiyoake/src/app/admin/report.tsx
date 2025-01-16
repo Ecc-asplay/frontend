@@ -9,7 +9,7 @@ const testData = [
         reportedUserId: 123456782,
         reportCount: 2,
         reportDate: "2024/12/12",
-        reportContent: "ここに通報内容が表示されるashdjasjdiwjidajlisjdliwjldaijslaldhwhdliajsduwdjai sjldjwl jdalisjdl wjlaij sldijwli jalsjli djwddijwlidjlaisjdlijwldjalsdjlajsdlkjwlidjalksjdljwlijadlksjdlwjdlaisdj",
+        reportContent: "バカ",
     },
     {
         id: 2,
@@ -17,7 +17,7 @@ const testData = [
         reportedUserId: 123456784,
         reportCount: 2,
         reportDate: "2024/12/12",
-        reportContent: "ここに通報内容が表示されるashdjasjdiwjidajlisjdliwjldaijslaldhwhdliajsduwdjai sjldjwl jdalisjdl wjlaij sldijwli jalsjli djwddijwlidjlaisjdlijwldjalsdjlajsdlkjwlidjalksjdljwlijadlksjdlwjdlaisdj",
+        reportContent: "あほ",
     },
     {
         id: 3,
@@ -25,7 +25,7 @@ const testData = [
         reportedUserId: 123456786,
         reportCount: 2,
         reportDate: "2024/12/12",
-        reportContent: "ここに通報内容が表示されるashdjasjdiwjidajlisjdliwjldaijslaldhwhdliajsduwdjai sjldjwl jdalisjdl wjlaij sldijwli jalsjli djwddijwlidjlaisjdlijwldjalsdjlajsdlkjwlidjalksjdljwlijadlksjdlwjdlaisdj",
+        reportContent: "ドジ",
     },
     {
         id: 4,
@@ -33,7 +33,7 @@ const testData = [
         reportedUserId: 123456788,
         reportCount: 2,
         reportDate: "2024/12/12",
-        reportContent: "ここに通報内容が表示される"
+        reportContent: "マヌケ"
     }
 ];
 interface ReportIds {

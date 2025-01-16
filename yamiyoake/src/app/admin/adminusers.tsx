@@ -1,3 +1,4 @@
+import React from 'react';
 import {Line,LineChart,XAxis,ResponsiveContainer} from 'recharts';
 import { useState } from 'react';
 import { ChangeEvent } from 'react';
@@ -17,6 +18,7 @@ const testUsers = [
     {id:123456783,email:"itou@gmail.com",name:"伊藤",permission:"読"},
 ]
 const AdminUsers = () =>{
+    //左に移るリスト
     const [checked,setChecked] = useState<number[]>([]);
     const handleChange = (e:ChangeEvent<HTMLInputElement>) =>{
         const target = e.target;
@@ -32,6 +34,11 @@ const AdminUsers = () =>{
             // checked配列から値を削除 (新しい配列を作成)
             setChecked(checked.filter((item) => item !== value));
         }
+    }
+    const modal = (target:string)=>{
+        const content = document.getElementById(target);
+        if(!content)return;
+        content.classList.toggle('hidden');
     }
     return(
         <div className='w-full h-full flex'>
@@ -91,7 +98,30 @@ const AdminUsers = () =>{
                         </table>
                     </div>
                     <div className='flex justify-end'>
-                        <button className='mr-10'><Image src={pluscircle} alt='plus' width={60} height={60}/></button>
+                        <button className='mr-10' popoverTarget='add_adminuser' popoverTargetAction='show' onClick={()=>modal("add_adminuser")}><Image src={pluscircle} alt='plus' width={60} height={60}/></button>
+                        <div id='add_adminuser' popover='manual' className='hidden backdrop:bg-overlay w-[55%] h-[35%] rounded-lg p-4 flex flex-col '>
+                            <p className='text-2xl text-[#5A6C58] my-5 mb-8'>管理ユーザー追加</p>
+                            <div className='flex items-center justify-around my-5 h-[20%]'>
+                                <div className='flex relative '>
+                                    <p className='absolute left-0 -top-5'>名前</p>
+                                    <input type="text" className='border-2 border-[#CAD9BA] rounded-md outline-none'/>
+                                </div>
+                                <div className='flex relative w-2/4'>
+                                    <p className='absolute left-0 -top-5'>メールアドレス</p>
+                                    <input type="text" className='object-cover w-full  border-2 border-[#CAD9BA] rounded-md outline-none'/>
+                                </div>
+                                <div className='flex '>
+                                    <select name="" id="" className='border-2 border-[#CAD9BA] rounded-md'>
+                                        <option value="">すべて</option>
+                                        <option value="">書き込み</option>
+                                        <option value="">読み取り</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className='flex justify-end w-full h-[20%] mt-3'>
+                                <button className='bg-[#CAD9BA] w-[20%] rounded-lg text-xl text-white' popoverTarget='add_adminuser' popoverTargetAction='hide' onClick={()=>modal("add_adminuser")}>追加</button>
+                            </div>     
+                        </div>
                     </div>
                 </div>
             </div>

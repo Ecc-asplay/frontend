@@ -13,6 +13,7 @@ const LeftNavigation = () =>{
     const [user_id,setUserId] = useState<string>("");
     const getuserId = async ()=>{
         const id = await GetUserID();
+        if(!id)return;
         setUserId(id);
     } 
     const getToken = async ()=>{

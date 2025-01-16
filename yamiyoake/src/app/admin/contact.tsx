@@ -10,7 +10,7 @@ const testData = [
         email:"test@gmail.com",
         category:"アカウント",
         date: "2024/12/12",
-        content: "ここに通報内容が表示されるashdjasjdiwjidajlisjdliwjldaijslaldhwhdliajsduwdjai sjldjwl jdalisjdl wjlaij sldijwli jalsjli djwddijwlidjlaisjdlijwldjalsdjlajsdlkjwlidjalksjdljwlijadlksjdlwjdlaisdj",
+        content: "つかいやすい",
     },
     {
         contactid:2,
@@ -18,7 +18,7 @@ const testData = [
         email:"test@gmail.com",
         category:"アカウント",
         date: "2024/12/12",
-        content: "ここに通報内容が表示されるashdjasjdiwjidajlisjdliwjldaijslaldhwhdliajsduwdjai sjldjwl jdalisjdl wjlaij sldijwli jalsjli djwddijwlidjlaisjdlijwldjalsdjlajsdlkjwlidjalksjdljwlijadlksjdlwjdlaisdj",
+        content: "あそこの文字が見にくいかも",
     },
     {
         contactid:3,
@@ -26,7 +26,7 @@ const testData = [
         email:"test@gmail.com",
         category:"アカウント",
         date: "2024/12/12",
-        content: "ここに通報内容が表示されるashdjasjdiwjidajlisjdliwjldaijslaldhwhdliajsduwdjai sjldjwl jdalisjdl wjlaij sldijwli jalsjli djwddijwlidjlaisjdlijwldjalsdjlajsdlkjwlidjalksjdljwlijadlksjdlwjdlaisdj",
+        content: "投稿するにはどうしたらいいの",
     },
     {
         contactid:4,
@@ -34,7 +34,7 @@ const testData = [
         email:"test@gmail.com",
         category:"アカウント",
         date: "2024/12/12",
-        content: "ここに通報内容が表示される"
+        content: "投稿ができない",
     }
 ];
 const Contact = () =>{
