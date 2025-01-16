@@ -16,6 +16,7 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        overlay:"rgba(0,0,0,0.3)",
         'basebg': '#E8E7E6',
         'basegreen': '#A5BBA2',
         'middlebrown': '#B8A193',

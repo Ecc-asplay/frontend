@@ -77,7 +77,7 @@ const User_Posts: React.FC<UserID> = ({ user_id }) => {
                             <span className="font-bold text-2xl m-3">{post.title}</span>
                             <div>
                                 {post.created_at.slice(0,10).replace("-","年").replace("-","月")}日
-                                <span className="m-3">{post.post_id}</span>
+                                <span className="m-3">{post.show_id.split("-")[0]}</span>
                             </div>
                         </div>
                         <p className="m-3">

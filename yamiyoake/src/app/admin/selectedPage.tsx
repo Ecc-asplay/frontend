@@ -3,6 +3,7 @@ import Report from './report';
 import Comments from './comments';
 import Contact from './contact';
 import View from './view';
+import Feature from './feature';
 const SelectedPage:  Record<string, JSX.Element> ={
     adminUsers:(
         <AdminUsers />        
@@ -20,7 +21,7 @@ const SelectedPage:  Record<string, JSX.Element> ={
         <View />
     ),
     feature:(
-        <div>feature</div>
+        <Feature />
     ),
     logout:(
         <div>logout</div>

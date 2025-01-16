@@ -8,28 +8,28 @@ const testData = [
         commentId: 123456781,
         postId: 123456782,
         reportDate: "2024/12/12",
-        content: "ここに通報内容が表示されるashdjasjdiwjidajlisjdliwjldaijslaldhwhdliajsduwdjai sjldjwl jdalisjdl wjlaij sldijwli jalsjli djwddijwlidjlaisjdlijwldjalsdjlajsdlkjwlidjalksjdljwlijadlksjdlwjdlaisdj",
+        content: "大変だね",
     },
     {
         userid: 2,
         commentId: 123456783,
         postId: 123456784,
         reportDate: "2024/12/12",
-        content: "ここに通報内容が表示されるashdjasjdiwjidajlisjdliwjldaijslaldhwhdliajsduwdjai sjldjwl jdalisjdl wjlaij sldijwli jalsjli djwddijwlidjlaisjdlijwldjalsdjlajsdlkjwlidjalksjdljwlijadlksjdlwjdlaisdj",
+        content: "よかったね",
     },
     {
         userid: 3,
         commentId: 123456785,
         postId: 123456786,
         reportDate: "2024/12/12",
-        content: "ここに通報内容が表示されるashdjasjdiwjidajlisjdliwjldaijslaldhwhdliajsduwdjai sjldjwl jdalisjdl wjlaij sldijwli jalsjli djwddijwlidjlaisjdlijwldjalsdjlajsdlkjwlidjalksjdljwlijadlksjdlwjdlaisdj",
+        content: "元気になってね",
     },
     {
         userid: 4,
         commentId: 123456787,
         postId: 123456788,
         reportDate: "2024/12/12",
-        content: "ここに通報内容が表示される"
+        content: "お疲れ様",
     }
 ];
 

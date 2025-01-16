@@ -1,4 +1,5 @@
 'use client'
+import React from "react";
 import Image from "next/image";
 import waring from "@/app/img/admin/warning.png";
 import user from "@/app/img/admin/user.png";
@@ -44,7 +45,7 @@ export default function Admin(){
                     <button onClick={(e)=>handleClick(e)} className="nav flex justify-between items-center object-cover w-full ml-3 p-5" id="report" ><p>通報内容の確認</p><Image src={waring} alt="icon" width={30} height={30}  /></button>
                     <button onClick={(e)=>handleClick(e)} className="nav flex justify-between items-center object-cover w-full ml-3 p-5" id="comment" ><p>コメント確認</p><Image src={comment} alt="icon" width={30} height={30}  /></button>
                     <button onClick={(e)=>handleClick(e)} className="nav flex justify-between items-center object-cover w-full ml-3 p-5" id="contact" ><p>お問い合わせ</p><Image src={phone} alt="icon" width={30} height={30}  /></button>
-                    <button onClick={(e)=>{handleClick(e); setIsOpen(!isOpen);}} className="nav flex justify-between items-center object-cover w-full ml-3 p-5" ><p className="flex items-center"><FiChevronDown/>設定</p><Image src={gear} alt="icon" width={30} height={30}  /></button>
+                    <button onClick={(e)=>{handleClick(e); setIsOpen(!isOpen);}} className="nav flex justify-between items-center object-cover w-full ml-3 p-5" id="view"><p className="flex items-center"><FiChevronDown/>設定</p><Image src={gear} alt="icon" width={30} height={30}  /></button>
                     <button onClick={(e)=>handleClick(e)} className={`nav flex justify-between items-center object-cover w-full ml-12 p-5 text-xl ${isOpen?"block":"hidden"}`} id="view" ><p>表示</p></button>
                     <button onClick={(e)=>handleClick(e)} className={`nav flex justify-between items-center object-cover w-full ml-12 p-5 text-xl ${isOpen?"block":"hidden"}`} id="feature" ><p>機能</p></button>
                     <button onClick={(e)=>handleClick(e)} className="nav flex justify-between items-center object-cover w-full ml-3 p-5 text-red-500" id="logout"><p>ログアウト</p><Image src={logout} alt="icon" width={30} height={30}  /></button>
