@@ -26,10 +26,10 @@ const Login: React.FC = () => {
     };
 
     return(
-        <div className="flex flex-col justify-center items-center min-h-screen bg-basebg space-y-16">
+        <div className="h-screen flex flex-col items-center bg-basebg space-y-16">
             <Header/>
-            <div className="flex justify-center items-center">            
-                <Image src={loginlogo} height={120} width={120} alt="logo" className="mb-6"></Image>
+            <div className="flex justify-center items-center">
+                <Image src={loginlogo} height={120} width={120} alt="logo" className=""></Image>
             </div>
 
             {/* ログイン */}
@@ -37,13 +37,13 @@ const Login: React.FC = () => {
                 {/* Email入力 */}
                 <div className="relative">
                     <input type="email" id="email" name="email" placeholder="example@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required 
-                    className="w-96 px-4 py-2 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext placeholder-middlebrown "/>
+                    className="w-full px-4 py-3 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext placeholder-middlebrown"/>
                 </div>
 
                 {/* パスワードを入力 */}
                 <div className="relative">
                     <input type={isShow ? "text":"password"} id="password" name="password" placeholder="password1234" value={password} onChange={(e) => setPassword(e.target.value)} required 
-                    className="w-96 px-4 py-3 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext placeholder-middlebrown"/>
+                    className="w-full px-4 py-3 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext placeholder-middlebrown"/>
                     {/* パスワード表示可能ボタン */}
                     <button onClick={() => setShow(!isShow)} 
                         // className="absolute inset-y-0 right-3 flex items-center text-middlebrown"
@@ -75,13 +75,13 @@ const Login: React.FC = () => {
             {/* ログインボタン */}
             <div className="flex relative justify-center mt-10">
                 <span className="absolute -top-10 left-2 w-full text-red-500 ">{loginError}</span>
-                <button onClick={handleLogin} type="submit" className="w-24 h-10 py-1 bg-basegreen text-basebg font-medium rounded-md text-lg">ログイン</button>
+                <button onClick={handleLogin} type="submit" className="w-36 h-14 py-1 bg-basegreen text-basebg font-medium rounded-md text-xl">ログイン</button>
             </div>
 
             {/* 画面遷移 */}
             <div className="flex justify-between mt-4 w-full max-w-md">
-                <Link href={"/"} className="text-basegreen">パスワードを忘れた</Link>
-                <Link href={"/register"} className="text-basegreen">新規登録はこちら</Link>
+                <Link href={"/"} className="text-basegreen text-xl font-normal">パスワードを忘れた</Link>
+                <Link href={"/register"} className="text-basegreen text-xl font-normal">新規登録はこちら</Link>
             </div>
         </div>
     )
