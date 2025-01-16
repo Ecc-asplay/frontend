@@ -1,7 +1,7 @@
 // ヘッダ追加　画面遷移遷移（メイン）　API処理　CSS微調整
 "use client"
 import { useState } from "react";
-import RegisterLayout from "./RegisterLayout";
+import RegisterLayout from "../RegisterLayout";
 import { useRouter } from "next/navigation";
 import { Header } from "../components/Header";
 import {register} from "@/app/api/register";
@@ -37,7 +37,8 @@ const Register: React.FC = () => {
     });
 
     const router = useRouter();
-    const step = 3;
+    // Stepbar
+    const step = 4;
 
     const currentYear = new Date().getFullYear();
     const years = Array.from(new Array(100), (v, i) => currentYear - i);
@@ -113,7 +114,7 @@ const Register: React.FC = () => {
 
     return (
         <div className="w-full h-screen relative">
-            <Header />
+            <div className="fixed top-0 w-full h-8 bg-headerbrown"></div>
             <RegisterLayout step={step}>
                 
                 <div className="flex justify-center min-h-screen ">
@@ -135,7 +136,7 @@ const Register: React.FC = () => {
                             <div className="h-px bg-middlebrown my-1"></div>
 
                             <div className="flex flex-col">
-                                <input type="passwordcheck" id="passwordcheck" name="passwordcheck" placeholder="もう一回入力お願いします" value={regiformData.passwordcheck} onChange={handleChange} required
+                                <input type="password" id="passwordcheck" name="passwordcheck" placeholder="もう一回入力お願いします" value={regiformData.passwordcheck} onChange={handleChange} required
                                     className="bg-transparent border-none appearance-none focus:outline-none text-basetext placeholder-middlebrown" />
                             </div>
                         </div>
@@ -266,7 +267,7 @@ const Register: React.FC = () => {
 
                         {/* 登録ボタン */}
                         <div className="flex justify-center">
-                            <button type="submit" className=" w-16 h-9 py-1 bg-basegreen text-basebg font-medium rounded-sm">登録</button>
+                            <button type="submit" className=" w-16 h-9 py-1 bg-basegreen text-basebg font-medium rounded-md">登録</button>
                         </div>
 
                     </form>
