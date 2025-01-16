@@ -3,7 +3,7 @@ import { useState,useEffect } from "react";
 import { testData } from "@/app/test_data";
 import { Comments } from "@/app/components/comments";
 import { LeftNavigation } from "@/app/components/navigations/left";
-import { color_icons } from "@/app/feel_icons"; 
+import { color_feel_icons  } from "@/app/feel_icons"; 
 import bookmark from "@/app/img/bookmark-svgrepo-com.png";
 import Image from "next/image";
 import { Header } from "@/app/components/Header";
@@ -41,13 +41,13 @@ export default function Posts({params}:PostID){
                 <Header/>
                 <div className="flex flex-col  m-10">
                     <div className="flex justify-between items-center">
-                        <Image src={color_icons[post.reaction]} width={50} height={50} alt="reaction" />
+                        <Image src={color_feel_icons[post.reaction]} width={50} height={50} alt="reaction" />
                         <p className="text-2xl font-extrabold">{post.title}</p>
                         <Image src={bookmark} width={50} height={50} alt="bookmark"/>
                     </div>
                     <div className="flex items-center justify-end p-10 text-[#BEA99D]">
                         <p>{post.created_at}</p>
-                        <p className="mx-5">{post.post_id}</p>
+                        <p className="mx-5">{post.show_id}</p>
                     </div>
                     <div className="flex flex-col">
                         <div className="text-[#807166]">

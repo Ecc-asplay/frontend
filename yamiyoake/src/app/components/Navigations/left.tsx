@@ -6,17 +6,22 @@ import bell from "@/app/img/bell-svgrepo-com.png";
 import gear from "@/app/img/gear-svgrepo-com.png";
 import user from "@/app/img/user-svgrepo-com.png";
 import alert from "@/app/img/alert-square-svgrepo-com.png";
-import { getToken } from "@/app/api/token";
-
+import { GetToken } from "@/app/api/token";
+import { GetUserID } from "@/app/api/users";
 const LeftNavigation = () =>{
     const [islogin,setLogin] = useState(false);
+    const [user_id,setUserId] = useState<string>("");
+    const getuserId = async ()=>{
+        const id = await GetUserID();
+        setUserId(id);
+    } 
+    const getToken = async ()=>{
+        const token = await GetToken();
+        if(token)setLogin(true);
+    }   
     useEffect(()=>{
-        getToken().then((isToken)=>{
-            if(typeof isToken === "boolean"){
-                setLogin(isToken);
-            }
-            
-        });    
+        getToken();
+        getuserId(); 
     },[])
     return(
         <div className="bg-[url('img/mokume.png')] bg-repeat-round w-[20%] h-screen flex flex-col">
@@ -26,8 +31,8 @@ const LeftNavigation = () =>{
                 <div className="object-cover w-full h-full flex flex-col items-center justify-center text-white text-3xl">
                     <p className="w-full pl-14 mb-3 -ml-3"><Link href={"/"} className="flex items-center"><Image src={home} width={45} height={45} alt="home"/>タイムライン</Link></p>
                     <p className="w-full pl-14 my-3 -ml-3"><Link href={"/info/1"} className="flex items-center"><Image src={bell} width={45} height={45} alt="home"/>通知</Link></p>
-                    <p className="w-full pl-14 my-3 -ml-3"><Link href={""} className="flex items-center"><Image src={gear} width={45} height={45} alt="home"/>設定</Link></p>
-                    <p className="w-full pl-14 my-3 -ml-3"><Link href={"/users/1"} className="flex items-center"><Image src={user} width={45} height={45} alt="home"/>プロフィール</Link></p>
+                    <p className="w-full pl-14 my-3 -ml-3"><Link href={"/setting"} className="flex items-center"><Image src={gear} width={45} height={45} alt="home"/>設定</Link></p>
+                    <p className="w-full pl-14 my-3 -ml-3"><Link href={`/users/${user_id}`} className="flex items-center"><Image src={user} width={45} height={45} alt="home"/>プロフィール</Link></p>
                     <p className="w-full pl-14 text-lime-300 mt-3 -ml-3"><Link href={"/guidelines_main"} className="flex items-center"><Image src={alert} width={45} height={45} alt="home"/>ガイドライン</Link></p>
                 </div>:
                 // ログインしていない場合

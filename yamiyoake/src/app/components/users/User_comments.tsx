@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import sippo from "@/app/img/sippo.png";
 import back from "@/app/img/back-svgrepo-com.png";
+import { CreateComment,GetAllComments } from "@/app/api/comments";
 interface UserID{
     user_id:string | undefined
 }

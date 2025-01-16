@@ -10,10 +10,10 @@ import color_frown from "@/app/img/feels/color_frown.png";
 import color_smile from "@/app/img/feels/color_smile.png";
 import color_sad from "@/app/img/feels/color_sad.png";
 
-export const white_icons = [
+export const white_feel_icons = [
     funny,smile,neutral,frown,sad
 ];
 
-export const color_icons = [
+export const color_feel_icons = [
     color_funny,color_smile,color_neutral,color_frown,color_sad
 ]

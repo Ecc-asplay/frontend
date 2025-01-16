@@ -18,7 +18,7 @@ const Login: React.FC = () => {
 
     const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault(); 
-        const isLogin:boolean = await login(email,password);
+        const isLogin = await login(email,password);
         if(!isLogin){
             setLoginError("ログインエラー");
         }else{
@@ -34,7 +34,7 @@ const Login: React.FC = () => {
     };
 
     return(
-        <div className="flex flex-col justify-center items-center min-h-screen bg-basebg space-y-16">
+        <div className="flex flex-col justify-center items-center min-h-screen bg-basebg space-y-12">
             <div className="fixed top-0 w-full h-8 bg-headerbrown"></div>
             <div className="flex justify-center items-center">            
                 <Image src={loginlogo} height={120} width={120} alt="logo" className="mb-6"></Image>
@@ -69,8 +69,8 @@ const Login: React.FC = () => {
 
             {/* 画面遷移 */}
             <div className="flex justify-between mt-4 w-full max-w-md">
-                <Link href={"/"} className="text-basegreen">パスワードを忘れた</Link>
-                <Link href={"/register"} className="text-basegreen">新規登録はこちら</Link>
+                <Link href={"/forgottensetting/email_input"} className="text-basegreen">パスワードを忘れた</Link>
+                <Link href={"/registration/register"} className="text-basegreen">新規登録はこちら</Link>
             </div>
         </div>
     )

@@ -3,9 +3,8 @@
 import { useState } from "react";
 import RegisterLayout from "../RegisterLayout";
 import { useRouter } from "next/navigation";
-import { Header } from "../../components/Header";
-import axios from "axios";
-
+import { Header } from "../components/Header";
+import {register} from "@/app/api/register";
 type FormData = {
     email: string;
     password: string;
@@ -83,20 +82,27 @@ const Register: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log('Register Data', FormData);
-
         // パスワード一致性確認
         if (regiformData.password !== regiformData.passwordcheck) {
             alert("パスワード一致しません");
             return;
         }
         try {
-            const response = await axios.post("api?/register", regiformData);
-
-            if (response.status === 201) {
-                alert("Registration successful!");
+            const Username:string = regiformData.fname + regiformData.lname;
+            const Email:string = regiformData.email;
+            //2000-10-10形
+            //10月以下だったら09月みたいにする
+            const Birth:string = regiformData.birth.year + "-" + 
+                                (Number(regiformData.birth.month) >= 10 ?regiformData.birth.month:"0"+regiformData.birth.month) + "-" + 
+                                (Number(regiformData.birth.day) >= 10 ?regiformData.birth.day:"0"+regiformData.birth.day); 
+            const Gender:string = regiformData.gender;
+            const Password:string = regiformData.password; 
+            const response = await register(Username,Email,Birth,Gender,Password);
+            if (response) {
+                alert("登録完了!");
                 router.push("/");
             } else {
-                alert("Registration failed. Please try again");
+                alert("登録できませんでした。確認してください。");
             }
         } catch (error) {
 
