@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { notification } from "@/app/test_data";
 import Image from "next/image";
 import heart from "@/app/img/heart-svgrepo-com.png";
+import { GetNotificationsByUser } from "@/app/api/notification";
 interface UserID{
     params:{id:string | null}
 }
@@ -14,6 +15,7 @@ export default function info({params}:UserID){
     useEffect(() => {
         async function unwrapParams() {
             const resolvedParams = await params;
+            console.log(await GetNotificationsByUser());
             if(!resolvedParams.id)return;
             setUserID(resolvedParams.id);
         }

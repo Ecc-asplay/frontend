@@ -19,7 +19,6 @@ export async function CreateBookmark(PostID:string) {
 export async function GetBookmark() {
     try{
         const token = await GetToken();
-        console.log(token + "token");
         const res = await axios.get("http://44.199.138.134:8080/bookmark/get",{
             headers:{
                 Authorization:`Bearer ${token}`

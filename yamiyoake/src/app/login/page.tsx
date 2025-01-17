@@ -19,7 +19,6 @@ const Login: React.FC = () => {
     const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault(); 
         const isLogin = await login(email,password);
-        const isLogin = await login(email,password);
         if(!isLogin){
             setLoginError("ログインエラー");
         }else{
