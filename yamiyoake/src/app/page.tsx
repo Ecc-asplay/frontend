@@ -172,7 +172,7 @@ export default function Home() {
         </div>
 
         <hr className="border-2 border-[#B4ACAA] w-full mt-2" />
-        <div className="w-full h-full hidden-scrollbar overflow-auto flex flex-col items-center mt-5">
+        <div className="w-full h-full hidden-scrollbar overflow-auto flex flex-col items-center pt-5">
             {posts.posts.map((post, i) => (
                 <div
                     key={i}

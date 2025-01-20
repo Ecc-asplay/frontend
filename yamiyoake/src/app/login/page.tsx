@@ -33,10 +33,10 @@ const Login: React.FC = () => {
     };
 
     return(
-        <div className="flex flex-col justify-center items-center min-h-screen bg-basebg space-y-12">
+        <div className="flex flex-col justify-center items-center min-h-screen bg-basebg space-y-10">
             <div className="fixed top-0 w-full h-8 bg-headerbrown"></div>
             <div className="flex justify-center items-center">            
-                <Image src={loginlogo} height={120} width={120} alt="logo" className="mb-6"></Image>
+                <Image src={loginlogo} height={140} width={140} alt="logo" className="mb-4"></Image>
             </div>
 
             {/* ログイン */}
@@ -48,7 +48,7 @@ const Login: React.FC = () => {
                 </div>
 
                 {/* パスワードを入力 */}
-                <div className="relative w-96">
+                <div className="relative">
                     <input type={isShow ? "text":"password"} id="password" name="password" placeholder="password1234" value={password} onChange={(e) => setPassword(e.target.value)} required 
                     className="w-full px-4 py-3 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext placeholder-middlebrown"/>
                     {/* パスワード表示可能ボタン */}
@@ -67,10 +67,16 @@ const Login: React.FC = () => {
             </div>
 
             {/* 画面遷移 */}
-            <div className="flex justify-between mt-4 w-full max-w-md">
-                <Link href={"/forgottensetting/email_input"} className="text-basegreen">パスワードを忘れた</Link>
-                <Link href={"/registration/register"} className="text-basegreen">新規登録はこちら</Link>
+            <div className="flex justify-between w-full max-w-md">
+                <Link href={"/forgottensetting/email_input"} className="text-basegreen text-lg">パスワードを忘れた</Link>
+                <Link href={"/registration/register"} className="text-basegreen text-lg">新規登録はこちら</Link>
             </div>
+
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
     )
 }
