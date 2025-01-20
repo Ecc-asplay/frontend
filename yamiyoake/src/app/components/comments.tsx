@@ -76,23 +76,31 @@ const Comments:React.FC<Post> = ({post_id}) =>{
                     {comments.map((comment,i)=>(
                         <div key={i} className="object-cover w-[90%] relative ">
                             <div className={`object-cover w-full relative flex`}>
-                                {comment.user_id ===user_id?(
-                                    <div className="object-cover w-full flex relative">
-                                        <div className="object-cover flex items-center w-1/12">
-                                            <Image src={comment.is_public?eyeshow:eyeoff} alt="test" className="w-full"/>
-                                        </div>
-                                        <div className="flex justify-end w-full">
-                                            <div className=" bg-[#A5BBA2] rounded-lg p-3">
-                                                <p>{comment.comments}</p>
-                                                <Image src={sippo} width={30} height={30} alt="sippo" className="absolute -bottom-3 right-0"/>
+                                {comment.user_id ===user_id?
+                                    (
+                                        <div className="object-cover w-full flex relative">
+                                            <div className="object-cover flex items-center w-1/12">
+                                                <Image src={comment.is_public?eyeshow:eyeoff} alt="test" className="w-full"/>
+                                            </div>
+                                            <div className="flex justify-end w-3/4">
+                                                <div className=" bg-[#A5BBA2] rounded-lg p-3">
+                                                    <p>{comment.comments}</p>
+                                                    <Image src={sippo} width={30} height={30} alt="sippo" className="absolute -bottom-3 right-0"/>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
                                    ):
-                                    (<div className="bg-[#B8A193] rounded-lg p-3">
-                                        <p>{comment.comments}</p>
-                                        <Image src={sippo_reply} width={30} height={30} alt="sippo" className="absolute -bottom-3 left-0"/>
-                                    </div>)
+                                    (
+                                        <div className="object-cover w-full flex relative">
+                                            <div className="bg-[#B8A193] rounded-lg p-3 w-3/4">
+                                                <p>{comment.comments}</p>
+                                                <Image src={sippo_reply} width={30} height={30} alt="sippo" className="absolute -bottom-3 left-0"/>
+                                            </div>
+                                            <div className="object-cover flex items-center w-1/12">
+                                                <Image src={comment.is_public?eyeshow:eyeoff} alt="test" className="w-full"/>
+                                            </div>
+                                        </div>    
+                                    )
                                 }
                                 
                                 
