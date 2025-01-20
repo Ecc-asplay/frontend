@@ -34,7 +34,6 @@ export async function CreateComment(PostID: string, Comments: string, IsPublic: 
 export async function GetPostCommentsList(post_id: string) {
     try {
         const token = await GetToken();
-        post_id = "f3fe26d3-5a0e-41ab-be19-22a5a68e5da9";
         const res = await axios.get(`http://44.199.138.134:8080/comment/getlist/${post_id}`, {
             headers: {
                 Authorization: `Bearer ${token}`

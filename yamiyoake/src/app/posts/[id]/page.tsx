@@ -60,7 +60,6 @@ export default function Posts({params}:PostID){
         const decoder = new TextDecoder("utf-8");
         const jsonString = decoder.decode(decodedBytes);
         const jsonObject = JSON.parse(jsonString);
-        console.log(jsonObject)
         target = {...target,content:jsonObject};
         setPost(target as Post);
         setLoaded(true); // ロード済み状態を更新
