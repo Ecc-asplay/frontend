@@ -22,7 +22,7 @@ const VerifyCode: React.FC = () => {
 
     return(
         <div className="flex flex-col justify-center items-center min-h-screen bg-basebg space-y-10">
-        <div className="fixed top-0 w-full h-8 bg-headerbrown"></div>
+        <div className="fixed top-0 w-full h-8 bg-headerbrown" />
         
         <h1 className="text-center text-3xl text-basetext font-bold mb-2 mt-4">パスワード再設定</h1>
             <p className="text-center text-lg text-middlebrown mb-2">ご登録されているメールアドレスに認証コードを送信しました。</p>

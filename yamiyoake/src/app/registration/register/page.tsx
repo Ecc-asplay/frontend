@@ -3,7 +3,6 @@
 import { useState } from "react";
 import RegisterLayout from "../RegisterLayout";
 import { useRouter } from "next/navigation";
-import { Header } from "../components/Header";
 import {register} from "@/app/api/register";
 type FormData = {
     email: string;
@@ -114,12 +113,12 @@ const Register: React.FC = () => {
 
     return (
         <div className="w-full h-screen relative">
-            <div className="fixed top-0 w-full h-8 bg-headerbrown"></div>
+            <div className="fixed top-0 w-full h-8 bg-headerbrown" />
             <RegisterLayout step={step}>
-                
-                <div className="flex justify-center min-h-screen ">
+                <h1 className="text-center text-3xl text-basetext font-bold my-10">新規登録</h1>
+                <div className="flex justify-center min-h-screen">
                     {/* ここは第三Step */}
-                    <form onSubmit={handleSubmit} className="p-5 rounded-lg w-full max-w-md space-y-4">
+                    <form onSubmit={handleSubmit} className="rounded-lg w-full max-w-md space-y-6">
                         {/* Email */}
                         <div className="flex flex-col">
                             <input type="email" id="email" name="email" placeholder="example@email.com" value={regiformData.email} onChange={handleChange} required
@@ -127,7 +126,7 @@ const Register: React.FC = () => {
                         </div>
 
                         {/* Password */}
-                        <div className="bg-inputbg rounded-md p-4 space-y-2">
+                        <div className="bg-inputbg rounded-md p-4 space-y-3">
                             <div className="flex flex-col">
                                 <input type="password" id="password" name="password" placeholder="パスワードを入力" value={regiformData.password} onChange={handleChange} required
                                     className="bg-transparent border-none appearance-none focus:outline-none text-basetext placeholder-middlebrown" />
@@ -205,12 +204,13 @@ const Register: React.FC = () => {
                         </div>
 
                         {/* 生年月日 */}
-                        <div className="bg-inputbg rounded-md p-4 space-y-2">
+                        <div className="bg-inputbg rounded-md p-4 space-y-3">
                             <div className="flex justify-between items-center space-x-4">
+
                                 <div className="flex items-center w-full">
                                     <span className="text-middlebrown px-2">⌵</span>
                                     <select name="year" value={regiformData.birth.year} onChange={handleChange} required
-                                        className="bg-transparent border-none appearance-none focus:outline-none text-basetext">
+                                        className="bg-transparent border-none appearance-none focus:outline-none text-basetext pl-2">
                                         {years.map((year) => (
                                             <option key={year} value={year} className="text-basetext">
                                                 {year}
@@ -223,40 +223,42 @@ const Register: React.FC = () => {
                                 <div className="flex items-center w-full">
                                     <span className="text-middlebrown px-2">⌵</span>
                                     <select name="month" value={regiformData.birth.month} onChange={handleChange} required
-                                        className="bg-transparent border-none appearance-none focus:outline-none text-basetext">
+                                        className="bg-transparent border-none appearance-none focus:outline-none text-basetext pl-2">
                                         {months.map((month) => (
                                             <option key={month} value={month} className="text-basetext">
                                                 {month}
                                             </option>
                                         ))}
                                     </select>
-                                    <span className="text-middlebrown px-2">月</span>
+                                    <span className="text-middlebrown px-1">月</span>
                                 </div>
 
                                 <div className="flex items-center w-full">
                                     <span className="text-middlebrown px-2">⌵</span>
                                     <select name="day" value={regiformData.birth.day} onChange={handleChange} required
-                                        className="bg-transparent border-none appearance-none focus:outline-none text-basetext">
+                                        className="bg-transparent border-none appearance-none focus:outline-none text-basetext pl-2">
                                         {days.map((day) => (
                                             <option key={day} value={day} className="text-basetext">
                                                 {day}
                                             </option>
                                         ))}
                                     </select>
-                                    <span className="text-middlebrown px-2">日</span>
+                                    <span className="text-middlebrown px-1">日</span>
                                 </div>
+                                
                             </div>
 
 
                             <div className="h-px bg-middlebrown my-1"></div>
 
                             {/* 姓名入力 */}
-                            <div className="flex justify-between items-center space-x-2">
+                            <div className="flex justify-between items-center">
                                 <div className="flex items-center w-full">
                                     <span className="text-middlebrown px-2">姓</span>
                                     <input type="lname" id="lname" name="lname" placeholder="山田" value={regiformData.lname} onChange={handleChange} required
                                         className="bg-transparent focus:outline-none border-none text-basetext placeholder-basetext px-2" />
                                 </div>
+
                                 <div className="flex items-center w-full">
                                     <span className="text-middlebrown px-2">名</span>
                                     <input type="fname" id="fname" name="fname" placeholder="太郎" value={regiformData.fname} onChange={handleChange} required
@@ -267,7 +269,7 @@ const Register: React.FC = () => {
 
                         {/* 登録ボタン */}
                         <div className="flex justify-center">
-                            <button type="submit" className=" w-16 h-9 py-1 bg-basegreen text-basebg font-medium rounded-md">登録</button>
+                            <button type="submit" className=" w-36 h-12 py-1 bg-basegreen text-basebg font-medium rounded-md text-xl">登録</button>
                         </div>
 
                     </form>

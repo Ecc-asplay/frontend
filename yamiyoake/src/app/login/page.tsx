@@ -34,15 +34,14 @@ const Login: React.FC = () => {
 
     return(
         <div className="flex flex-col justify-center items-center min-h-screen bg-basebg space-y-10">
-
-            <div className="fixed top-0 w-full h-8 bg-headerbrown"></div>
+            <div className="fixed top-0 w-full h-8 bg-headerbrown" />
 
             <div className="flex justify-center items-center">            
                 <Image src={loginlogo} height={140} width={140} alt="logo" className="mb-4"></Image>
             </div>
 
             {/* ログイン */}
-            <form action="" className="w-full max-w-md space-y-6 items-center"> 
+            <form action="" className="w-full max-w-md space-y-8 items-center"> 
                 {/* Email入力 */}
                 <div className="relative">
                     <input type="email" id="email" name="email" placeholder="example@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required 
@@ -70,7 +69,7 @@ const Login: React.FC = () => {
             {/* 画面遷移 */}
             <div className="flex justify-between w-full max-w-md">
                 <Link href={"/forgottensetting/email_input"} className="text-basegreen text-lg">パスワードを忘れた</Link>
-                <Link href={"/registration/register"} className="text-basegreen text-lg">新規登録はこちら</Link>
+                <Link href={"/registration/regist_email"} className="text-basegreen text-lg">新規登録はこちら</Link>
             </div>
 
             <div></div>

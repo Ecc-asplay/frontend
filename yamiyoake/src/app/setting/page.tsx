@@ -9,7 +9,7 @@ const Setting: React.FC = () => {
     return(
         <div className="flex flex-col bg-basebg">
             {/* ヘッダ */}
-            <div className="fixed top-0 w-full h-8 bg-headerbrown"></div>
+            <div className="fixed top-0 w-full h-8 bg-headerbrown" />
 
             {/* サイドバー */}
             <div className="flex mt-4 p-0 m-0">

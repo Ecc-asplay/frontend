@@ -31,10 +31,10 @@ const ResetPassword: React.FC = () => {
 
     return(
         <div className="flex flex-col justify-center items-center min-h-screen bg-basebg space-y-10">
-            <div className="fixed top-0 w-full h-8 bg-headerbrown"></div>
-
+            <div className="fixed top-0 w-full h-8 bg-headerbrown" />
+            
             <h1 className="text-center text-3xl text-basetext font-bold mb-2 mt-4">パスワード再設定</h1>
-            <form onSubmit={handleSubmit} className="w-full max-w-md space-y-6 items-center">
+            <form onSubmit={handleSubmit} className="w-full max-w-md space-y-8 items-center">
                 {/* パスワード入力 */}
                 <div className="relative">
                     <input type={isShow ? "text":"password"} id="password" name="password" placeholder="新しいパスワードを入力" value={password} onChange={(e) => setPassword(e.target.value)} required 
