@@ -72,7 +72,7 @@ const Comments:React.FC<Post> = ({post_id}) =>{
     return(
         <div className="flex flex-col w-[20%] h-screen  bg-[url('img/mokume.png')] p-3 items-center relative">
             {comments?(
-                <div className="object-cover w-full h-full flex flex-col items-center gap-10 hidden-scrollbar overflow-auto text-white">
+                <div className="object-cover w-full h-[90%] flex flex-col items-center gap-10 hidden-scrollbar overflow-auto text-white">
                     {comments.map((comment,i)=>(
                         <div key={i} className="object-cover w-[90%] relative ">
                             <div className={`object-cover w-full relative flex`}>
@@ -82,7 +82,7 @@ const Comments:React.FC<Post> = ({post_id}) =>{
                                             <div className="object-cover flex items-center w-1/12">
                                                 <Image src={comment.is_public?eyeshow:eyeoff} alt="test" className="w-full"/>
                                             </div>
-                                            <div className="flex justify-end w-3/4">
+                                            <div className="flex justify-end w-3/4 relative">
                                                 <div className=" bg-[#A5BBA2] rounded-lg p-3">
                                                     <p>{comment.comments}</p>
                                                     <Image src={sippo} width={30} height={30} alt="sippo" className="absolute -bottom-3 right-0"/>
@@ -92,7 +92,7 @@ const Comments:React.FC<Post> = ({post_id}) =>{
                                    ):
                                     (
                                         <div className="object-cover w-full flex relative">
-                                            <div className="bg-[#B8A193] rounded-lg p-3 w-3/4">
+                                            <div className="bg-[#B8A193] rounded-lg p-3 w-3/4 relative">
                                                 <p>{comment.comments}</p>
                                                 <Image src={sippo_reply} width={30} height={30} alt="sippo" className="absolute -bottom-3 left-0"/>
                                             </div>
