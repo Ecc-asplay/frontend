@@ -30,7 +30,6 @@ const Blocklist: React.FC = () => {
             } finally {
                 setLoading(false)
             }
-            alert("Error！");
         }
         fetchList()
     }, []);
