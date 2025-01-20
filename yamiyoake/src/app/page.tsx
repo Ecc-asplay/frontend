@@ -9,30 +9,12 @@ import filter from "@/app/img/filter-svgrepo-com.png";
 import { LeftNavigation } from "./components/navigations/left";
 import { RightNavigation } from "./components/navigations/right";
 import { useEffect, useState } from "react";
-import { comments, testData } from "@/app/test_data"; // 使用するデータ
-import { GetAllPosts,SearchPosts } from "@/app/api/posts";
+import { GetUserID } from "./api/users";
+import { GetAllPosts,SearchPosts,Post,Posts } from "@/app/api/posts";
+import { GetAllPublicComments,Comment } from "./api/comments";
+import { GetAllPostsReaction,Reaction,ReactionTypes } from "./api/posts_reaction";
 import { Header } from "./components/Header";
 import { color_reaction_icons,white_reaction_icons } from "./reaction_icons";
-import { StaticImageData } from "next/image";
-
-// 型定義
-interface Post {
-  post_id: string;
-  user_id: string;
-  show_id: string;
-  title: string;
-  content: string | any[];
-  reaction: number;
-  feel: string;
-  is_sensitive: boolean;
-  status: string;
-  created_at: string;
-  update_at: string;
-  reactions:{post_id:string, id: number, isColored: boolean, white: StaticImageData, color: StaticImageData}[]    
-}
-interface Posts {
-  posts: Post[];
-}
 
 const initializeReactions = (post_id:string) => [
     {post_id:post_id, id: 0, isColored: false, white: white_reaction_icons[0], color: color_reaction_icons[0] },
@@ -42,43 +24,67 @@ const initializeReactions = (post_id:string) => [
 ];
 
 export default function Home() {
-    const [posts, setPosts] = useState<Posts>({ posts: [] }); // 初期状態
+    const [user_id,setUserId] = useState<string>("");
+    const [posts, setPosts] = useState<Post[]>([]); // 初期状態
+    const [comments,setComments] = useState<Comment[]>([]);
+    const [reactions,setReactions] = useState<Reaction[]>([]);
     const [loaded, setLoaded] = useState(false); // ロード済み状態を管理
     const [keyword,setKeyword] = useState<string>("");
     // APIから投稿を取得
-    const getAllposts = async () => {
+    const init = async ()=>{
         if (loaded) return; // 既にロード済みの場合は終了
+        getUserID();
+        getAllposts();
+        getAllPublicComments();
+        getAllPostsReaction();
+        setLoaded(true);
+    }
+    const getUserID = async ()=>{
+        const id = await GetUserID();
+        if(!id)return;
+        setUserId(id);
+    }
+    const getAllposts = async () => {
         const data = await GetAllPosts();
         if(!data){return;}
         if(!Array.isArray(data))return;
-        const updatedPosts: Post[] = data?.map((e: Post) => {
-            if (typeof e.content === "string") {
-                // Base64文字列をデコードしてJSONオブジェクトに変換
-                const decodedBytes = Uint8Array.from(atob(e.content), (c) =>
-                    c.charCodeAt(0)
-                );
-                const decoder = new TextDecoder("utf-8");
-                const jsonString = decoder.decode(decodedBytes);
-                const jsonObject = JSON.parse(jsonString);
-                // console.log(typeof jsonObject === "object");
-                console.log(jsonObject)
-                //content以外そのまま返す
-                //contentは文字列に変換されているのでjsonにしてから返す
-                return {
-                    ...e,
-                    content: jsonObject,
-                    reactions:initializeReactions(e.post_id)
-                };
+        const get_posts = data?.map((post: Post) => {
+            if (typeof post.content === "string") {
+                try {
+                    //エンコードする
+                    const decodedBytes = Uint8Array.from(atob(post.content), (c) => c.charCodeAt(0));
+                    const decoder = new TextDecoder("utf-8");
+                    const jsonString = decoder.decode(decodedBytes);
+                    const jsonObject = JSON.parse(jsonString);
+        
+                    // 更新して変えす
+                    return {
+                        ...post,
+                        content: jsonObject,
+                    };
+                } catch (error) {
+                    console.error("Failed to decode post content:", error);
+                }
             }
-            return {...e,reactions:initializeReactions(e.post_id),}; // そのまま返す場合
-        }) || [];
-
-        setPosts((prev) => ({
-            posts: [...prev.posts, ...updatedPosts],
-        }));
-        setLoaded(true); // ロード済み状態を更新
+            // 文字列ならそのまま返す
+            return post;
+        });        
+        setPosts(get_posts);
     };
-
+    const getAllPublicComments = async ()=>{
+        const data = await GetAllPublicComments();
+        if(!data)return;
+        if(Array.isArray(data)){
+            setComments(data);
+        }
+    }
+    const getAllPostsReaction = async ()=>{
+        const data = await GetAllPostsReaction();
+        if(!data)return;
+        if(Array.isArray(data)){
+            setReactions(data);
+        }
+    }
     //報告部分のtoggle
     const toggleReport = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>,hidden:boolean) =>{
         const report = document.getElementById("report");
@@ -92,53 +98,41 @@ export default function Home() {
         target.appendChild(report);
     }
 
-    //リアクションボタンを押した際
-    const toggleReactionColor = (index:number,post_id:string)=>{
-        setPosts((prev) => ({
-            posts: prev.posts.map((post, i) =>
-                post.post_id === post_id
-                    ? {
-                          ...post,
-                          reactions: post.reactions.map((reaction, j) =>
-                              j === index
-                                  ? { ...reaction, isColored: !reaction.isColored }
-                                  : reaction
-                          ),
-                      }
-                    : post
-            ),
-        }));
+    //リアクションの数
+    const getReactionCount = (post_id:string,rt:keyof Reaction)=>{
+        const a = (reactions.find(r=>r.post_id===post_id));
+        if(!a)return<>0</>;
+        return(
+        <>
+            {a[rt]}
+        </>
+        )
     }
 
     //検索欄が更新し次第検索する
     useEffect(()=>{
         const KeywordChange = async()=>{
             if(keyword == "")return;
-            const res = await SearchPosts(keyword);
-            if(!res)return;
-            if(!Array.isArray(res.data))return;
-            const updatedPosts: Post[] = res.data?.map((e: Post) => {
-                if (typeof e.content === "string") {
+            const data = await SearchPosts(keyword);
+            if(!data)return;
+            if(!Array.isArray(data))return;
+            data?.map((post: Post) => {
+                if (typeof post.content === "string") {
                     // Base64文字列をデコードしてJSONオブジェクトに変換
-                    const decodedBytes = Uint8Array.from(atob(e.content), (c) =>
+                    const decodedBytes = Uint8Array.from(atob(post.content), (c) =>
                         c.charCodeAt(0)
                     );
                     const decoder = new TextDecoder("utf-8");
                     const jsonString = decoder.decode(decodedBytes);
                     const jsonObject = JSON.parse(jsonString);
-                    //content以外そのまま返す
-                    //contentは文字列に変換されているのでjsonにしてから返す
-                    return {
-                        ...e,
-                        content: jsonObject,
-                        reactions:initializeReactions(e.post_id)
-                    };
+    
+                    post = {
+                        ...post,
+                        content:jsonObject
+                    }
                 }
-                return {...e,reactions:initializeReactions(e.post_id),}; // そのまま返す場合
-            }) || [];
-            setPosts((prev) => ({
-                posts: [...prev.posts, ...updatedPosts],
-            }));
+                setPosts([...posts,post]);
+            });
         }
         KeywordChange();
     },[keyword]);
@@ -146,8 +140,7 @@ export default function Home() {
 
     // 初回レンダリング時に投稿を取得
     useEffect(() => {
-        getAllposts();
-
+        init();
         //通報のやつが出ているときにほかのところをクリックすると非表示にする
         document.addEventListener("click",(e)=>{
             const target:HTMLElement = e.target as HTMLElement;
@@ -159,6 +152,11 @@ export default function Home() {
             }
         })
     }, []);
+    useEffect(()=>{
+        if(reactions && posts){
+            posts.map(p=>reactions.map(e=>{p.post_id===e.post_id}));
+        }
+    },[reactions])
 
   return (
     <div className="flex w-full h-screen ">
@@ -173,14 +171,14 @@ export default function Home() {
 
         <hr className="border-2 border-[#B4ACAA] w-full mt-2" />
         <div className="w-full h-full hidden-scrollbar overflow-auto flex flex-col items-center mt-5">
-            {posts.posts.map((post, i) => (
+            {posts.map((post, i) => (
                 <div
                     key={i}
                     className="w-[80%] bg-[#DDD4CF] rounded-md p-3 flex flex-col my-3"
                 >
                     <Link href={"/posts/" + post.post_id}>
                         <div className="flex items-center justify-between">
-                            <span className="font-bold text-2xl m-3">
+                            <span className={`font-bold text-2xl m-3`}>
                                 {post.title.slice(0,20)}
                             </span>
                             <div>
@@ -214,19 +212,19 @@ export default function Home() {
                                   ).length}
                               </button>
                               {
-                                post.reactions.map((e,i)=>(
+                                ReactionTypes.map((rt,i)=>(
                                     <button
                                             key={i} 
-                                            onClick={e=>toggleReactionColor(i,post.post_id)} 
+                                            onClick={()=>console.log("pushed")} 
                                             className="flex items-center"
                                         >
                                             <Image
-                                                src={e.isColored?e.color:e.white}
+                                                src={white_reaction_icons[i]}
                                                 width={50}
                                                 height={50}
                                                 alt="heart icon"
                                             />
-                                            <p>0</p>
+                                            <p>{getReactionCount(post.post_id,rt)}</p>
                                         </button>
                                 ))
                               }

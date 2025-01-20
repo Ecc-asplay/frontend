@@ -7,13 +7,16 @@ import { ReactEditor } from 'slate-react'
 import { draft } from '../test_data'
 import Image from 'next/image'
 import { LeftNavigation } from '../components/navigations/left'
-import { DraftNavigation } from '../components/post/draftnav'
 import { white_feel_icons, color_feel_icons } from '../feel_icons'
 import { Header } from '../components/Header'
 import { CreatePost } from '../api/posts'
+import happa from "@/app/img/happa.png"
+import image from "@/app/img/image-svgrepo-com.png"
+import file from "@/app/img/file-04-svgrepo-com.png"
+import plus from "@/app/img/plus-large-svgrepo-com.png"
 //保存する際の形式
-type CustomElement = { type: 'paragraph'; children: CustomText[] };
-type CustomText = { text: string, fontsize: number, bold: boolean, italic: boolean, underline: boolean, strike: boolean, color: string };
+type CustomElement = { type: 'paragraph'; children: CustomText[],page:number };
+type CustomText = {text: string, fontsize: number, bold: boolean, italic: boolean, underline: boolean, strike: boolean, color: string };
 
 declare module 'slate' {
   interface CustomTypes {
@@ -26,7 +29,8 @@ declare module 'slate' {
 const initialValue: CustomElement[] = [
   {
     type: 'paragraph',
-    children: [{ text: 'type here',fontsize:16,bold:false,italic:false,underline:false,strike:false,color:"#000000" }],
+    children: [{text: 'type here',fontsize:16,bold:false,italic:false,underline:false,strike:false,color:"#000000" }],
+    page:0
   }
 ]
 ;
@@ -37,16 +41,17 @@ const initialPageData = () => ({
 });
 
 export default function Post() {
-  //CreatePost("123asd","test_title","満足",[{type:"paragraph",children:[{bold:true,text:"test"}]}],13178326,"処理中");
   //Slateで書かれたもののデコレーションや保存
   const [editor,setEditor] = useState(() => withReact(createEditor()));
+  //title
+  const [title, setTitle] = useState("");
   //テキストの色
   const [color, setColor] = useState("black");
   //テキストの大きさ
   const [fontsize, setFontsize] = useState(100);
   //ページエディターはそれぞれ別々にしている
   const [page,setPage] = useState<Array<{ editor: ReactEditor; content: Descendant[] }>>();
-  //
+  //気分のアイコン
   const [feelIcons, setFeelIcons] = useState([
     { id: 1, isColor: true, white: white_feel_icons[0], color: color_feel_icons[0] },
     { id: 2, isColor: false, white: white_feel_icons[1], color: color_feel_icons[1] },
@@ -54,6 +59,7 @@ export default function Post() {
     { id: 4, isColor: false, white: white_feel_icons[3], color: color_feel_icons[3] },
     { id: 5, isColor: false, white: white_feel_icons[4], color: color_feel_icons[4] },
   ]);
+  //テキストデコレーションの色
   const text_colors = [
     { color: "#000000", name: "黒色", },
     { color: "#9ca3af", name: "灰色", },
@@ -65,7 +71,6 @@ export default function Post() {
     { color: "#c084fc", name: "紫色", },
     { color: "#f472b6", name: "ピンク色", },
     { color: "#f87171", name: "赤色", },
-
   ]
   const CustomEditor = {
     //それぞれのテキストの状態変更
@@ -280,12 +285,36 @@ export default function Post() {
   }, [page]);
 
 
+  // 右側の処理
+  //投稿を押すと
+  const test = () =>{
+    const context:any[] = [];
+    console.log(page);
+    page?.forEach((p,i)=>{
+      console.log(i);
+      p.content.map((c)=>{
+        let content = c as CustomElement;
+        content = {...content,page:i+1};
+        context.push(content);
+      })
+    });
+    console.log(context);
+    //[{type:"paragraph",children:[{bold: true, color: '#c084fc', fontsize: '24', text: 'public '},{bold:true,text:"test"},{bold:true,text:"test"}]},{type:"paragraph",children:[{bold:true,text:"test"}]}]
+    CreatePost(title,"満足",context,13178326,"処理中","123asd");
+
+  }
+
+  const dragStart = (e:any) => {
+    e.dataTransfer.effectAllowed = "move";
+    const {id} = e.target;
+    localStorage.setItem("id",id);
+}
   return (
     <div id="body" className='flex relative'>
       <LeftNavigation />
       <div id="post_body" onDrop={(e) => drop(e)} onDragOver={e => dragOver(e)} onDragLeave={e => dragLeave(e)} className='w-[60%] h-screen overflow-y-auto hidden-scrollbar flex flex-col items-center relative'>
         <Header/>
-        <input type="text" className='text-4xl outline-none m-5 mt-10' placeholder='今日のハイライト' />
+        <input type="text" value={title} onChange={(e)=>setTitle(e.target.value)} className='text-4xl outline-none m-5 mt-10' placeholder='今日のハイライト' />
         <div className='flex flex-col bg-[#DDD4CF] w-[70%] h-[30%] rounded-xl p-6 place-items-center'>
           <span className='text-left w-full'>今、どんな気分?</span>
           <div className='grid grid-cols-5 gap-10 m-5'>
@@ -342,7 +371,24 @@ export default function Post() {
           ))
         }
       </div>
-      <DraftNavigation />
+      {/* 右側 */}
+      <div className="bg-[url('img/mokume.png')] bg-repeat-round w-[20%] h-screen relative flex flex-col items-center">
+        <div className="flex -ml-8 items-center">
+            <Image src={happa} alt="happa" width={50} className="h-full" />
+            <p className="text-center m-3 text-xl text-green-300">下書き</p>
+        </div>
+        <div id="image_add" className="object-cover w-[80%] h-[30%] bg-[#D9D9D9] my-3 rounded-lg flex items-center justify-center relative p-3" draggable="true" onDragStart={e=>dragStart(e)} >
+            <Image src={image} alt="image icon" className="object-cover w-[60%]" draggable="false"></Image>
+            <Image src={plus} alt="plus icon" className="absolute top-3 left-3 object-cover w-[20%] h-[20%]" draggable="false"></Image>
+        </div>
+        <div id="page_add" className="object-cover w-[80%] h-[30%] bg-[#D9D9D9] mt-3 rounded-lg flex items-center justify-center relative p-3" draggable="true" onDragStart={e=>dragStart(e)}>
+            <Image src={file} alt="file icon" className="object-cover w-[60%]" draggable="false"></Image>
+            <Image src={plus} alt="plus icon" className="absolute top-3 left-3 object-cover w-[20%] h-[20%]" draggable="false"></Image>
+        </div>
+        <button className="bg-[#B8A193] rounded-lg text-white w-[40%] p-3 text-2xl my-5" onClick={test}>
+            投稿
+        </button>
+    </div>
       {/* テキストデコレーション */}
       <div id="text_navis" className='flex justify-between p-1 w-52 absolute top-3 z-10 bg-[#DDD4CF] rounded-lg'>
         <select name="font-size" id="" className='outline-none bg-transparent'

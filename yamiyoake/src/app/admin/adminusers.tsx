@@ -11,7 +11,12 @@ const testData = [
     {value:30},
     {value:4},
 ]
-
+interface AdminUser{
+    id:number,
+    email:string,
+    name:string,
+    permission:string
+}
 const testUsers = [
     {id:123456781,email:"tanaka@gmail.com",name:"田中",permission:"すべて"},
     {id:123456782,email:"suzuki@gmail.com",name:"鈴木",permission:"読・書"},
@@ -19,20 +24,20 @@ const testUsers = [
 ]
 const AdminUsers = () =>{
     //左に移るリスト
-    const [checked,setChecked] = useState<number[]>([]);
+    const [checked,setChecked] = useState<AdminUser[]>([]);
     const handleChange = (e:ChangeEvent<HTMLInputElement>) =>{
         const target = e.target;
         const textContent = target.value;
     
         if (!textContent) return; // textContentがnullの場合は何もしない
-        const value = Number(textContent);
+        const user = testUsers.find((user) => user.id === Number(textContent));
     
         if (target.checked) {
             // checked配列に値を追加 (新しい配列を作成)
-            setChecked([...checked, value]);
+            setChecked([...checked, user]);
         } else {
             // checked配列から値を削除 (新しい配列を作成)
-            setChecked(checked.filter((item) => item !== value));
+            setChecked(checked.filter((item) => item.id !== user.id));
         }
     }
     const modal = (target:string)=>{
@@ -87,7 +92,7 @@ const AdminUsers = () =>{
                                         <td className="border-t-2 border-[#CAD9BA]">
                                         <input
                                             type="checkbox"
-                                            checked={checked.includes(user.id)}
+                                            checked={checked.some((item) => item.id === user.id)}
                                             value={user.id}
                                             onChange={handleChange}
                                         />
@@ -125,19 +130,61 @@ const AdminUsers = () =>{
                     </div>
                 </div>
             </div>
+            
             <div className='w-[20%] h-full bg-white flex flex-col'>
                 <p className='m-3 font-bold'>選択ユーザリスト</p>
                 <div className='object-cover flex flex-col h-[80%] overflow-y-auto hidden-scrollbar'>
                     {checked.map((e,i)=>(
                         <div key={i} className='flex my-1 items-center justify-around w-full'>
                             <Image src={usercircle} alt='usercircle' width={24} height={24} />
-                            <p>{e}</p>
-                            <input type="checkbox" value={e} onChange={(e)=>handleChange(e)} checked={true} />
+                            <p>{e.id}</p>
+                            <input type="checkbox" value={e.id} onChange={(e)=>handleChange(e)} checked={true} />
                         </div>
                     ))}                   
                 </div>
-                <div className='object-cover w-full h-[50%] flex flex-col items-center text-xl'>
-                    <button className='w-[70%] h-[20%] rounded-xl bg-[#A5BBA2] text-white mb-3'>権限変更</button>
+                <div className='object-cover w-full h-[70%] flex flex-col items-center text-xl overflow-hidden'>
+                    <button className='w-[70%] h-[20%] rounded-xl bg-[#A5BBA2] text-white mb-3' popoverTarget='selected_adminusers' popoverTargetAction='show' onClick={()=>modal("selected_adminusers")}>権限変更</button>
+                    <div id='selected_adminusers' popover='manual' className='hidden backdrop:bg-overlay w-[75%] h-[65%] rounded-lg p-4 flex flex-col text-[#CAD9BA] '>
+                        <p className='text-2xl text-[#5A6C58] my-5 mb-8'>権限変更</p>
+                        <div className='flex w-full'>
+                            <div className="my-5 border-2 border-[#CAD9BA] rounded-lg w-3/4  overflow-y-auto hidden-scrollbar">
+                                <div className='flex justify-around w-full p-3'>
+                                    <div className='flex items-center object-cover w-1/4'>管理ユーザID </div>
+                                    <div className='flex items-center object-cover w-1/4'>メールアドレス</div>
+                                    <div className='flex items-center object-cover w-1/4'>名前</div>
+                                    <div className='flex items-center object-cover w-1/4'>現在の情報</div>
+                                </div>
+                                
+                                {checked.map((e,i)=>(
+                                    <div key={i} className='flex justify-around items-center border-t-2 border-[#CAD9BA] w-full p-3 relative'>
+                                        <div className='flex items-center object-cover w-1/4'>{e.id}</div>
+                                        <div className='flex items-center object-cover w-1/4'>{e.email}</div>
+                                        <div className='flex items-center object-cover w-1/4 text-black'>{e.name}</div>
+                                        <div className='flex items-center object-cover w-1/4'>{e.permission}</div>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className='my-5'>
+                                {/* やり方がわからないので代用 */}
+                                <div className='flex justify-around w-full p-3 text-transparent'>
+                                    空
+                                </div>
+                                {checked.map((e,i)=>(
+                                    <div key={i} className='flex justify-around w-full p-3'>
+                                        <select name="" id="" className='border-2 border-[#CAD9BA] rounded-md'>
+                                            <option value="">すべて</option>
+                                            <option value="">書き込み</option>
+                                            <option value="">読み取り</option>
+                                        </select>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        
+                        <div className='flex justify-end w-full h-[20%] mt-3'>
+                            <button className='bg-[#CAD9BA] w-[20%] rounded-lg text-xl text-white' popoverTarget='selected_adminusers' popoverTargetAction='hide' onClick={()=>modal("selected_adminusers")}>変更</button>
+                        </div>     
+                    </div>
                     <button className='w-[65%] h-[20%] rounded-xl bg-red-500 text-white'>削除</button>
                 </div>
             </div>
