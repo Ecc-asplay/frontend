@@ -123,7 +123,7 @@ export default function Posts({params}:PostID){
                 </div>
                 
             </div>
-            <Comments post_id={post?.post_id as string}/>
+            <Comments post_id={post?.post_id as string} user_id={post?.user_id as string}/>
         </div>
     );
 }
