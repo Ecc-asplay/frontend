@@ -4,10 +4,10 @@ import Contact from "./contact";
 import FAQ from "./faq";
 import Logout from "./logout";
 import Notifications from "./notifications";
-import NotiDetail from "./noti-detail";
+import NotiDetailPush from "./noti-detail-push";
+import NotiDetailEmail from "./noti-detail-email";
 
-
-const SideBarSelected: Record<string, JSX.Element> = {
+const SideBarSelected:(onselect: (key: string) => void) => Record<string, JSX.Element> = (onselect) =>( {
     
     about:(
         <div className="flex flex-col px-6 py-12">
@@ -221,7 +221,7 @@ const SideBarSelected: Record<string, JSX.Element> = {
     ),
     notifications:(
         // 通知のカスタマイズ部分　
-        <Notifications/>
+        <Notifications onselect={onselect}/>
         // <NotiDetail/>
     ),
     blocklist:(
@@ -240,6 +240,6 @@ const SideBarSelected: Record<string, JSX.Element> = {
             <Logout/>
         </div>
     ),
-}
+})
 
 export default SideBarSelected;

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { FiChevronRight } from "react-icons/fi";
 
 
-const NotiDetail = () => {
+const NotiDetail: React.FC<{onselect: (key: string) => void}> = ({onselect}) => {
     // const navigate = useNavigate();
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -17,8 +17,6 @@ const NotiDetail = () => {
         commentNoti: true,
     })
 
-    // 遷移関係
-    const notificationType = searchParams.get("notificationType") || "";
 
     // 選択関係
     const handleToggle = () => {
@@ -57,16 +55,16 @@ const NotiDetail = () => {
             {/* タイトルと前戻り設定 */}
             <h1 className="text-middlebrown font-extrabold flex items-center">
                 <span className="cursor-pointer"
-                onClick={() => router.back()} 
+                onClick={() => onselect("notifications")} 
                 >        
                 通知設定
                 </span>
-                {'　'}<FiChevronRight/>{'　'}{'通知'}
+                {'　'}<FiChevronRight/>{'　'}{'メール通知'}
             </h1>
 
             {/* 全処理 */}
             <div className="flex items-center justify-between mb-4 ">
-                <span className="text-basetext font-semibold">{'通知'}</span>
+                <span className="text-basetext font-semibold">{'メール通知'}</span>
                 <div className={`w-12 h-6 flex items-center rounded-full p-1 cursor-pointer 
                                 ${isPushEnabled ? "bg-basegreen" : "bg-gray-300"}`}
                       onClick={handleToggle}

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { FiChevronRight } from "react-icons/fi";
 
 
-const Notifications: React.FC = () => {
+const Notifications: React.FC<{onselect: (key: string) => void}> = ({onselect}) => {
     const router = useRouter();
 
     return (
@@ -13,7 +13,7 @@ const Notifications: React.FC = () => {
             <div className="flex flex-col mt-2 ml-16 px-4 space-y-2">
                 <div
                     className="flex items-center justify-between w-full px-4 py-2 cursor-pointer"
-                    // onClick={() => { router.push('/setting/noti-detail'); }}
+                    onClick={() => onselect ("notiDetailPush")}
                 >
                     <span className="text-basetext">プッシュ通知</span>
                     <span className="text-basetext">
@@ -23,7 +23,7 @@ const Notifications: React.FC = () => {
 
                 <div
                     className="flex items-center justify-between w-full px-4 py-2 cursor-pointer"
-                    onClick={() => { router.push('/setting/noti-detail'); }}
+                    onClick={() => onselect ("notiDetailEmail")}
                 >
                     <span className="text-basetext">メール通知</span>
                     <span className="text-basetext">
