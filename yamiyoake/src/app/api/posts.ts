@@ -38,6 +38,10 @@ export async function SearchPosts(Keyword:string) {
 export async function CreatePost(Title:string,Feel:string,Content:any,Reaction:number,Status:string,ShowID:string=""){
     try{
         const token = sessionStorage.getItem("acess_token");
+        if(!Title || !Content){
+            alert("入力内容を確認して下さい");
+            return false;
+        }
         Content = JSON.stringify(Content)
         Content = btoa(
             String.fromCharCode(...new TextEncoder().encode(Content))

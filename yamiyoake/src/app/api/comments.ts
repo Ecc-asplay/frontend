@@ -12,21 +12,18 @@ export interface Comment {
     updated_at:string,
     user_id:string
 }
-export async function CreateComment(PostID: string, Comments: string, IsPublic: boolean, Reaction: number, IsCensored: boolean) {
+export async function CreateComment(post_id: string, comments: string) {
     try {
         const token = await GetToken();
         const res = await axios.post("http://44.199.138.134:8080/comment/create", {
-            PostID,
-            Comments,
-            IsPublic,
-            Reaction,
-            IsCensored
+            post_id,
+            comments
         }, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
-        console.log(res);
+        return res;
     } catch (e) {
         console.log(e + "エラー");
     }
@@ -54,3 +51,4 @@ export async function GetAllPublicComments() {
     }
 
 }
+

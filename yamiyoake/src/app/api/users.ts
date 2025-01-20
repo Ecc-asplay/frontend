@@ -4,7 +4,6 @@ export async function GetUserData(){
     try{
         const token = await GetToken();
         if(!token) return;
-        console.log(token)
         const res = await axios.get(`http://44.199.138.134:8080/users/get`,{
             headers:{
                 Authorization:`Bearer ${token}`
