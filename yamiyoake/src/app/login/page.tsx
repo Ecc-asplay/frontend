@@ -6,7 +6,6 @@ import Image from "next/image";
 import loginlogo from "@/app/img/login-logo.png";
 import { login } from "../api/login";
 import {  useRouter } from "next/navigation";
-import { Header } from "../components/Header";
 import { FiEye } from "react-icons/fi";
 
 const Login: React.FC = () => {
@@ -18,7 +17,6 @@ const Login: React.FC = () => {
 
     const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault(); 
-        const isLogin = await login(email,password);
         const isLogin = await login(email,password);
         if(!isLogin){
             setLoginError("ログインエラー");
