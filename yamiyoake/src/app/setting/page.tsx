@@ -12,7 +12,7 @@ const Setting: React.FC = () => {
             <div className="fixed top-0 w-full h-8 bg-headerbrown"></div>
 
             {/* サイドバー */}
-            <div className="flex mt-4 p-0 m-0">
+            <div className="flex mt-4 p-0 m-0 h-full">
                 <SideBar onselect={setActiveKey}/>
                 <div className="min-w-[700px] p-5">
                     {SideBarSelected[activeKey]}

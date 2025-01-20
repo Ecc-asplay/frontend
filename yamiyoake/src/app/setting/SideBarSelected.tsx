@@ -4,6 +4,8 @@ import Contact from "./contact";
 import FAQ from "./faq";
 import Logout from "./logout";
 import Notifications from "./notifications";
+import NotiDetail from "./noti-detail";
+
 
 const SideBarSelected: Record<string, JSX.Element> = {
     
@@ -220,6 +222,7 @@ const SideBarSelected: Record<string, JSX.Element> = {
     notifications:(
         // 通知のカスタマイズ部分　
         <Notifications/>
+        // <NotiDetail/>
     ),
     blocklist:(
         // 画面導入
