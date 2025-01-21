@@ -6,7 +6,6 @@ import Image from "next/image";
 import loginlogo from "@/app/img/login-logo.png";
 import { login } from "../api/login";
 import {  useRouter } from "next/navigation";
-import { Header } from "../components/Header";
 import { FiEye } from "react-icons/fi";
 
 const Login: React.FC = () => {
@@ -34,14 +33,15 @@ const Login: React.FC = () => {
     };
 
     return(
-        <div className="flex flex-col justify-center items-center min-h-screen bg-basebg space-y-12">
-            <div className="fixed top-0 w-full h-8 bg-headerbrown"></div>
+        <div className="flex flex-col justify-center items-center min-h-screen bg-basebg space-y-10">
+            <div className="fixed top-0 w-full h-8 bg-headerbrown" />
+
             <div className="flex justify-center items-center">            
-                <Image src={loginlogo} height={120} width={120} alt="logo" className="mb-6"></Image>
+                <Image src={loginlogo} height={140} width={140} alt="logo" className="mb-4"></Image>
             </div>
 
             {/* ログイン */}
-            <form action="" className="w-full max-w-md space-y-6 items-center"> 
+            <form action="" className="w-full max-w-md space-y-8 items-center"> 
                 {/* Email入力 */}
                 <div className="relative">
                     <input type="email" id="email" name="email" placeholder="example@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required 
@@ -49,12 +49,11 @@ const Login: React.FC = () => {
                 </div>
 
                 {/* パスワードを入力 */}
-                <div className="relative w-96">
+                <div className="relative">
                     <input type={isShow ? "text":"password"} id="password" name="password" placeholder="password1234" value={password} onChange={(e) => setPassword(e.target.value)} required 
                     className="w-full px-4 py-3 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext placeholder-middlebrown"/>
                     {/* パスワード表示可能ボタン */}
                     <button onClick={handlePassWordVisibility} 
-                        // className="absolute inset-y-0 right-3 flex items-center text-middlebrown"
                         className="absolute inset-y-0 top-1/2 right-3 transform -translate-y-1/2 flex items-center text-middlebrown">
                         <FiEye size={24}/>
                     </button>
@@ -64,14 +63,20 @@ const Login: React.FC = () => {
             {/* ログインボタン */}
             <div className="flex relative justify-center mt-10">
                 <span className="absolute -top-10 left-2 w-full text-red-500 ">{loginError}</span>
-                <button onClick={handleLogin} type="submit" className="w-36 h-14 py-1 bg-basegreen text-basebg font-medium rounded-md text-xl">ログイン</button>
+                <button onClick={handleLogin} type="submit" className="w-36 h-12 py-1 bg-basegreen text-basebg font-medium rounded-md text-xl">ログイン</button>
             </div>
 
             {/* 画面遷移 */}
             <div className="flex justify-between mt-4 w-full max-w-md">
-                <Link href={"/forgottensetting/email_input"} className="text-basegreen">パスワードを忘れた</Link>
-                <Link href={"/registration/regist_email"} className="text-basegreen">新規登録はこちら</Link>
+                <Link href={"/forgottensetting/email_input"} className="text-basegreen text-lg">パスワードを忘れた</Link>
+                <Link href={"/registration/regist_email"} className="text-basegreen text-lg">新規登録はこちら</Link>
             </div>
+
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
     )
 }

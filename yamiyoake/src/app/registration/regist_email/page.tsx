@@ -34,30 +34,28 @@ const RegistEmail: React.FC = () => {
 
     return(
         <div className="w-full h-screen relative">
-            <div className="fixed top-0 w-full h-8 bg-headerbrown"></div>
+            <div className="fixed top-0 w-full h-8 bg-headerbrown" />
             <RegisterLayout step={step}>
-                <div className="flex flex-col items-center min-h-screen bg-basebg mt-8 space-y-8">
-                    <h1 className="text-center text-2xl text-basetext font-bold mb-2">新規登録</h1>
+                    <h1 className="text-center text-3xl text-basetext font-bold mb-10 mt-20">新規登録</h1>
                     {/* ログイン */}
-                    <form onClick={handleSubmit} className="w-full max-w-md space-y-6"> 
+                    <form onClick={handleSubmit} className="w-full max-w-md space-y-8 items-center"> 
                         {/* Email入力 */}
                         <div className="relative">
                             <input type="email" id="email" name="email" placeholder="example@email.com" value={email} onChange={handleEmailChange} required 
-                            className="w-96 px-4 py-2 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext placeholder-middlebrown "/>
+                            className="w-full px-4 py-3 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext placeholder-middlebrown "/>
                         </div>
+
                         {/* 再入力 */}
                         <div className="relative">
                             <input type="email" id="confirmEmail" name="confirmEmail" placeholder="もう一度入力してください" value={confirmEmail} onChange={handleConfirmEmailChange} required 
-                            className="w-96 px-4 py-2 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext placeholder-middlebrown "/>
+                            className="w-full px-4 py-3 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext placeholder-middlebrown "/>
                         </div>
+
                         {/* 確認ボタン */}
-                        <div className="flex relative justify-center mt-10">
-                            <button type="submit" className="w-44 h-10 py-1 bg-basegreen text-basebg font-medium rounded-md text-lg">
-                            確認メールを送信
-                            </button>
+                        <div className="flex justify-center">
+                            <button type="submit" className="w-60 h-12 py-1 bg-basegreen text-basebg font-medium rounded-md text-xl">確認メールを送信</button>
                         </div>
                     </form>
-                </div>
             </RegisterLayout>
         </div>
     )

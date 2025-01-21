@@ -23,7 +23,7 @@ const GuidelinesChecked: React.FC = () => {
 
     return(
         <div className="flex flex-col items-center justify-center h-screen bg-basebg">
-            <div className="fixed top-0 w-full h-8 bg-headerbrown"></div>
+            <div className="fixed top-0 w-full h-8 bg-headerbrown" />
             {/* ガイドライ */}
             <div className="w-1/2 h-64 overflow-y-scroll hidden-scrollbar bg-inputbg p-6 rounded-lg mb-5 mt-10">
                 <p className="text-basetext leading-6">

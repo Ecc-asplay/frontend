@@ -9,9 +9,9 @@ const Setting: React.FC = () => {
     const [activeKey, setActiveKey] = useState("");
 
     return(
-        <div className="flex flex-col bg-basebg">
+        <div className="flex flex-col bg-basebg min-h-screen">
             {/* ヘッダ */}
-            <div className="fixed top-0 w-full h-8 bg-headerbrown"></div>
+            <div className="fixed top-0 w-full h-8 bg-headerbrown" />
 
             {/* サイドバー */}
             <div className="flex mt-4 p-0 m-0 h-full">
