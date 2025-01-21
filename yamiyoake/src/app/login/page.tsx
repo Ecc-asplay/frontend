@@ -71,12 +71,6 @@ const Login: React.FC = () => {
                 <Link href={"/forgottensetting/email_input"} className="text-basegreen text-lg">パスワードを忘れた</Link>
                 <Link href={"/registration/regist_email"} className="text-basegreen text-lg">新規登録はこちら</Link>
             </div>
-
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
         </div>
     )
 }
