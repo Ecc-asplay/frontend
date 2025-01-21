@@ -30,40 +30,35 @@ const ResetPassword: React.FC = () => {
     
 
     return(
-        <div className="flex flex-col justify-center items-center min-h-screen bg-basebg space-y-10">
+        <>
             <div className="fixed top-0 w-full h-8 bg-headerbrown" />
-            
-            <h1 className="text-center text-3xl text-basetext font-bold mb-2 mt-4">パスワード再設定</h1>
-            <form onSubmit={handleSubmit} className="w-full max-w-md space-y-8 items-center">
-                {/* パスワード入力 */}
-                <div className="relative">
-                    <input type={isShow ? "text":"password"} id="password" name="password" placeholder="新しいパスワードを入力" value={password} onChange={(e) => setPassword(e.target.value)} required 
-                    className="w-full px-4 py-3 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext placeholder-middlebrown"/>
-                    {/* パスワード表示可能ボタン */}
-                    <button onClick={handlePassWordVisibility} 
-                        className="absolute inset-y-0 top-1/2 right-3 transform -translate-y-1/2 flex items-center text-middlebrown">
-                        <FiEye size={24}/>
-                    </button>
-                </div>
+            <div className="flex flex-col items-center min-h-screen bg-basebg space-y-10">
+                <h1 className="text-center text-3xl text-basetext font-bold mb-2 mt-60">パスワード再設定</h1>
+                <form onSubmit={handleSubmit} className="w-full max-w-md space-y-8 items-center">
+                    {/* パスワード入力 */}
+                    <div className="relative">
+                        <input type={isShow ? "text":"password"} id="password" name="password" placeholder="新しいパスワードを入力" value={password} onChange={(e) => setPassword(e.target.value)} required 
+                        className="w-full px-4 py-3 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext placeholder-middlebrown"/>
+                        {/* パスワード表示可能ボタン */}
+                        <button onClick={handlePassWordVisibility} 
+                            className="absolute inset-y-0 top-1/2 right-3 transform -translate-y-1/2 flex items-center text-middlebrown">
+                            <FiEye size={24}/>
+                        </button>
+                    </div>
 
-                {/* 再入力 */}
-                <div className="relative">
-                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="確認のためもう一度入力" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required 
-                    className="w-full px-4 py-3 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext placeholder-middlebrown"/>
-                </div>
+                    {/* 再入力 */}
+                    <div className="relative">
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="確認のためもう一度入力" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required 
+                        className="w-full px-4 py-3 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext placeholder-middlebrown"/>
+                    </div>
 
-                {/* 設定ボタン */}
-                <div className="flex justify-center">
-                    <button type="submit" className=" w-36 h-12 py-1 bg-basegreen text-basebg font-medium rounded-md text-xl">設定する</button>
-                </div>
-            </form>
-
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
+                    {/* 設定ボタン */}
+                    <div className="flex justify-center">
+                        <button type="submit" className=" w-36 h-12 py-1 bg-basegreen text-basebg font-medium rounded-md text-xl">設定する</button>
+                    </div>
+                </form>
+            </div>
+        </>
     )
 }
 

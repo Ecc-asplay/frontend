@@ -39,10 +39,10 @@ const LeftNavigation = () =>{
                 // ログインしている場合
                 <div className="object-cover w-full h-full flex flex-col items-center justify-center text-white text-2xl mb-40 font-semibold">
                     <p className="w-full pl-14 my-3 -ml-3"><Link href={"/"} className="flex items-center"><Image src={home} width={45} height={45} alt="home"/><span className="ml-7">タイムライン</span></Link></p>
-                    <p className="w-full pl-14 my-3 -ml-3"><Link href={"/info/1"} className="flex items-center"><Image src={bell} width={45} height={45} alt="home"/><span className="ml-7">通知</span></Link></p>
-                    <p className="w-full pl-14 my-3 -ml-3"><Link href={"/setting"} className="flex items-center"><Image src={gear} width={45} height={45} alt="home"/><span className="ml-7">設定</span></Link></p>
-                    <p className="w-full pl-14 my-3 -ml-3"><Link href={`/users/${user_id}`} className="flex items-center"><Image src={user} width={45} height={45} alt="home"/><span className="ml-7">プロフィール</span></Link></p>
-                    <p className="w-full pl-14 text-lime-300 mt-3 -ml-3"><Link href={"/guidelines_main"} className="flex items-center"><Image src={alert} width={45} height={45} alt="home"/><span className="ml-7">ガイドライン</span></Link></p>
+                    <p className="w-full pl-14 my-3 -ml-3"><Link href={"/info/1"} className="flex items-center"><Image src={bell} width={45} height={45} alt="bell"/><span className="ml-7">通知</span></Link></p>
+                    <p className="w-full pl-14 my-3 -ml-3"><Link href={"/setting"} className="flex items-center"><Image src={gear} width={45} height={45} alt="gear"/><span className="ml-7">設定</span></Link></p>
+                    <p className="w-full pl-14 my-3 -ml-3"><Link href={`/users/${user_id}`} className="flex items-center"><Image src={user} width={45} height={45} alt="user"/><span className="ml-7">プロフィール</span></Link></p>
+                    <p className="w-full pl-14 text-lime-300 mt-3 -ml-3"><Link href={"/guidelines_main"} className="flex items-center"><Image src={alert} width={45} height={45} alt="alert"/><span className="ml-7">ガイドライン</span></Link></p>
                 </div>:
                 // ログインしていない場合
                 <div className="object-cover w-full h-full flex flex-col items-center justify-around text-2xl text-white">
