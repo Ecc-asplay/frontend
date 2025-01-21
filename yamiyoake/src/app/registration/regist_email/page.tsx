@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import RegisterLayout from "../RegisterLayout";
-
+import { SendVerificationEmail } from "@/app/api/mail";
 
 const RegistEmail: React.FC = () => {
     const [email, setEmail] = useState('')
@@ -20,13 +20,15 @@ const RegistEmail: React.FC = () => {
         setConfirmEmail(e.target.value);
       };
     
-      const handleSubmit = (e: React.FormEvent) => {
+      const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
         // 他のAPI処理など
         if (email === confirmEmail && email != '' && confirmEmail != '') {
             console.log('Emails match, proceed with registration.');
+            const send = await SendVerificationEmail(email);
             // 画面遷移
-            router.push('/registration/code_checked')
+            if(send)
+                router.push('/registration/code_checked')
         } else {
             console.log('Emails do not match, show an error message.');
         }

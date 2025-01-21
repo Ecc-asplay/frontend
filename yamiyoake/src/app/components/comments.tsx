@@ -64,8 +64,6 @@ const Comments:React.FC<Post> = ({post_id}) =>{
     
     useEffect(()=>{
         init();
-        console.log(comments);
-        console.log(user_id);
     },[])
     
 

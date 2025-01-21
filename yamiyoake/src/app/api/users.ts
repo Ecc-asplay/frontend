@@ -1,10 +1,12 @@
 import axios from "axios";
 import { GetToken } from "./token";
+import { URL } from "./server";
+
 export async function GetUserData(){
     try{
         const token = await GetToken();
         if(!token) return;
-        const res = await axios.get(`http://44.199.138.134:8080/users/get`,{
+        const res = await axios.get(URL+`/users/get`,{
             headers:{
                 Authorization:`Bearer ${token}`
             },

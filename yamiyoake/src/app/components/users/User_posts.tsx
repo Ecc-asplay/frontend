@@ -88,7 +88,7 @@ const User_Posts: React.FC<UserID> = ({ user_id }) => {
     },[])
     return (
         <div className="flex flex-col object-cover w-full h-full items-center hidden-scrollbar overflow-auto">
-            {posts.map((post, i) => (
+            {posts.filter(e=>e.user_id===user_id).map((post, i) => (
                 <div key={i} className={`w-[80%] bg-[#DDD4CF] rounded-md p-3 flex flex-col my-3`}>
                     <Link href={"/posts/" + post.post_id}>
                         <div className="flex items-center justify-between">

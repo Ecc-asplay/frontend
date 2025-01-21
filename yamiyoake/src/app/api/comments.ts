@@ -1,5 +1,6 @@
 import axios from "axios";
 import { GetToken } from "./token";
+import { URL } from "./server";
 export interface Comment {
     comment_id:string,
     comments:string,
@@ -15,7 +16,7 @@ export interface Comment {
 export async function CreateComment(post_id: string, comments: string) {
     try {
         const token = await GetToken();
-        const res = await axios.post("http://44.199.138.134:8080/comment/create", {
+        const res = await axios.post(URL+"/comment/create", {
             post_id,
             comments
         }, {
@@ -31,7 +32,7 @@ export async function CreateComment(post_id: string, comments: string) {
 export async function GetPostCommentsList(post_id: string) {
     try {
         const token = await GetToken();
-        const res = await axios.get(`http://44.199.138.134:8080/comment/getlist/${post_id}`, {
+        const res = await axios.get(URL+`/comment/getlist/${post_id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             },
@@ -44,7 +45,7 @@ export async function GetPostCommentsList(post_id: string) {
 
 export async function GetAllPublicComments() {
     try {
-        const res = await axios.get("http://44.199.138.134:8080/comment/getpublic");
+        const res = await axios.get(URL+"/comment/getpublic");
         return res.data;
     } catch (e) {
         console.log(e + "エラー");

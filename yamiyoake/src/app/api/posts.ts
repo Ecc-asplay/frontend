@@ -1,4 +1,6 @@
 import axios from "axios";
+import { URL } from "./server";
+
 // 型定義 
 export interface Post {
   post_id: string;
@@ -18,7 +20,7 @@ export interface Posts {
 }
 export async function GetAllPosts() {
     try{
-        const res = await axios.get("http://44.199.138.134:8080/post/getall");
+        const res = await axios.get(URL+"/post/getall");
         return res.data;
     }catch(e){
         return false;
@@ -27,7 +29,7 @@ export async function GetAllPosts() {
 
 export async function SearchPosts(Keyword:string) {
     try{
-        const res = await axios.post("http://44.199.138.134:8080/post/search");
+        const res = await axios.post(URL+"/post/search");
         console.log(res);
         return res.data;
     }catch(e){
@@ -46,7 +48,7 @@ export async function CreatePost(Title:string,Feel:string,Content:any,Reaction:n
         Content = btoa(
             String.fromCharCode(...new TextEncoder().encode(Content))
         );
-        const res = await axios.post("http://44.199.138.134:8080/post/add",{ShowID,Title,Feel,Content,Reaction,Status},
+        const res = await axios.post(URL+"/post/add",{ShowID,Title,Feel,Content,Reaction,Status},
             {
                 headers:{
                     Authorization:`Bearer ${token}`
