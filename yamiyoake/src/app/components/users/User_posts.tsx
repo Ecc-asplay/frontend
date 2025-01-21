@@ -67,7 +67,9 @@ const User_Posts: React.FC<UserID> = ({ user_id }) => {
             posts: [...prev.posts, ...updatedPosts],
         }));
     };
-    getAllposts();
+    useEffect(()=>{
+        getAllposts();
+    },[])
     return (
         <div className="flex flex-col object-cover w-full h-full items-center hidden-scrollbar overflow-auto">
             {user_posts.posts.map((post, i) => (
