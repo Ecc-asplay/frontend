@@ -3,12 +3,30 @@ import Link from "next/link";
 import Image from "next/image";
 import sippo from "@/app/img/sippo.png";
 import back from "@/app/img/back-svgrepo-com.png";
-import { CreateComment,GetAllComments } from "@/app/api/comments";
+import { GetAllComments,Comment } from "@/app/api/comments";
+import { useEffect, useState } from "react";
 interface UserID{
     user_id:string | undefined
 }
 const User_Comments:React.FC<UserID> = ({user_id}) =>{
-    const user_comments = comments.filter(e=>e.user_id===user_id);
+    const [user_comments,setUserComments] = useState<Comment[]>([]);
+    const [loaded,setLoaded] = useState(false);
+    const init = async () => {
+        if (loaded) return; // 既にロード済みの場合は終了
+        getAllComments();
+        setLoaded(true);
+    }
+    const getAllComments = async()=>{
+        const data = await GetAllComments();
+        console.log(data);
+        if(Array.isArray(data)){
+            const get_user_comments = data.map(e=>e);
+            setUserComments(get_user_comments);
+        }
+    }
+    useEffect(()=>{
+        init();
+    },[])
     return(
         <div className="flex flex-col object-cover w-full h-full items-center hidden-scrollbar overflow-auto">
             {user_comments.map((comment,i)=>(

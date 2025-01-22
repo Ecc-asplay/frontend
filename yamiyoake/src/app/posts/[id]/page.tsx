@@ -4,7 +4,7 @@ import { testData } from "@/app/test_data";
 import { Comments } from "@/app/components/comments";
 import { LeftNavigation } from "@/app/components/navigations/left";
 import { color_feel_icons  } from "@/app/feel_icons"; 
-import bookmark from "@/app/img/bookmark-svgrepo-com.png";
+import bookmark from "@/app/img/bookmark.png";
 import Image from "next/image";
 import { Header } from "@/app/components/Header";
 import { color_reaction_icons,white_reaction_icons } from "@/app/reaction_icons";

@@ -3,7 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import comment_icon from "@/app/img/comment-4-svgrepo-com.png";
-import bookmark_icon from "@/app/img/bookmark-svgrepo-com.png";
+import bookmark_icon from "@/app/img/bookmark.png";
+import unbookmark_icon from "@/app/img/bookmark-white.png";
 import search from "@/app/img/search-svgrepo-com.png"; 
 import filter from "@/app/img/filter-svgrepo-com.png"; 
 import { LeftNavigation } from "./components/navigations/left";
@@ -12,22 +13,17 @@ import { useEffect, useState } from "react";
 import { GetUserID } from "./api/users";
 import { GetAllPosts,SearchPosts,Post,Posts } from "@/app/api/posts";
 import { GetAllPublicComments,Comment } from "./api/comments";
-import { GetAllPostsReaction,Reaction,ReactionTypes } from "./api/posts_reaction";
+import { GetAllPostsReaction,Reaction,UpdatePostReactionThanks, UpdatePostReactionHeart, UpdatePostReactionHelpful, UpdatePostReactionUseful,ReactionTypes } from "./api/posts_reaction";
+import { GetBookmark,CreateBookmark,DeleteBookmark,Bookmark } from "./api/bookmark";
 import { Header } from "./components/Header";
 import { color_reaction_icons,white_reaction_icons } from "./reaction_icons";
-
-const initializeReactions = (post_id:string) => [
-    {post_id:post_id, id: 0, isColored: false, white: white_reaction_icons[0], color: color_reaction_icons[0] },
-    {post_id:post_id, id: 1, isColored: false, white: white_reaction_icons[1], color: color_reaction_icons[1] },
-    {post_id:post_id, id: 2, isColored: false, white: white_reaction_icons[2], color: color_reaction_icons[2] },
-    {post_id:post_id, id: 3, isColored: false, white: white_reaction_icons[3], color: color_reaction_icons[3] },
-];
 
 export default function Home() {
     const [user_id,setUserId] = useState<string>("");
     const [posts, setPosts] = useState<Post[]>([]); // 初期状態
     const [comments,setComments] = useState<Comment[]>([]);
     const [reactions,setReactions] = useState<Reaction[]>([]);
+    const [bookmarks,setBookmarks] = useState<Bookmark[]>([]);
     const [loaded, setLoaded] = useState(false); // ロード済み状態を管理
     const [keyword,setKeyword] = useState<string>("");
     // APIから投稿を取得
@@ -37,6 +33,7 @@ export default function Home() {
         getAllposts();
         getAllPublicComments();
         getAllPostsReaction();
+        getAllBookmarks();
         setLoaded(true);
     }
     const getUserID = async ()=>{
@@ -75,14 +72,24 @@ export default function Home() {
         const data = await GetAllPublicComments();
         if(!data)return;
         if(Array.isArray(data)){
-            setComments(data);
+            const get_data = data.map(e=>e);
+            setComments(get_data);
         }
     }
     const getAllPostsReaction = async ()=>{
         const data = await GetAllPostsReaction();
         if(!data)return;
         if(Array.isArray(data)){
-            setReactions(data);
+            const get_data = data.map(e=>e);
+            setReactions(get_data);
+        }
+    }
+    const getAllBookmarks = async ()=>{
+        const data = await GetBookmark();
+        if(!data)return;
+        if(Array.isArray(data)){
+            const get_data = data.map(e=>e);
+            setBookmarks(get_data);
         }
     }
     //報告部分のtoggle
@@ -107,6 +114,37 @@ export default function Home() {
             {a[rt]}
         </>
         )
+    }
+
+    const toggleBookMark = async(post_id:string,bookmarked:boolean)=>{
+        //すでにブックマークされていたら削除する
+        if(bookmarked){
+            await DeleteBookmark(post_id);
+        }else{
+            await CreateBookmark(post_id);
+        }
+       
+       getAllBookmarks();
+    }
+
+    const toggleReactions = async(post_id:string,reactionType:string)=>{
+        switch(reactionType){
+            case "Thanks":
+                await UpdatePostReactionThanks(post_id);
+                break;
+            case "heart":
+                await UpdatePostReactionHeart(post_id);
+                break;
+            case "useful":
+                await UpdatePostReactionUseful(post_id);
+                break;
+            case "helpful":
+                await UpdatePostReactionHelpful(post_id);
+                break;
+            default:
+                break;
+        }
+        getAllPostsReaction();
     }
 
     //検索欄が更新し次第検索する
@@ -141,6 +179,7 @@ export default function Home() {
     // 初回レンダリング時に投稿を取得
     useEffect(() => {
         init();
+        console.log(bookmarks);
         //通報のやつが出ているときにほかのところをクリックすると非表示にする
         document.addEventListener("click",(e)=>{
             const target:HTMLElement = e.target as HTMLElement;
@@ -215,7 +254,7 @@ export default function Home() {
                                 ReactionTypes.map((rt,i)=>(
                                     <button
                                             key={i} 
-                                            onClick={()=>console.log("pushed")} 
+                                            onClick={()=>toggleReactions(post.post_id,rt)} 
                                             className="flex items-center"
                                         >
                                             <Image
@@ -236,9 +275,9 @@ export default function Home() {
                               >
                                 ・・・
                               </button>
-                              <button>
+                              <button onClick={()=>toggleBookMark(post.post_id,bookmarks.find(b=>b.post_id===post.post_id)?true:false)}>
                                   <Image
-                                      src={bookmark_icon}
+                                      src={bookmarks.find(b=>b.post_id===post.post_id)?bookmark_icon:unbookmark_icon}
                                       width={30}
                                       height={20}
                                       alt="bookmark icon"
