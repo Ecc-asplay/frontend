@@ -67,7 +67,7 @@ const Login: React.FC = () => {
             </div>
 
             {/* 画面遷移 */}
-            <div className="flex justify-between w-full max-w-md">
+            <div className="flex justify-between mt-4 w-full max-w-md">
                 <Link href={"/forgottensetting/email_input"} className="text-basegreen text-lg">パスワードを忘れた</Link>
                 <Link href={"/registration/regist_email"} className="text-basegreen text-lg">新規登録はこちら</Link>
             </div>

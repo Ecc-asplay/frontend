@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import RegisterLayout from "../RegisterLayout";
-
+import { VerifyCode } from "@/app/api/mail";
 
 
 const CodeChecked: React.FC = () => {
@@ -16,10 +16,15 @@ const CodeChecked: React.FC = () => {
         setVerificationCode(e.target.value);
       };
 
-    const handleVerify = () => {
-    // 認証コード関連処理
-    console.log('Verification code:', verificationCode);
-    router.push('/registration/register')
+    const handleVerify = async() => {
+        // 認証コード関連処理
+        const verify = await VerifyCode(verificationCode);
+        console.log(verify);
+        if(verify){
+            console.log('Verification code:', verificationCode);
+            router.push('/registration/register')
+        }
+        
     };
 
     return(
@@ -30,7 +35,7 @@ const CodeChecked: React.FC = () => {
                 {/* コード入力 */}
 
                 {/* TODO:OnClick */}
-                <form className="w-full max-w-md space-y-8">
+                <div className="w-full max-w-md space-y-8">
                         <input type="text" value={verificationCode} onChange={handleCodeChange} placeholder="認証コードを入力" required
                             className="w-full px-4 py-3 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext placeholder-middlebrown " />
                 {/* 確認ボタン修正する可能性ある */}
@@ -40,7 +45,7 @@ const CodeChecked: React.FC = () => {
                         確認
                     </button>
                 </div>
-            </form>
+            </div>
 
             </RegisterLayout>
         </div>

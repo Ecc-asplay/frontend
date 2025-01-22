@@ -1,9 +1,10 @@
 import axios from "axios";
 import { GetToken } from "./token";
+import {URL} from "./server";
 export async function CreateBookmark(PostID:string) {
     try{
         const token = await GetToken();
-        const res = await axios.post("http://44.199.138.134:8080/bookmark/add",{post_id:PostID},{
+        const res = await axios.post(URL+"/bookmark/add",{post_id:PostID},{
             headers:{
                 Authorization:`Bearer ${token}`
             },
@@ -19,8 +20,7 @@ export async function CreateBookmark(PostID:string) {
 export async function GetBookmark() {
     try{
         const token = await GetToken();
-        console.log(token + "token");
-        const res = await axios.get("http://44.199.138.134:8080/bookmark/get",{
+        const res = await axios.get(URL+"/bookmark/get",{
             headers:{
                 Authorization:`Bearer ${token}`
             },

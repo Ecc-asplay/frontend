@@ -60,7 +60,7 @@ const GuidelinesChecked: React.FC = () => {
             <div className="flex items-center mb-5 mt-2">
                 <input type="checkbox" id="guidelinechecked" checked={checked} onChange={handleChecked} 
                 className="appearance-none flex items-center justify-center h-5 w-5 ml-4 text-white border-2 border-basegreen rounded-sm 
-                        checked:bg-basegreen checked:border-transparent checked:before:content-['✓'] checked:before:text-white checked:before:font-bold checked:before:text-center checked:before:block focus:outline-none cursor-pointer" />
+                        checked:bg-basegreen checked:border-transparent checked:before:content-['✔'] checked:before:text-white checked:before:font-extrabold checked:before:text-center checked:before:block focus:outline-none cursor-pointer" />
                 <label htmlFor="guidelinechecked" className="text-basetext mr-4 items-center">　ガイドラインを確認しました</label>
             </div>
             {/* 確認ボタン 画面遷移 */}
