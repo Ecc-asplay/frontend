@@ -2,7 +2,7 @@ import { StaticImageData } from "next/image";
 import { white_reaction_icons, color_reaction_icons } from "@/app/reaction_icons";
 import Link from "next/link";
 import Image from "next/image";
-import bookmark_icon from "@/app/img/bookmark-svgrepo-com.png";
+import bookmark_icon from "@/app/img/bookmark.png";
 import comment_icon from "@/app/img/comment-4-svgrepo-com.png";
 import heart_icon from "@/app/img/heart-svgrepo-com.png";
 import { GetAllPosts } from "@/app/api/posts";

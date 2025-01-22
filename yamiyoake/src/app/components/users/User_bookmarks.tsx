@@ -1,126 +1,138 @@
-import { testData, comments } from "@/app/test_data";
+import { StaticImageData } from "next/image";
+import { white_reaction_icons, color_reaction_icons } from "@/app/reaction_icons";
 import Link from "next/link";
 import Image from "next/image";
-import bookmark_icon from "@/app/img/bookmark-svgrepo-com.png";
+import bookmark_icon from "@/app/img/bookmark.png";
 import comment_icon from "@/app/img/comment-4-svgrepo-com.png";
 import heart_icon from "@/app/img/heart-svgrepo-com.png";
-import { GetAllPosts } from "@/app/api/posts";
-import { GetBookmark } from "@/app/api/bookmark";
-import { useState, useEffect, useCallback } from "react";
-import { StaticImageData } from "next/image";
-import { color_reaction_icons, white_reaction_icons } from "@/app/reaction_icons";
-
-// 型定義
+import { GetAllPosts, Post } from "@/app/api/posts";
+import { useEffect, useState } from "react";
+import { GetAllPublicComments, Comment } from "@/app/api/comments";
+import { GetAllPostsReaction, Reaction, ReactionTypes } from "@/app/api/posts_reaction";
 interface UserID {
-    user_id: string | undefined;
+    user_id: string | undefined
 }
-
-interface Post {
-    post_id: string;
-    user_id: string;
-    title: string;
-    content: string | any[];
-    created_at: string;
-    reactions: { id: number; isColored: boolean; white: StaticImageData; color: StaticImageData }[];
-}
-
-interface Bookmark {
-    post_id: string;
-    user_id: string;
-}
-
-const initializeReactions = (post_id: string) => [
-    { id: 0, isColored: false, white: white_reaction_icons[0], color: color_reaction_icons[0] },
-    { id: 1, isColored: false, white: white_reaction_icons[1], color: color_reaction_icons[1] },
-    { id: 2, isColored: false, white: white_reaction_icons[2], color: color_reaction_icons[2] },
-    { id: 3, isColored: false, white: white_reaction_icons[3], color: color_reaction_icons[3] },
-];
-
 const User_Bookmarks: React.FC<UserID> = ({ user_id }) => {
-    const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
     const [posts, setPosts] = useState<Post[]>([]);
-    const [loaded, setLoaded] = useState<boolean>(false);
+    const [comments, setComments] = useState<Comment[]>([]);
+    const [reactions, setReactions] = useState<Reaction[]>([]);
+    const [loaded, setLoaded] = useState(false); // ロード済み状態を管理
+    const init = async () => {
+        if (loaded) return; // 既にロード済みの場合は終了
+        getAllposts();
+        getAllPublicComments();
+        getAllPostsReaction();
+        setLoaded(true);
+    }
+    const getAllposts = async () => {
+        const data = await GetAllPosts();
+        if (!data) { return; }
+        if (!Array.isArray(data)) return;
+        const get_posts = data?.map((post: Post) => {
+            if (typeof post.content === "string") {
+                try {
+                    //エンコードする
+                    const decodedBytes = Uint8Array.from(atob(post.content), (c) => c.charCodeAt(0));
+                    const decoder = new TextDecoder("utf-8");
+                    const jsonString = decoder.decode(decodedBytes);
+                    const jsonObject = JSON.parse(jsonString);
 
-    const fetchBookmarks = useCallback(async () => {
-        try {
-            const res = await GetBookmark();
-            if (res && Array.isArray(res.data)) {
-                setBookmarks(res.data);
+                    // 更新して変えす
+                    return {
+                        ...post,
+                        content: jsonObject,
+                    };
+                } catch (error) {
+                    console.error("Failed to decode post content:", error);
+                }
             }
-        } catch (error) {
-            console.error("Failed to fetch bookmarks:", error);
+            // 文字列ならそのまま返す
+            return post;
+        });
+        setPosts(get_posts);
+    };
+    const getAllPublicComments = async () => {
+        const data = await GetAllPublicComments();
+        if (!data) return;
+        if (Array.isArray(data)) {
+            setComments(data);
         }
-    }, []);
-
-    const fetchPosts = useCallback(async () => {
-        try {
-            const data = await GetAllPosts();
-            if (data && Array.isArray(data)) {
-                const formattedPosts = data.map((post: any) => {
-                    if (typeof post.content === "string") {
-                        const decodedBytes = Uint8Array.from(atob(post.content), (c) =>
-                            c.charCodeAt(0)
-                        );
-                        const decoder = new TextDecoder("utf-8");
-                        const jsonString = decoder.decode(decodedBytes);
-                        const jsonObject = JSON.parse(jsonString);
-                        return { ...post, content: jsonObject, reactions: initializeReactions(post.post_id) };
-                    }
-                    return { ...post, reactions: initializeReactions(post.post_id) };
-                });
-                setPosts(formattedPosts);
-            }
-        } catch (error) {
-            console.error("Failed to fetch posts:", error);
+    }
+    const getAllPostsReaction = async () => {
+        const data = await GetAllPostsReaction();
+        if (!data) return;
+        if (Array.isArray(data)) {
+            setReactions(data);
         }
-    }, []);
-
+    }
+    //リアクションの数
+    const getReactionCount = (post_id: string, rt: keyof Reaction) => {
+        const a = (reactions.find(r => r.post_id === post_id));
+        if (!a) return <>0</>;
+        return (
+            <>
+                {a[rt]}
+            </>
+        )
+    }
     useEffect(() => {
-        if (!loaded) {
-            setLoaded(true);
-            fetchBookmarks();
-            fetchPosts();
-        }
-    }, [loaded, fetchBookmarks, fetchPosts]);
-
-    const bookmarkedPosts = posts.filter(post => bookmarks.some(b => b.post_id === post.post_id));
-
+        init();
+    }, [])
     return (
         <div className="flex flex-col object-cover w-full h-full items-center hidden-scrollbar overflow-auto">
-            {bookmarkedPosts.map((post, i) => (
-                <div key={i} className="w-[80%] bg-[#DDD4CF] rounded-md p-3 flex flex-col my-3">
+            {posts.filter(e => e.user_id === user_id).map((post, i) => (
+                <div key={i} className={`w-[80%] bg-[#DDD4CF] rounded-md p-3 flex flex-col my-3`}>
                     <Link href={"/posts/" + post.post_id}>
                         <div className="flex items-center justify-between">
                             <span className="font-bold text-2xl m-3">{post.title}</span>
                             <div>
-                                {post.created_at.slice(0,10).replace("-","年").replace("-","月")}日
+                                {post.created_at.slice(0, 10).replace("-", "年").replace("-", "月")}日
                                 <span className="m-3">{post.show_id.split("-")[0]}</span>
                             </div>
                         </div>
-                        <p>
+                        <p className="m-3">
+                            {/*いい感じに2行に収める  */}
                             {typeof post.content !== "string"
-                                    ? post.content.map(c => c.children?.map((e: any, i: number) => (<span key={i}>{e.text}</span>)))
-                                    : JSON.stringify(post.content).slice(0, 87)}
+                                ? post.content.map(c => c.children?.map((e: any, i: number) => (<span key={i}>{e.text}</span>)))
+                                : JSON.stringify(post.content).slice(0, 87)}
                         </p>
                     </Link>
-                    <div className="flex justify-between">
-                        <div className="flex gap-2">
-                            <button className="flex gap-2">
-                                <Image src={comment_icon} width={30} height={30} alt="comment icon" />
-                                {comments.filter(c => c.post_id === post.post_id).length}
+                    <div className="flex justify-between full m-3">
+                        <div className="object-cover w-1/2 flex justify-between items-center">
+                            <button className="flex ml-3">
+                                <Image
+                                    src={comment_icon}
+                                    width={30}
+                                    height={30}
+                                    alt="comment icon"
+                                />
+                                {comments.filter(
+                                    (c) => post.post_id === c.post_id
+                                ).length}
                             </button>
-                            <button>
-                                <Image src={heart_icon} width={30} height={30} alt="heart icon" />
-                            </button>
+                            {
+                                ReactionTypes.map((rt, i) => (
+                                    <button
+                                        key={i}
+                                        onClick={() => console.log("pushed")}
+                                        className="flex items-center"
+                                    >
+                                        <Image
+                                            src={white_reaction_icons[i]}
+                                            width={50}
+                                            height={50}
+                                            alt="heart icon"
+                                        />
+                                        <p>{getReactionCount(post.post_id, rt)}</p>
+                                    </button>
+                                ))
+                            }
                         </div>
-                        <button>
-                            <Image src={bookmark_icon} width={30} height={20} alt="bookmark icon" />
-                        </button>
                     </div>
                 </div>
-            ))}
+            ))
+            }
         </div>
     );
-};
-
-export { User_Bookmarks };
+}
+export { User_Bookmarks }

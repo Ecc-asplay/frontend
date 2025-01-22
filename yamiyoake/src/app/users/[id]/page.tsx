@@ -6,7 +6,7 @@ import { LeftNavigation } from "@/app/components/navigations/left";
 import { RightNavigation } from "@/app/components/navigations/right";
 import { Items } from "@/app/components/users/Items";
 import { Header } from "@/app/components/Header";
-import { GetUserData } from "@/app/api/users";
+import {GetUserID, GetUserData } from "@/app/api/users";
 interface UserID {
     params: { id: string | null }
 }
@@ -32,8 +32,8 @@ export default function Users({ params }: UserID) {
     const [select, setSelect] = useState<number>(-1);
     useEffect(() => {
         async function getID() {
-            const resolvedParams = await params;
-            setId(resolvedParams.id);
+            const id = await GetUserID();
+            setId(id);
         }
         getID();
         async function getUserData() {
@@ -70,7 +70,7 @@ export default function Users({ params }: UserID) {
                     </div>
                     <div className="object-cover flex justify-between w-full ">
                         <span>{userData?.email}</span>
-                        <Link href={"/edit/1"} className="rounded-md border-2 border-[#B8A193] w-[20%] text-center text-[#B8A193]">編集</Link>
+                        <Link href={`/edit/`} className="rounded-md border-2 border-[#B8A193] w-[20%] text-center text-[#B8A193]">編集</Link>
                     </div>
                 </div>
                 <div className="object-cover flex w-full h-[10%] text-white ">

@@ -43,6 +43,21 @@ export async function GetPostCommentsList(post_id: string) {
     }
 }
 
+export async function GetAllComments() {
+    try {
+        const token = await GetToken();
+        const res = await axios.get(URL+"/comment/all",{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        });
+        console.log(res);
+        return res.data;
+    } catch (e) {
+        console.log(e);
+    }
+}
+
 export async function GetAllPublicComments() {
     try {
         const res = await axios.get(URL+"/comment/getpublic");
