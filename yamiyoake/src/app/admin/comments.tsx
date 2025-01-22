@@ -2,6 +2,8 @@ import Image from "next/image";
 import { useState } from "react";
 import comment from "@/app/img/comment.png";
 import { ChangeEvent } from "react";
+import search from "@/app/img/search-svgrepo-com.png"; 
+
 const testData = [
     {
         userid: 1,
@@ -53,28 +55,34 @@ const Comments = () =>{
     return (
         <div className="flex w-full h-full">
             <div className="flex flex-col w-[80%] h-screen items-center">
-                <div className="flex items-center w-[80%] ">
+                {/* <div className="flex items-center w-[80%] ">
                     <input type="text" className="w-full h-10 rounded-3xl m-5"/>
+                </div> */}
+
+                <div className="flex object-cover w-[80%] h-[6%] items-center mx-10 mt-10 bg-white rounded-full p-1">
+                    <input type="text" placeholder="ユーザ名・内容・日時・検索" className="object-cover w-full rounded-xl bg-transparent placeholder:text-lg outline-none pl-10" onChange={(e)=>setKeyword(e.target.value)}/>
+                    <Image src={search} width={30} height={30} alt={"search"} className="mr-10"/>
                 </div>
                 
-                <div className="flex items-center justify-around m-5 gap-5">
-                    <select name="" id="" className="rounded-xl">
+                <div className="flex items-center justify-around m-5 gap-7 text-[#A5BCA2] font-medium">
+                    <select name="" id="" className="rounded-full py-2 px-4 border-4 border-[#A5BCA2]">
                         <option value="">ユーザーごと</option>
                     </select>
-                    <select name="" id="" className="rounded-xl">
+                    <select name="" id="" className="rounded-full py-2 px-4 border-4 border-[#A5BCA2]">
                         <option value="">投稿ごと</option>
                     </select>
-                    <select name="" id="" className="rounded-xl">
+                    <select name="" id="" className="rounded-full py-2 px-4 border-4 border-[#A5BCA2]">
                         <option value="">日付</option>
                     </select>
-                    <select name="" id="" className="rounded-xl">
+                    <select name="" id="" className="rounded-full py-2 px-4 border-4 border-[#A5BCA2]">
                         <option value="">選択済み</option>
                     </select>
                 </div>
+
                 <div className="object-cover flex flex-col bg-white w-[90%] rounded-lg h-[60%] ">
                     <div className="flex justify-between items-center">
-                        <p className="m-3 text-xl text-[#5A6C58] font-bold">通報一覧</p>
-                        <p className="mr-3 text-xl">選択 1/50</p>
+                        <p className="ml-5 my-3 text-xl text-[#5A6C58] font-bold">通報一覧</p>
+                        <p className="mr-5 my-3 text-xl">選択 1/50</p>
                     </div>
                     <div className="object-cover w-full flex flex-col items-center h-full p-5 overflow-y-auto hidden-scrollbar ">
                         <div className="w-[80%] border-2 border-[#CAD9BA] rounded-lg">
@@ -131,9 +139,9 @@ const Comments = () =>{
                         </div>
                     ))}                   
                 </div>
-                <div className='object-cover w-full h-[50%] flex flex-col items-center text-xl'>
-                    <button className='w-[70%] h-[20%] rounded-xl bg-[#A5BBA2] text-white mb-3'>送信</button>
-                    <button className='w-[65%] h-[20%] rounded-xl bg-red-500 text-white'>削除</button>
+                <div className='object-cover w-full h-[50%] flex flex-col items-center text-2xl font-semibold'>
+                    <button className='w-[70%] h-[18%] rounded-xl bg-[#A5BBA2] text-white mb-3'>送信</button>
+                    <button className='w-[60%] h-[18%] rounded-xl bg-red-500 text-white'>削除</button>
                 </div>
             </div>
         </div>

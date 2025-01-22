@@ -5,6 +5,7 @@ import { ChangeEvent } from 'react';
 import Image from 'next/image';
 import pluscircle from "@/app/img/plus-circle.png";
 import usercircle from "@/app/img/user-circle.png";
+
 const testData = [
     {value:10},
     {value:20},
@@ -51,7 +52,7 @@ const AdminUsers = () =>{
                 <div className='analitics w-full flex justify-around items-center'>
                     <div className='bg-white rounded-lg relative m-5 -mr-3 w-[40%]'>
                         <p className='absolute top-3 left-3'>アナリティクス</p>
-                        <ResponsiveContainer width="100%" height={200}>
+                        <ResponsiveContainer width="100%" height={200} className="p-1">
                             <LineChart  data={testData} >
                                 <Line type="monotone" dataKey="value" stroke="#E09A96" dot={false} />
                                 <XAxis tick={false}/>
@@ -60,7 +61,7 @@ const AdminUsers = () =>{
                     </div>
                     <div className='bg-white rounded-lg relative m-3 w-[40%]'>
                         <p className='absolute top-3 left-3'>アナリティクス</p>
-                        <ResponsiveContainer width="100%" height={200}>
+                        <ResponsiveContainer width="100%" height={200} className="p-1">
                             <LineChart  data={testData} >
                                 <Line type="monotone" dataKey="value" stroke="#E09A96" dot={false} />
                                 <XAxis tick={false}/>
@@ -70,11 +71,11 @@ const AdminUsers = () =>{
                 </div>
                 <div className='w-[90%] h-[50%] flex flex-col  bg-white rounded-lg'>
                     <div className='w-full flex justify-between items-center text-xl text-[#A5BBA2] font-bold'>
-                        <p className='text-[#5A6C58] m-5'>管理ユーザ一覧</p>
-                        <p className='m-5 mr-12'>選択1/3</p>
+                        <p className='text-[#5A6C58] my-3 ml-5'>管理ユーザ一覧</p>
+                        <p className='my-3 mr-5'>選択1/3</p>
                     </div>
                     <div className='flex justify-center'>
-                        <table className='w-[80%] border-2 border-[#CAD9BA] border-spacing-0 border-separate rounded-lg text-center text-[#CAD9BA]'>
+                        <table className='w-[80%] border-2 border-[#CAD9BA] border-spacing-0 border-separate rounded-lg text-center text-[#CAD9BA] text-lg'>
                             <tbody>
                                 <tr>
                                     <th>管理ユーザID</th>
@@ -84,7 +85,7 @@ const AdminUsers = () =>{
                                     <th></th>
                                 </tr>
                                 {testUsers.map((user) => (
-                                    <tr key={user.id}>
+                                    <tr key={user.id} className='text-xl my-2'>
                                         <td className="border-t-2 border-[#CAD9BA]">{user.id}</td>
                                         <td className="border-t-2 border-[#CAD9BA]">{user.email}</td>
                                         <td className="border-t-2 border-[#CAD9BA] text-[#5A6C58]">{user.name}</td>
@@ -143,11 +144,11 @@ const AdminUsers = () =>{
                     ))}                   
                 </div>
                 <div className='object-cover w-full h-[70%] flex flex-col items-center text-xl overflow-hidden'>
-                    <button className='w-[70%] h-[20%] rounded-xl bg-[#A5BBA2] text-white mb-3' popoverTarget='selected_adminusers' popoverTargetAction='show' onClick={()=>modal("selected_adminusers")}>権限変更</button>
+                    <button className='w-[70%] h-[15%] rounded-xl bg-[#A5BBA2] text-white mb-3 text-2xl font-semibold' popoverTarget='selected_adminusers' popoverTargetAction='show' onClick={()=>modal("selected_adminusers")}>権限変更</button>
                     <div id='selected_adminusers' popover='manual' className='hidden backdrop:bg-overlay w-[75%] h-[65%] rounded-lg p-4 flex flex-col text-[#CAD9BA] '>
                         <p className='text-2xl text-[#5A6C58] my-5 mb-8'>権限変更</p>
                         <div className='flex w-full'>
-                            <div className="my-5 border-2 border-[#CAD9BA] rounded-lg w-3/4  overflow-y-auto hidden-scrollbar">
+                            <div className="my-5 border-2 border-[#CAD9BA] rounded-lg w-3/4  overflow-y-auto hidden-scrollbar ml-10">
                                 <div className='flex justify-around w-full p-3'>
                                     <div className='flex items-center object-cover w-1/4'>管理ユーザID </div>
                                     <div className='flex items-center object-cover w-1/4'>メールアドレス</div>
@@ -181,11 +182,11 @@ const AdminUsers = () =>{
                             </div>
                         </div>
                         
-                        <div className='flex justify-end w-full h-[20%] mt-3'>
-                            <button className='bg-[#CAD9BA] w-[20%] rounded-lg text-xl text-white' popoverTarget='selected_adminusers' popoverTargetAction='hide' onClick={()=>modal("selected_adminusers")}>変更</button>
+                        <div className='flex justify-end w-full h-[12%] mt-3'>
+                            <button className='bg-[#CAD9BA] w-[15%] rounded-lg text-2xl text-white mr-10' popoverTarget='selected_adminusers' popoverTargetAction='hide' onClick={()=>modal("selected_adminusers")}>変更</button>
                         </div>     
                     </div>
-                    <button className='w-[65%] h-[20%] rounded-xl bg-red-500 text-white'>削除</button>
+                    <button className='w-[60%] h-[15%] rounded-xl text-2xl bg-red-500 text-white font-semibold'>削除</button>
                 </div>
             </div>
         </div>
