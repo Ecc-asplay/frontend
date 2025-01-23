@@ -53,8 +53,9 @@ const Comments:React.FC<Post> = ({post_id}) =>{
 
     //リアクションの数
     const getReactionCount = (comment_id:string,rt:keyof Reaction)=>{
-        const post = reactions.filter(r=>r.comment_id===comment_id);
-        const count:number = post.filter(r=>r[rt]).length;
+        const comment = reactions.filter(r=>r.comment_id===comment_id);
+        comment.map(e=>console.log(e[rt]));
+        const count:number = comment.filter(r=>r[rt]).length;
         if(!count)return<>0</>;
         return(
             <>
@@ -69,19 +70,19 @@ const Comments:React.FC<Post> = ({post_id}) =>{
         if(req)alert("送信完了")
     }
 
-    const toggleReactions = async(post_id:string,reactionType:string)=>{
+    const toggleReactions = async(comment_id:string,reactionType:string)=>{
         switch(reactionType){
-            case "p_reaction_thanks":
-                await UpdateCommentReactionThanks(post_id,user_id);
+            case "c_reaction_thanks":
+                await UpdateCommentReactionThanks(comment_id,user_id);
                 break;
-            case "p_reaction_heart":
-                await UpdateCommentReactionHeart(post_id,user_id);
+            case "c_reaction_heart":
+                await UpdateCommentReactionHeart(comment_id,user_id);
                 break;
-            case "p_reaction_useful":
-                await UpdateCommentReactionUseful(post_id,user_id);
+            case "c_reaction_useful":
+                await UpdateCommentReactionUseful(comment_id,user_id);
                 break;
-            case "p_reaction_helpful":
-                await UpdateCommentReactionHelpful(post_id,user_id);
+            case "c_reaction_helpful":
+                await UpdateCommentReactionHelpful(comment_id,user_id);
                 break;
             default:
                 break;
@@ -141,11 +142,11 @@ const Comments:React.FC<Post> = ({post_id}) =>{
                                     ReactionTypes.map((rt,i)=>(
                                         <button
                                             key={i} 
-                                            onClick={()=>toggleReactions(post_id,rt)} 
+                                            onClick={()=>toggleReactions(comment.comment_id,rt)} 
                                             className="flex items-center"
                                         >
                                             <Image
-                                                src={isReaction(post_id,rt)?color_reaction_icons[i]:white_reaction_icons[i]}
+                                                src={isReaction(comment.comment_id,rt)?color_reaction_icons[i]:white_reaction_icons[i]}
                                                 width={50}
                                                 height={50}
                                                 alt="heart icon"

@@ -13,7 +13,6 @@ export async function CreateBookmark(PostID:string) {
                 Authorization:`Bearer ${token}`
             },
         });
-        console.log(res + "bookmark");
         return res !== null;
     }catch(e){
         console.log(e+"エラー");
@@ -35,7 +34,6 @@ export async function DeleteBookmark(PostID:string) {
                 post_id:PostID
             }
         });
-        console.log(res + "bookmark");
         return res !== null;
     }catch(e){
         console.log(e+"エラー");

@@ -88,7 +88,6 @@ export default function Home() {
         if(!data)return;
         if(Array.isArray(data)){
             const get_data = data.map(e=>e);
-            console.log(get_data);
             setReactions(get_data);
         }
     }
@@ -203,11 +202,7 @@ export default function Home() {
             }
         })
     }, []);
-    useEffect(()=>{
-        if(reactions){
-            console.log(reactions);
-        }
-    },[reactions])
+
 
     
 

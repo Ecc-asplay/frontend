@@ -1,21 +1,19 @@
 "use client";
 import { useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-
+import { useRouter } from "next/navigation";
 const Logout: React.FC = () => {
-    const navigate = useNavigate();
+    const router = useRouter();
     
     useEffect(() => {
         // 確認必要f12で
-        localStorage.removeItem("token")
+        sessionStorage.removeItem("acess_token");
 
         const timer = setTimeout(() => {
-            navigate("/")
+            router.push("/")
         },3000)
         
         return () => clearTimeout(timer)
-    },[navigate])
-    
+    },[router])
     return(
         <div className="flex flex-col items-center px-6 py-12">
             <p className="text-middlebrown font-semibold">

@@ -56,7 +56,6 @@ const Report = () =>{
     const handleChange = (e:ReportIds) =>{
         const target = e;
         const report = target.report;
-        console.log(report)
         const { reportUser, reportedUser } = target.report;
     
         // `checked` に現在の report が含まれているか確認
@@ -88,7 +87,7 @@ const Report = () =>{
                 </div> */}
 
                 <div className="flex object-cover w-[80%] h-[6%] items-center mx-10 mt-10 bg-white rounded-full p-1">
-                    <input type="text" placeholder="ユーザ名・内容・日時・検索" className="object-cover w-full rounded-xl bg-transparent placeholder:text-lg outline-none pl-10" onChange={(e)=>setKeyword(e.target.value)}/>
+                    <input type="text" placeholder="ユーザ名・内容・日時・検索" className="object-cover w-full rounded-xl bg-transparent placeholder:text-lg outline-none pl-10" />
                     <Image src={search} width={30} height={30} alt={"search"} className="mr-10"/>
                 </div>
                 

@@ -314,13 +314,13 @@ export default function Post() {
       <LeftNavigation />
       <div id="post_body" onDrop={(e) => drop(e)} onDragOver={e => dragOver(e)} onDragLeave={e => dragLeave(e)} className='w-[60%] h-screen overflow-y-auto hidden-scrollbar flex flex-col items-center relative'>
         <Header/>
-        <input type="text" value={title} onChange={(e)=>setTitle(e.target.value)} className='text-4xl outline-none m-5 mt-10' placeholder='今日のハイライト' />
-        <div className='flex flex-col bg-[#DDD4CF] w-[70%] h-[30%] rounded-xl p-6 place-items-center'>
-          <span className='text-left w-full'>今、どんな気分?</span>
-          <div className='grid grid-cols-5 gap-10 m-5'>
+        <input type="text" value={title} onChange={(e)=>setTitle(e.target.value)} className='text-7xl outline-none ml-14 mr-5 my-16 placeholder-[#DDD4CF] font-semibold' placeholder='今日のハイライト' />
+        <div className='flex flex-col bg-[#DDD4CF] w-[70%] h-[20%] rounded-xl p-6 place-items-center'>
+          <span className='text-left w-full text-3xl text-[#B8A193]'>今、どんな気分?</span>
+          <div className='grid grid-cols-5 gap-20 mt-7'>
             {feelIcons.map((icon, i) => (
               <div key={i}>
-                <button onClick={() => { toggleFeelIcon(icon.id) }}><Image src={icon.isColor ? icon.color : icon.white} alt="feel icon" className='w-full h-full' /></button>
+                <button onClick={() => { toggleFeelIcon(icon.id) }}><Image src={icon.isColor ? icon.color : icon.white} width={60} alt="feel icon" className='w-full h-full' /></button>
               </div>
             ))}
           </div>
