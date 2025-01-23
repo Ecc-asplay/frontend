@@ -33,10 +33,10 @@ const Login: React.FC = () => {
     };
 
     return(
-        <div className="flex flex-col justify-center items-center min-h-screen bg-basebg space-y-10">
-            <div className="fixed top-0 w-full h-8 bg-headerbrown" />
-
-            <div className="flex justify-center items-center">            
+        <>
+        <div className="fixed top-0 w-full h-8 bg-headerbrown" />
+        <div className="flex flex-col items-center min-h-screen bg-basebg space-y-10">
+            <div className="flex items-center mt-36">            
                 <Image src={loginlogo} height={140} width={140} alt="logo" className="mb-4"></Image>
             </div>
 
@@ -72,6 +72,7 @@ const Login: React.FC = () => {
                 <Link href={"/registration/regist_email"} className="text-basegreen text-lg">新規登録はこちら</Link>
             </div>
         </div>
+        </>
     )
 }
 export default Login;
