@@ -7,7 +7,7 @@ import eyeshow from "@/app/img/eye-show.png";
 import { useEffect, useState } from "react";
 import { GetUserID } from "../api/users";
 import { GetPostCommentsList,CreateComment,Comment } from "@/app/api/comments";
-import { GetAllCommentsReaction,Reaction,ReactionTypes } from "@/app/api/comments_reaction";
+import { GetAllCommentsReaction,UpdateCommentReactionHeart, UpdateCommentReactionHelpful, UpdateCommentReactionThanks, UpdateCommentReactionUseful ,Reaction,ReactionTypes } from "@/app/api/comments_reaction";
 import { color_reaction_icons,white_reaction_icons } from "@/app/reaction_icons";
 
 interface Post{
@@ -24,9 +24,13 @@ const Comments:React.FC<Post> = ({post_id}) =>{
         if(loaded)return;
         const id = await GetUserID();
         setUserId(id?id:"0");
-        getComments();
-        getAllCommentsReaction();
+        await getComments();
+        await getAllCommentsReaction();
         setLoaded(true);
+    }
+    const reload = async () => {
+        await getComments();
+        await getAllCommentsReaction();
     }
     const getComments = async()=>{
         const res = await GetPostCommentsList(post_id);
@@ -47,19 +51,46 @@ const Comments:React.FC<Post> = ({post_id}) =>{
         }
     }
 
+    //リアクションの数
     const getReactionCount = (comment_id:string,rt:keyof Reaction)=>{
-        const a = (reactions.find(r=>r.comment_id===comment_id));
-        if(!a)return<>0</>;
+        const post = reactions.filter(r=>r.comment_id===comment_id);
+        const count:number = post.filter(r=>r[rt]).length;
+        if(!count)return<>0</>;
         return(
-        <>
-            {a[rt]}
-        </>
+            <>
+                {count}
+            </>
         )
     }
+    
 
     const sendComment = async()=>{
         const req = await CreateComment(post_id,comment);
         if(req)alert("送信完了")
+    }
+
+    const toggleReactions = async(post_id:string,reactionType:string)=>{
+        switch(reactionType){
+            case "p_reaction_thanks":
+                await UpdateCommentReactionThanks(post_id,user_id);
+                break;
+            case "p_reaction_heart":
+                await UpdateCommentReactionHeart(post_id,user_id);
+                break;
+            case "p_reaction_useful":
+                await UpdateCommentReactionUseful(post_id,user_id);
+                break;
+            case "p_reaction_helpful":
+                await UpdateCommentReactionHelpful(post_id,user_id);
+                break;
+            default:
+                break;
+        }
+        await reload();
+    }
+
+    const isReaction = (comment_id:string,rt:keyof Reaction):boolean=>{
+        return reactions.find(r=>(r.comment_id===comment_id&&r.user_id===user_id&&r[rt]))?true:false;
     }
     
     useEffect(()=>{
@@ -76,12 +107,13 @@ const Comments:React.FC<Post> = ({post_id}) =>{
                             <div className={`object-cover w-full relative flex`}>
                                 {comment.user_id ===user_id?
                                     (
+                                        // 自分のコメント
                                         <div className="object-cover w-full flex relative">
                                             <div className="object-cover flex items-center w-1/12">
                                                 <Image src={comment.is_public?eyeshow:eyeoff} alt="test" className="w-full"/>
                                             </div>
-                                            <div className="flex justify-end w-3/4 relative">
-                                                <div className=" bg-[#A5BBA2] rounded-lg p-3">
+                                            <div className="object-cover flex justify-end w-3/4 relative">
+                                                <div className="object-cover text-nowrap w-full bg-[#A5BBA2] rounded-lg p-3">
                                                     <p>{comment.comments}</p>
                                                     <Image src={sippo} width={30} height={30} alt="sippo" className="absolute -bottom-3 right-0"/>
                                                 </div>
@@ -89,9 +121,10 @@ const Comments:React.FC<Post> = ({post_id}) =>{
                                         </div>
                                    ):
                                     (
+                                        // 他人のコメント
                                         <div className="object-cover w-full flex relative">
-                                            <div className="bg-[#B8A193] rounded-lg p-3 w-3/4 relative">
-                                                <p>{comment.comments}</p>
+                                            <div className="object-cover w-3/4  bg-[#B8A193] rounded-lg p-3  relative">
+                                                <p className="object-cover w-full break-words">{comment.comments}</p>
                                                 <Image src={sippo_reply} width={30} height={30} alt="sippo" className="absolute -bottom-3 left-0"/>
                                             </div>
                                             <div className="object-cover flex items-center w-1/12">
@@ -107,12 +140,12 @@ const Comments:React.FC<Post> = ({post_id}) =>{
                                 {
                                     ReactionTypes.map((rt,i)=>(
                                         <button
-                                                key={i} 
-                                                onClick={()=>console.log("pushed")} 
-                                                className="flex items-center"
-                                            >
+                                            key={i} 
+                                            onClick={()=>toggleReactions(post_id,rt)} 
+                                            className="flex items-center"
+                                        >
                                             <Image
-                                                src={white_reaction_icons[i]}
+                                                src={isReaction(post_id,rt)?color_reaction_icons[i]:white_reaction_icons[i]}
                                                 width={50}
                                                 height={50}
                                                 alt="heart icon"

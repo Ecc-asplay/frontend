@@ -30,11 +30,18 @@ export default function Home() {
     const init = async ()=>{
         if (loaded) return; // 既にロード済みの場合は終了
         getUserID();
-        getAllposts();
-        getAllPublicComments();
-        getAllPostsReaction();
-        getAllBookmarks();
+        await getAllposts();
+        await getAllPublicComments();
+        await getAllPostsReaction();
+        await getAllBookmarks();
         setLoaded(true);
+    }
+    const reload = async ()=>{
+        getUserID();
+        await getAllposts();
+        await getAllPublicComments();
+        await getAllPostsReaction();
+        await getAllBookmarks();
     }
     const getUserID = async ()=>{
         const id = await GetUserID();
@@ -81,6 +88,7 @@ export default function Home() {
         if(!data)return;
         if(Array.isArray(data)){
             const get_data = data.map(e=>e);
+            console.log(get_data);
             setReactions(get_data);
         }
     }
@@ -107,12 +115,13 @@ export default function Home() {
 
     //リアクションの数
     const getReactionCount = (post_id:string,rt:keyof Reaction)=>{
-        const a = (reactions.find(r=>r.post_id===post_id));
-        if(!a)return<>0</>;
+        const post = reactions.filter(r=>r.post_id===post_id);
+        const count:number = post.filter(r=>r[rt]).length;
+        if(!count)return<>0</>;
         return(
-        <>
-            {a[rt]}
-        </>
+            <>
+                {count}
+            </>
         )
     }
 
@@ -124,27 +133,31 @@ export default function Home() {
             await CreateBookmark(post_id);
         }
        
-       getAllBookmarks();
+        await getAllBookmarks();
+    }
+
+    const isReaction = (post_id:string,rt:keyof Reaction):boolean=>{
+        return reactions.find(r=>(r.post_id===post_id&&r.user_id===user_id&&r[rt]))?true:false;
     }
 
     const toggleReactions = async(post_id:string,reactionType:string)=>{
         switch(reactionType){
-            case "Thanks":
-                await UpdatePostReactionThanks(post_id);
+            case "p_reaction_thanks":
+                await UpdatePostReactionThanks(post_id,user_id);
                 break;
-            case "heart":
-                await UpdatePostReactionHeart(post_id);
+            case "p_reaction_heart":
+                await UpdatePostReactionHeart(post_id,user_id);
                 break;
-            case "useful":
-                await UpdatePostReactionUseful(post_id);
+            case "p_reaction_useful":
+                await UpdatePostReactionUseful(post_id,user_id);
                 break;
-            case "helpful":
-                await UpdatePostReactionHelpful(post_id);
+            case "p_reaction_helpful":
+                await UpdatePostReactionHelpful(post_id,user_id);
                 break;
             default:
                 break;
         }
-        getAllPostsReaction();
+        await reload();
     }
 
     //検索欄が更新し次第検索する
@@ -179,7 +192,6 @@ export default function Home() {
     // 初回レンダリング時に投稿を取得
     useEffect(() => {
         init();
-        console.log(bookmarks);
         //通報のやつが出ているときにほかのところをクリックすると非表示にする
         document.addEventListener("click",(e)=>{
             const target:HTMLElement = e.target as HTMLElement;
@@ -192,10 +204,12 @@ export default function Home() {
         })
     }, []);
     useEffect(()=>{
-        if(reactions && posts){
-            posts.map(p=>reactions.map(e=>{p.post_id===e.post_id}));
+        if(reactions){
+            console.log(reactions);
         }
     },[reactions])
+
+    
 
   return (
     <div className="flex w-full h-screen ">
@@ -253,18 +267,18 @@ export default function Home() {
                               {
                                 ReactionTypes.map((rt,i)=>(
                                     <button
-                                            key={i} 
-                                            onClick={()=>toggleReactions(post.post_id,rt)} 
-                                            className="flex items-center"
-                                        >
-                                            <Image
-                                                src={white_reaction_icons[i]}
-                                                width={50}
-                                                height={50}
-                                                alt="heart icon"
-                                            />
-                                            <p>{getReactionCount(post.post_id,rt)}</p>
-                                        </button>
+                                        key={i} 
+                                        onClick={()=>toggleReactions(post.post_id,rt)} 
+                                        className="flex items-center"
+                                    >
+                                        <Image
+                                            src={isReaction(post.post_id,rt)?color_reaction_icons[i]:white_reaction_icons[i]}
+                                            width={50}
+                                            height={50}
+                                            alt="heart icon"
+                                        />
+                                        <p>{getReactionCount(post.post_id,rt)}</p>
+                                    </button>
                                 ))
                               }
 

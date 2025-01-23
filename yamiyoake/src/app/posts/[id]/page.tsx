@@ -8,7 +8,7 @@ import bookmark from "@/app/img/bookmark.png";
 import Image from "next/image";
 import { Header } from "@/app/components/Header";
 import { color_reaction_icons,white_reaction_icons } from "@/app/reaction_icons";
-import { GetAllPosts } from "@/app/api/posts";
+import { GetAllPosts,Post } from "@/app/api/posts";
 import { StaticImageData } from "next/image";
 import {FiChevronRight,FiChevronLeft} from "react-icons/fi";
 
@@ -16,21 +16,7 @@ interface PostID{
     params:{id:string | null}
 }
 
-// 型定義
-interface Post {
-  post_id: string;
-  user_id: string;
-  show_id: string;
-  title: string;
-  content: string | any[];
-  reaction: number;
-  feel: string;
-  is_sensitive: boolean;
-  status: string;
-  created_at: string;
-  update_at: string;
-  reactions:{post_id:string, id: number, isColored: boolean, white: StaticImageData, color: StaticImageData}[]    
-}
+//テキストデコレーション
 interface content{
     text: string,
     fontsize: number,
