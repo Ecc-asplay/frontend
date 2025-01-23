@@ -74,7 +74,7 @@ const Accordion: React.FC<AccordionData> = ({question, answer}) => {
         <div className="ml-3 ">
             {/* 質問 */}
             <button
-                className="w-full text-left text-basetext font-semibold py-2 focus:outline-none flex justify-between items-center"
+                className="w-full text-left text-basetext font-medium py-1 focus:outline-none flex justify-between items-center text-lg"
                 onClick={()=> setOpen(!isOpen)}
             >
                 {question}
@@ -83,7 +83,7 @@ const Accordion: React.FC<AccordionData> = ({question, answer}) => {
                 </span>
             </button>
             {/* 答え */}
-            {isOpen && <p className="text-basetext mt-2 leading-8">{answer}</p>}
+            {isOpen && <p className="text-basetext leading-6 mx-5 mb-5">{answer}</p>}
         </div>
     )
 }

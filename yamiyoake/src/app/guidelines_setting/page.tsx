@@ -6,7 +6,7 @@ const GuidelinesSetting: React.FC = () => {
     return (
         <div className="flex flex-col overflow-auto hidden-scrollbar h-screen items-center bg-basebg px-6">
             {/* ロゴ */}
-            <div className="flex justify-center items-center mt-16 mb-8">
+            <div className="flex justify-center items-center my-8">
                 <Image src={loginlogo} height={120} width={120} alt="logo"></Image>
             </div>
 
