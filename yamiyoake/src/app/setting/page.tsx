@@ -10,7 +10,7 @@ const Setting: React.FC = () => {
     const [activeKey, setActiveKey] = useState("");
 
     return(
-        <div className="flex bg-basebg min-h-screen">
+        <div className="flex bg-basebg min-h-screen h-screen">
             <LeftNavigation />
             {/* ヘッダ */}
             <div className="w-[60%]">

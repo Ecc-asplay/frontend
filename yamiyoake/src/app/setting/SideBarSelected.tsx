@@ -10,7 +10,7 @@ import NotiDetailEmail from "./noti-detail-email";
 const SideBarSelected:(onselect: (key: string) => void) => Record<string, JSX.Element> = (onselect) =>( {
     
     about:(
-        <div className="flex flex-col px-6 py-12">
+        <div className="flex flex-col px-6 py-12 h-screen overflow-y-auto hidden-scrollbar">
             <h1 className="text-middlebrown font-bold ml-2">サイトについて</h1>
 
             <div className="text-basetext leading-relaxed max-w-screen-md ml-3">
@@ -66,7 +66,7 @@ const SideBarSelected:(onselect: (key: string) => void) => Record<string, JSX.El
         </div>
     ),
     terms:(
-        <div className="flex flex-col px-6 py-12">
+        <div className="flex flex-col px-6 py-12 h-screen overflow-y-auto hidden-scrollbar">
             <h1 className="text-middlebrown font-bold ml-2">利用規約</h1>
             {/* 本文 */}
             <div className="text-basetext leading-relaxed max-w-screen-md ml-3">
@@ -140,7 +140,7 @@ const SideBarSelected:(onselect: (key: string) => void) => Record<string, JSX.El
         </div>
     ),
     privacy:(
-        <div className="flex flex-col px-6 py-12">
+        <div className="flex flex-col px-6 py-12 h-screen overflow-y-auto hidden-scrollbar">
             <h1 className="text-middlebrown font-bold ml-2">プライバシーポリシー</h1>
             {/* 本文 */}
             <div className="text-basetext leading-relaxed max-w-screen-md ml-3">
@@ -217,7 +217,9 @@ const SideBarSelected:(onselect: (key: string) => void) => Record<string, JSX.El
     ),
     faq:(
         // 画面導入
-        <FAQ/>
+        <div className="h-screen overflow-y-auto hidden-scrollbar">
+            <FAQ/>
+        </div>
     ),
     notifications:(
         // 通知のカスタマイズ部分　

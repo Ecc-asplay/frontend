@@ -28,7 +28,7 @@ const SideBar = ({onselect} : {onselect: (key:string) => void}) => {
     }
 
     return(
-        <div className="mt-6">
+        <div className="mt-6 ">
             <ul className="w-56 p-0">
                 {items.map((item) => (
                     <li key={item.key}

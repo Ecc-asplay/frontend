@@ -71,7 +71,7 @@ const Accordion: React.FC<AccordionData> = ({question, answer}) => {
     const [isOpen, setOpen] = useState(false);
 
     return(
-        <div className="ml-3">
+        <div className="ml-3 ">
             {/* 質問 */}
             <button
                 className="w-full text-left text-basetext font-semibold py-2 focus:outline-none flex justify-between items-center"
