@@ -51,6 +51,7 @@ export async function GetAllComments() {
                 Authorization: `Bearer ${token}`
             }
         });
+        console.log(res);
         return res.data;
     } catch (e) {
         console.log(e);

@@ -7,16 +7,16 @@ import bookmark_icon from "@/app/img/bookmark.png";
 import unbookmark_icon from "@/app/img/bookmark-white.png";
 import search from "@/app/img/search-svgrepo-com.png"; 
 import filter from "@/app/img/filter-svgrepo-com.png"; 
-import { LeftNavigation } from "./components/navigations/left";
-import { RightNavigation } from "./components/navigations/right";
+import { LeftNavigation } from "@/app/components/navigations/left";
+import { RightNavigation } from "@/app/components/navigations/right";
 import { useEffect, useState } from "react";
-import { GetUserID } from "./api/users";
+import { GetUserID } from "@/app/api/users";
 import { GetAllPosts,SearchPosts,Post,Posts } from "@/app/api/posts";
-import { GetAllPublicComments,Comment } from "./api/comments";
-import { GetAllPostsReaction,Reaction,UpdatePostReactionThanks, UpdatePostReactionHeart, UpdatePostReactionHelpful, UpdatePostReactionUseful,ReactionTypes } from "./api/posts_reaction";
-import { GetBookmark,CreateBookmark,DeleteBookmark,Bookmark } from "./api/bookmark";
-import { Header } from "./components/Header";
-import { color_reaction_icons,white_reaction_icons } from "./reaction_icons";
+import { GetAllPublicComments,Comment } from "@/app/api/comments";
+import { GetAllPostsReaction,Reaction,UpdatePostReactionThanks, UpdatePostReactionHeart, UpdatePostReactionHelpful, UpdatePostReactionUseful,ReactionTypes } from "@/app/api/posts_reaction";
+import { GetBookmark,CreateBookmark,DeleteBookmark,Bookmark } from "@/app/api/bookmark";
+import { Header } from "@/app/components/Header";
+import { color_reaction_icons,white_reaction_icons } from "@/app/reaction_icons";
 
 export default function Home() {
     const [user_id,setUserId] = useState<string>("");
