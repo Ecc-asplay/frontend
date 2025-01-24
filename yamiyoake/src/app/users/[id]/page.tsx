@@ -61,19 +61,21 @@ export default function Users({ params }: UserID) {
             <LeftNavigation />
             <div className="object-cover flex flex-col w-[60%] bg-[#E8E7E6] h-screen relative">
                 <Header />
-                <div className="flex flex-col p-6">
+                <div className="flex flex-col p-6 mx-auto w-[90%]">
                     <div className="flex gap-7 items-center w-full">
-                        <span className="text-4xl text-[#807166]">{userData?.username}</span>
+                        <span className="text-5xl text-[#807166]">{userData?.username}</span>
                         <span className="text-2xl text-[#B8A193]">{year_rate}代</span>
                         <span className="text-2xl text-[#B8A193]">{userData?.gender === "male" ? "男性" : "女性"}</span>
-                        <span className="flex justify-center items-center bg-[#DCD5CD] rounded-xl w-[15%] h-[5%] p-3 text-[#807166]">{userData?.is_pricacy ? "非公開" : "公開"}</span>
+                        <span className="flex justify-center items-center bg-[#DCD5CD] rounded-3xl w-[10%] h-[80%] p-3 text-[#807166]">{userData?.is_pricacy ? "非公開" : "公開"}</span>
                     </div>
+
                     <div className="object-cover flex justify-between w-full ">
-                        <span>{userData?.email}</span>
-                        <Link href={`/edit/`} className="rounded-md border-2 border-[#B8A193] w-[20%] text-center text-[#B8A193]">編集</Link>
+                        <span className="text-xl mt-2 text-[#B8A193]">{userData?.email}</span>
+                        <Link href={`/edit/`} className="rounded-2xl border-2 border-[#B8A193] w-[13%] text-center text-2xl p-2 text-[#B8A193]">編集</Link>
                     </div>
                 </div>
-                <div className="object-cover flex w-full h-[10%] text-white ">
+
+                <div className="object-cover flex w-full h-[10%] text-white text-lg">
                     <button type="button" value={0} className={`w-[25%] h-full bg-[#807267] ${select == 0 ? "bg-[#A5BCA2]" : ""}`} onClick={() => { setSelect(0) }}>投稿</button>
                     <button type="button" value={1} className={`w-[25%] h-full bg-[#807267] ${select == 1 ? "bg-[#A5BCA2]" : ""}`} onClick={() => { setSelect(1) }}>コメント</button>
                     <button type="button" value={2} className={`w-[25%] h-full bg-[#807267] ${select == 2 ? "bg-[#A5BCA2]" : ""}`} onClick={() => { setSelect(2) }}>ブックマーク</button>
