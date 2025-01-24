@@ -43,10 +43,10 @@ export async function GetPostCommentsList(post_id: string) {
     }
 }
 
-export async function GetAllComments() {
+export async function GetAllMyComments() {
     try {
         const token = await GetToken();
-        const res = await axios.get(URL+"/comment/all",{
+        const res = await axios.get(URL+"/comment/getmycomment",{
             headers:{
                 Authorization: `Bearer ${token}`
             }
