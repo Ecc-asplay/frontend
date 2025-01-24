@@ -28,8 +28,8 @@ const SideBar = ({onselect} : {onselect: (key:string) => void}) => {
     }
 
     return(
-        <div className="mt-6 ">
-            <ul className="w-56 p-0">
+        <div className="mt-6 font-medium">
+            <ul className="w-56 mx-2">
                 {items.map((item) => (
                     <li key={item.key}
                     onClick={() => !item.isHeader && handleSelect(item.key)}
@@ -48,7 +48,7 @@ const SideBar = ({onselect} : {onselect: (key:string) => void}) => {
                         `}
                     >
                         {/* タイトル表示 */}
-                        <span className={`${item.isHeader ? "" : "ml-3"}`}>
+                        <span className={`${item.isHeader ? "" : "ml-3 my-1"}`}>
                             {item.label}
                         </span>
                         {/* logo表示 */}

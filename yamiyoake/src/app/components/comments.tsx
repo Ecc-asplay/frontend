@@ -110,13 +110,13 @@ const Comments:React.FC<Post> = ({post_id}) =>{
                                     (
                                         // 自分のコメント
                                         <div className="object-cover w-full flex relative">
-                                            <div className="object-cover flex items-center w-1/12">
+                                            <div className="object-cover flex items-center w-1/12 mr-5">
                                                 <Image src={comment.is_public?eyeshow:eyeoff} alt="test" className="w-full"/>
                                             </div>
                                             <div className="object-cover flex justify-end w-3/4 relative">
                                                 <div className="object-cover text-nowrap w-full bg-[#A5BBA2] rounded-lg p-3">
-                                                    <p>{comment.comments}</p>
-                                                    <Image src={sippo} width={30} height={30} alt="sippo" className="absolute -bottom-3 right-0"/>
+                                                    <p className="text-lg font-medium">{comment.comments}</p>
+                                                    <Image src={sippo} width={20} height={20} alt="sippo" className="absolute -bottom-3 right-0"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -124,8 +124,8 @@ const Comments:React.FC<Post> = ({post_id}) =>{
                                     (
                                         // 他人のコメント
                                         <div className="object-cover w-full flex relative">
-                                            <div className="object-cover w-3/4  bg-[#B8A193] rounded-lg p-3  relative">
-                                                <p className="object-cover w-full break-words">{comment.comments}</p>
+                                            <div className="object-cover w-3/4 bg-[#B8A193] rounded-lg p-3 relative">
+                                                <p className="object-cover w-full break-words text-lg font-medium">{comment.comments}</p>
                                                 <Image src={sippo_reply} width={30} height={30} alt="sippo" className="absolute -bottom-3 left-0"/>
                                             </div>
                                             <div className="object-cover flex items-center w-1/12">
@@ -147,8 +147,8 @@ const Comments:React.FC<Post> = ({post_id}) =>{
                                         >
                                             <Image
                                                 src={isReaction(comment.comment_id,rt)?color_reaction_icons[i]:white_reaction_icons[i]}
-                                                width={50}
-                                                height={50}
+                                                width={45}
+                                                height={45}
                                                 alt="heart icon"
                                             />
                                             <p>{getReactionCount(comment.comment_id,rt)}</p>
