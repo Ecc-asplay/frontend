@@ -6,15 +6,17 @@ import eyeoff from "@/app/img/eye-off.png";
 import eyeshow from "@/app/img/eye-show.png";
 import { useEffect, useState } from "react";
 import { GetUserID } from "../api/users";
+import { GetAllPosts,Post } from "../api/posts";
 import { GetPostCommentsList,CreateComment,Comment } from "@/app/api/comments";
 import { GetAllCommentsReaction,UpdateCommentReactionHeart, UpdateCommentReactionHelpful, UpdateCommentReactionThanks, UpdateCommentReactionUseful ,Reaction,ReactionTypes } from "@/app/api/comments_reaction";
 import { color_reaction_icons,white_reaction_icons } from "@/app/reaction_icons";
 
-interface Post{
+interface params{
     post_id:string,
 }
 
-const Comments:React.FC<Post> = ({post_id}) =>{
+const Comments:React.FC<params> = ({post_id}) =>{
+    const [post,setPost] = useState<Post>();
     const [user_id,setUserId] = useState<string>("");
     const [comment,setComment] = useState<string>("");//コメント
     const [comments,setComments] = useState<Comment[]>([]);//投稿に対するコメント
@@ -24,6 +26,7 @@ const Comments:React.FC<Post> = ({post_id}) =>{
         if(loaded)return;
         const id = await GetUserID();
         setUserId(id?id:"0");
+        await getPost();
         await getComments();
         await getAllCommentsReaction();
         setLoaded(true);
@@ -32,13 +35,19 @@ const Comments:React.FC<Post> = ({post_id}) =>{
         await getComments();
         await getAllCommentsReaction();
     }
+    const getPost = async()=>{
+        const posts = await GetAllPosts();
+        if(posts&&Array.isArray(posts)){
+            setPost(posts.find(p=>p.post_id===post_id))
+        }
+    }
     const getComments = async()=>{
         const res = await GetPostCommentsList(post_id);
         if(!res)return;
         console.log(res);
         const data = res.data;
         if(Array.isArray(data)){
-            const get_comments = data.map((comment:Comment)=>comment);
+            const get_comments = data.reverse().map((comment:Comment)=>comment);
             setComments(get_comments);
         }
     }
@@ -54,7 +63,6 @@ const Comments:React.FC<Post> = ({post_id}) =>{
     //リアクションの数
     const getReactionCount = (comment_id:string,rt:keyof Reaction)=>{
         const comment = reactions.filter(r=>r.comment_id===comment_id);
-        comment.map(e=>console.log(e[rt]));
         const count:number = comment.filter(r=>r[rt]).length;
         if(!count)return<>0</>;
         return(
@@ -67,7 +75,12 @@ const Comments:React.FC<Post> = ({post_id}) =>{
 
     const sendComment = async()=>{
         const req = await CreateComment(post_id,comment);
-        if(req)alert("送信完了")
+        if(req){
+            await reload();
+            setComment("");
+        }else{
+            alert("送信不可");
+        }
     }
 
     const toggleReactions = async(comment_id:string,reactionType:string)=>{
@@ -104,7 +117,9 @@ const Comments:React.FC<Post> = ({post_id}) =>{
             {comments?(
                 <div className="object-cover w-full h-[90%] flex flex-col items-center gap-10 hidden-scrollbar overflow-auto text-white">
                     {comments.map((comment,i)=>(
-                        <div key={i} className="object-cover w-[90%] relative ">
+                        // 閲覧しているユーザが投稿主だったらすべてのコメントが見える
+                        // 投稿主以外だったら検閲されていないコメントは見れない
+                        <div key={i} className={`object-cover w-[90%] relative ${post?.user_id===user_id?"":comment.is_public?"":"hidden"}`}>
                             <div className={`object-cover w-full relative flex`}>
                                 {comment.user_id ===user_id?
                                     (
@@ -116,14 +131,14 @@ const Comments:React.FC<Post> = ({post_id}) =>{
                                             <div className="object-cover flex justify-end w-3/4 relative">
                                                 <div className="object-cover text-nowrap w-full bg-[#A5BBA2] rounded-lg p-3">
                                                     <p className="text-lg font-medium">{comment.comments}</p>
-                                                    <Image src={sippo} width={20} height={20} alt="sippo" className="absolute -bottom-3 right-0"/>
+                                                    <Image src={sippo} width={20} height={20} alt="sippo" className="absolute -bottom-2 right-0"/>
                                                 </div>
                                             </div>
                                         </div>
                                    ):
                                     (
                                         // 他人のコメント
-                                        <div className="object-cover w-full flex relative">
+                                        <div className="object-cover w-full flex relative ">
                                             <div className="object-cover w-3/4 bg-[#B8A193] rounded-lg p-3 relative">
                                                 <p className="object-cover w-full break-words text-lg font-medium">{comment.comments}</p>
                                                 <Image src={sippo_reply} width={30} height={30} alt="sippo" className="absolute -bottom-3 left-0"/>
