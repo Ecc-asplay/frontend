@@ -52,17 +52,13 @@ const NotiDetail: React.FC<{onselect: (key: string) => void}> = ({onselect}) => 
     return(
         <div className="flex flex-col px-6 py-12 bg-basebg">
             {/* タイトルと前戻り設定 */}
-            <h1 className="text-middlebrown font-extrabold flex items-center">
-                <span className="cursor-pointer"
-                onClick={() => onselect("notifications")} 
-                >        
-                通知設定
-                </span>
-                {'　'}<FiChevronRight/>{'　'}{'プッシュ通知'}
+            <h1 className="text-middlebrown font-extrabold flex items-center space-x-3">
+                <span className="cursor-pointer" onClick={() => onselect("notifications")}>通知設定</span><FiChevronRight/>
+                <p>プッシュ通知</p>
             </h1>
 
             {/* 全処理 */}
-            <div className="flex items-center justify-between mb-4 ">
+            <div className="flex items-center justify-between my-4 ">
                 <span className="text-basetext font-semibold">{'プッシュ通知'}</span>
                 <div className={`w-12 h-6 flex items-center rounded-full p-1 cursor-pointer 
                                 ${isPushEnabled ? "bg-basegreen" : "bg-gray-300"}`}

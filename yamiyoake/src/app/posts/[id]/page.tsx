@@ -66,7 +66,7 @@ export default function Posts({params}:PostID){
         console.log(post);
     },[post])
     if (!post) {
-        return <div>LOADING</div>;
+        return <div className="flex items-center justify-center h-screen text-5xl">LOADING</div>;
     }
     return(
         <div className="flex w-full h-screen">
@@ -79,11 +79,13 @@ export default function Posts({params}:PostID){
                         <p className="text-2xl font-extrabold">{post.title}</p>
                         <Image src={bookmark} width={50} height={50} alt="bookmark"/>
                     </div>
+
                     <div className="flex items-center justify-end p-10 text-[#BEA99D]">
                         <p>{post.created_at.slice(0,10).replace("-","年").replace("-","月")}日</p>
                         <p className="mx-5">{post.show_id.split("-")[0]}</p>
                     </div>
-                    <div className="flex flex-col items-center">
+
+                    <div className="flex flex-col items-center space-y-20">
                         <div className="text-[#807166]">
                             {post.content[selectPage].children.map((e:content,i:number)=>(
                                 <span key={i} style={{
@@ -97,6 +99,7 @@ export default function Posts({params}:PostID){
                                 </span>
                             ))}
                         </div>
+
                         <div className="w-[50%] flex items-center justify-around">
                             <button className="w-[10%]" onClick={()=>{setSelectPage(selectPage > 0?selectPage-1:0)}}><FiChevronLeft className="w-full h-full" /></button>
                             {typeof post.content !== "string"

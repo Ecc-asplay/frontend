@@ -107,13 +107,13 @@ const Contact: React.FC = () => {
         <div className="flex flex-col px-6 py-12">
             <h1 className="text-middlebrown font-bold ml-2">お問い合わせ</h1>
             <div className="ml-4">
-                <p className="mt-4 mb-4 text-basetext">
+                <p className="mt-4 text-basetext">
                 利用規約・よくある質問をご確認の上でお問い合わせください。
                 </p>
 
-                <form action="" className="space-y-1">
+                <form action="">
                     {/* カテゴリー選択 */}
-                    <p className="text-basetext font-semibold">お問い合わせカテゴリー</p>
+                  <p className="text-basetext font-semibold mt-4">お問い合わせカテゴリー</p>
                     <div className="flex items-center w-full bg-inputbg rounded-md p-3 space-y-1">
                         {/* 選択項目 */}
                         <select name="category" id="category" value={contactformData.category} onChange={handleChange} required 
@@ -149,7 +149,7 @@ const Contact: React.FC = () => {
                     </div>
 
                     {/* 名前入力 */}
-                    <p className="text-basetext font-semibold">名前</p>
+                    <p className="text-basetext font-semibold mt-4">名前</p>
                     <div className="flex justify-between items-center space-x-2 bg-inputbg rounded-md p-2.5">
                         <div className="flex items-center w-full">
                             <span className="text-middlebrown px-2">姓</span>
@@ -164,32 +164,28 @@ const Contact: React.FC = () => {
                     </div>
 
                     {/* メール */}
-                    <p className="text-basetext font-semibold">メールアドレス</p>
+                    <p className="text-basetext font-semibold mt-4">メールアドレス</p>
                     <div className="flex flex-col">
                         <input type="email" id="email" name="email" placeholder="example@email.com" value={contactformData.email} onChange={handleChange} required
                             className="px-4 py-2 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext placeholder-middlebrown" />
                     </div>
 
                     {/* 詳細 */}
-                    <p className="text-basetext font-semibold">お問い合わせ内容</p>
+                    <p className="text-basetext font-semibold mt-4">お問い合わせ内容</p>
                     <div className="flex flex-col mb-2">
                         <textarea name="details" id="details" value={contactformData.details} onChange={handleChange} required 
-                                    className="px-4 py-2 h-20 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext">
+                                    className="px-4 py-2 min-h-80 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext">
 
                         </textarea>
                     </div>
 
                     {/* 送信ボタン */}
                     <div className="flex justify-center mt-2">
-                        <button type="submit" className=" w-20 h-9 py-1 mt-3 bg-basegreen text-basebg font-medium rounded-sm"
-                                    onClick={handleSubmit}>
+                        <button type="submit" className="w-[15%] h-[40%] py-2 mt-3 text-lg bg-basegreen text-basebg font-medium rounded-lg" onClick={handleSubmit}>
                             送信
                         </button>
                     </div>
-
-
                 </form>
-
             </div>
 
         </div>
