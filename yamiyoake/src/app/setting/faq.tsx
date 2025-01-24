@@ -67,9 +67,7 @@ interface AccordionData{
 
 // 問題表示設定
 const Accordion: React.FC<AccordionData> = ({question, answer}) => {
-    
     const [isOpen, setOpen] = useState(false);
-
     return(
         <div className="ml-3 ">
             {/* 質問 */}
