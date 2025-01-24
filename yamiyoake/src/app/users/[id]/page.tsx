@@ -27,21 +27,29 @@ interface UserData {
 }
 export default function Users({ params }: UserID) {
     const [id, setId] = useState<string | null>();
+    const [loaded,setLoaded] = useState<boolean>(false);
     const [userData, setUserData] = useState<UserData>();
     const [year_rate, setYearRate] = useState<number>();
     const [select, setSelect] = useState<number>(-1);
+    const init = async () => {
+        if(loaded)return;
+        await getID();
+        await getUserData();
+        setLoaded(true);
+    }
+    const getID = async ()=> {
+        const id = await GetUserID();
+        setId(id);
+    }
+    getID();
+    const getUserData = async  ()=> {
+        const data = await GetUserData() as unknown as  UserData;
+        if(data)
+            setUserData(data);
+    }
+   
     useEffect(() => {
-        async function getID() {
-            const id = await GetUserID();
-            setId(id);
-        }
-        getID();
-        async function getUserData() {
-            return await GetUserData();
-        }
-        getUserData().then((result)=>{
-            setUserData(result as UserData);
-        })
+        init();
     }, []);
 
 
@@ -65,7 +73,7 @@ export default function Users({ params }: UserID) {
                     <div className="flex gap-7 items-center w-full">
                         <span className="text-4xl text-[#807166]">{userData?.username}</span>
                         <span className="text-2xl text-[#B8A193]">{year_rate}代</span>
-                        <span className="text-2xl text-[#B8A193]">{userData?.gender === "male" ? "男性" : "女性"}</span>
+                        <span className="text-2xl text-[#B8A193]">{userData?.gender === "M" ? "男性" : "女性"}</span>
                         <span className="flex justify-center items-center bg-[#DCD5CD] rounded-xl w-[15%] h-[5%] p-3 text-[#807166]">{userData?.is_pricacy ? "非公開" : "公開"}</span>
                     </div>
                     <div className="object-cover flex justify-between w-full ">

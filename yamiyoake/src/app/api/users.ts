@@ -27,6 +27,10 @@ export interface UpdateData{
     name:{
         fname:string,
         lname:string,
+    },
+    disease_condition:{
+        disease:string,
+        condition:string,
     }
 }
 export async function GetUserData(){
@@ -37,7 +41,8 @@ export async function GetUserData(){
             headers:{
                 Authorization:`Bearer ${token}`
             },
-        })
+        });
+        if(!res.data)return;
         return res.data as UserData;
     }catch(e){
         console.log(e + "エラーです。");
@@ -64,7 +69,7 @@ export async function UpdateUserData(data:UpdateData) {
                 params:["new_password"]
             },
             {
-                target:"email",
+                target:"disease_condition",
                 url:"/users/disease-condition",
                 params:["disease","condition"]
             },
@@ -85,8 +90,9 @@ export async function UpdateUserData(data:UpdateData) {
             }
         ]; 
         update_url_list.forEach(async(request:Request)=>{
-            let req_data:any[] = []; 
-            request.params.forEach(param=>req_data.push({[param]:data[request.target]}))
+            let req_data:any = {}; 
+            request.params.forEach(param=>req_data={[param]:data[request.target]});
+            console.log(req_data);
             const res = await axios.request(
                 {
                     method:"PUT",
@@ -98,6 +104,7 @@ export async function UpdateUserData(data:UpdateData) {
                     data:req_data
                 }
             );
+            console.log(res);
         })
     } catch (e) {
         

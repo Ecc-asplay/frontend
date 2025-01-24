@@ -7,38 +7,39 @@ import { users } from "@/app/test_data";
 import { LeftNavigation } from "@/app/components/navigations/left";
 import { RightNavigation } from "@/app/components/navigations/right";
 import { Header } from "@/app/components/Header";
-import { GetUserData,UserData } from "@/app/api/users";
+import { GetUserData,UpdateUserData,UserData,UpdateData } from "@/app/api/users";
 import axios from "axios";
 
-
-type FormData = {
-    email: string;
-    password:string;
-    gender: string;
-    isPublic: boolean;
-    fname: string;
-    lname: string;
-};
 export default function Edit() {
     const [id, setId] = useState<string | null>();
     const [userData, setUserData] = useState<UserData>();
     const [year_rate, setYearRate] = useState<number>();
+    const [regiformData, setFormData] = useState<UpdateData>({
+        email: '',
+        password:'',
+        gender: 'nocomment',
+        is_privacy: true,
+        name:{
+            lname:'',
+            fname:'',
+        },
+        disease_condition:{
+            disease:'',
+            condition:''
+        }
+    });
+
     const getUserData = async ()=>{
         const data = await GetUserData();
         setUserData(data);
     }
+
+    const updateUserData = async ()=>{
+        await UpdateUserData(regiformData)
+    }
     useEffect(() => {
         getUserData();
     }, []);
-
-    const [regiformData, setFormData] = useState<FormData>({
-        email: '',
-        password:'',
-        gender: 'nocomment',
-        isPublic: true,
-        lname: '',
-        fname: '',
-    });
 
     useEffect(() => {
         if (userData) {
@@ -57,36 +58,55 @@ export default function Edit() {
             //ファーストネーム、ラストネーム
             const F:string = userData.username.split(" ")[0]?userData.username.split(" ")[0]:"名",
                   L:string = userData.username.split(" ")[1]?userData.username.split(" ")[1]:"姓"; 
-            const inital_formdata:FormData = {
+            const inital_formdata:UpdateData = {
                 email: userData.email,
                 password:'',
                 gender: userData.gender,
-                isPublic: !userData.is_privacy,
-                lname: L,
-                fname: F,
+                is_privacy: !userData.is_privacy,
+                name:{
+                    lname: L,
+                    fname: F,
+                },
+                disease_condition:{
+                    disease:"",
+                    condition:""
+                }
+                
             } 
             setFormData(inital_formdata);
         }
     }, [userData]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,target:keyof UpdateData) => {
         const { name, value } = e.target;
-
-        if (name === 'isPublic') {
+        if (name === 'is_privacy') {
             //公開設定
             setFormData((prevData) => ({
                 ...prevData,
-                isPublic: value === 'true'
+                is_privacy: value === 'true'
             }));
 
+        }else if(target==="name"){
+            const child:UpdateData["name"] = {
+                lname:regiformData.name.lname,
+                fname:regiformData.name.fname
+            }
+            if(name === "fname")
+                child.fname = value;
+            else
+                child.lname = value; 
+            console.log(child);
+            setFormData({
+                ...regiformData,
+                name: child,
+            });
         } else {
             //その他
             setFormData({
                 ...regiformData,
-                [name]: value,
+                [target]: value,
             });
         }
-        console.log(regiformData)
     };
     return (
         <div className="flex w-full ">
@@ -99,7 +119,7 @@ export default function Edit() {
                         <p className="text-3xl text-[#B8A193] mx-3">{year_rate}代</p>
                         <p className="text-3xl text-[#B8A193] mx-3">{userData?.gender === "M"? "男性" : "女性"}</p>
                         <p className="bg-[#DCD5CD] rounded-xl w-[10%] text-center text-xl mx-3">{userData?.is_privacy? "非公開" : "公開"}</p>
-                        <Link href={"/users/" + userData?.user_id} className="bg-[#A5BCA2] rounded-lg w-[10%]  text-center text-xl text-white px-4 py-2 ml-16"><button>保存</button></Link>
+                        <button className="bg-[#A5BCA2] rounded-lg w-[10%]  text-center text-xl text-white px-4 py-2 ml-16" onClick={updateUserData}>保存</button>
 
                     </div>
                     <p className="mt-3 text-[#B8A193] underline">{userData?.email}</p>
@@ -114,12 +134,12 @@ export default function Edit() {
                             <div className="flex p-3 h-16 bg-inputbg rounded-xl object-cover w-[80%]">
                                 <div className="flex items-center object-cover w-1/2">
                                     <span className="text-middlebrown px-2">姓</span>
-                                    <input type="lname" id="lname" name="lname" placeholder="山田" value={regiformData.lname} onChange={handleChange} required
+                                    <input type="lname" id="lname" name="lname" placeholder="山田" value={regiformData.name.lname} onChange={(e)=>handleChange(e,"name")} required
                                         className="object-cover w-full bg-transparent focus:outline-none border-none text-basetext placeholder-basetext px-2" />
                                 </div>
                                 <div className="flex items-center object-cover w-1/2">
                                     <span className="text-middlebrown px-2">名</span>
-                                    <input type="fname" id="fname" name="fname" placeholder="太郎" value={regiformData.fname} onChange={handleChange} required
+                                    <input type="fname" id="fname" name="fname" placeholder="太郎" value={regiformData.name.fname} onChange={(e)=>handleChange(e,"name")} required
                                         className="object-cover w-full bg-transparent focus:outline-none border-none text-basetext placeholder-basetext px-2" />
                                 </div>
                             </div>
@@ -128,7 +148,7 @@ export default function Edit() {
                         {/* 性別選択  */}
                         <div className="flex space-x-3 justify-around">
                             <label className="flex items-center space-x-2">
-                                <input type="radio" name="gender" value="male" checked={regiformData.gender === 'M'} onChange={handleChange} required className="hidden" />
+                                <input type="radio" name="gender" value="M" checked={regiformData.gender === 'M'} onChange={(e)=>handleChange(e,"gender")} required className="hidden" />
                                 <span
                                     className={`w-5 h-5 rounded-full border-1 flex items-center justify-center ${regiformData.gender === 'M' ? 'bg-basegreen' : 'bg-middlebrown'
                                         }`}>
@@ -139,7 +159,7 @@ export default function Edit() {
                                 <span className="px-0.5 text-basetext">男性</span>
                             </label>
                             <label className="flex items-center space-x-2">
-                                <input type="radio" name="gender" value="female" checked={regiformData.gender === 'F'} onChange={handleChange} required className="hidden" />
+                                <input type="radio" name="gender" value="F" checked={regiformData.gender === 'F'} onChange={(e)=>handleChange(e,"gender")} required className="hidden" />
                                 <span
                                     className={`w-5 h-5 rounded-full border-1 flex items-center justify-center ${regiformData.gender === 'F' ? 'bg-basegreen' : 'bg-middlebrown'
                                         }`}>
@@ -150,7 +170,7 @@ export default function Edit() {
                                 <span className="px-0.5 text-basetext">女性</span>
                             </label>
                             <label className="flex items-center space-x-2">
-                                <input type="radio" name="gender" value="nocomment" checked={regiformData.gender === 'nocomment'} onChange={handleChange} required className="hidden" />
+                                <input type="radio" name="gender" value="nocomment" checked={regiformData.gender === 'nocomment'} onChange={(e)=>handleChange(e,"gender")} required className="hidden" />
                                 <span
                                     className={`w-5 h-5 rounded-full border-1 flex items-center justify-center ${regiformData.gender === 'nocomment' ? 'bg-basegreen' : 'bg-middlebrown'
                                         }`}>
@@ -165,23 +185,23 @@ export default function Edit() {
                         {/* 公開設定 */}
                         <div className="flex space-x-2 justify-around">
                             <label className="flex items-center space-x-2">
-                                <input type="radio" name="isPublic" value="true" checked={regiformData.isPublic === true} onChange={handleChange} required className="hidden" />
+                                <input type="radio" name="is_privacy" value="true" checked={regiformData.is_privacy === true} onChange={(e)=>handleChange(e,"is_privacy")} required className="hidden" />
                                 <span
-                                    className={`w-5 h-5 rounded-full border-1 flex items-center justify-center ${regiformData.isPublic === true ? 'bg-basegreen' : 'bg-middlebrown'
+                                    className={`w-5 h-5 rounded-full border-1 flex items-center justify-center ${regiformData.is_privacy === true ? 'bg-basegreen' : 'bg-middlebrown'
                                         }`}>
                                     <span className="w-4 h-4 rounded-full flex items-center justify-center bg-basebg">
-                                        {regiformData.isPublic === true && <span className="w-3 h-3 rounded-full flex items-center justify-center bg-basegreen"></span>}
+                                        {regiformData.is_privacy === true && <span className="w-3 h-3 rounded-full flex items-center justify-center bg-basegreen"></span>}
                                     </span>
                                 </span>
                                 <span className="px-0.5 text-basetext">公開</span>
                             </label>
                             <label className="flex items-center space-x-2">
-                                <input type="radio" name="isPublic" value="false" checked={regiformData.isPublic === false} onChange={handleChange} required className="hidden" />
+                                <input type="radio" name="is_privacy" value="false" checked={regiformData.is_privacy === false} onChange={(e)=>handleChange(e,"is_privacy")} required className="hidden" />
                                 <span
-                                    className={`w-5 h-5 rounded-full border-1 flex items-center justify-center ${regiformData.isPublic === false ? 'bg-basegreen' : 'bg-middlebrown'
+                                    className={`w-5 h-5 rounded-full border-1 flex items-center justify-center ${regiformData.is_privacy === false ? 'bg-basegreen' : 'bg-middlebrown'
                                         }`}>
                                     <span className="w-4 h-4 rounded-full flex items-center justify-center bg-basebg">
-                                        {regiformData.isPublic === false && <span className="w-3 h-3 rounded-full flex items-center justify-center bg-basegreen"></span>}
+                                        {regiformData.is_privacy === false && <span className="w-3 h-3 rounded-full flex items-center justify-center bg-basegreen"></span>}
                                     </span>
                                 </span>
                                 <span className="px-0.5 text-basetext">非公開</span>
@@ -190,12 +210,12 @@ export default function Edit() {
 
                         {/* Email */}
                         <div className="flex flex-col">
-                            <input type="email" id="email" name="email" placeholder="example@email.com" value={regiformData.email} onChange={handleChange} required
+                            <input type="email" id="email" name="email" placeholder="example@email.com" value={regiformData.email} onChange={(e)=>handleChange(e,"email")} required
                                 className="px-4 py-2 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext placeholder-middlebrown" />
                         </div>
                         {/* password */}
                         <div className="flex flex-col">
-                            <input type="password" id="password" name="password" placeholder="new password" value={regiformData.password} onChange={handleChange} required
+                            <input type="password" id="password" name="password" placeholder="new password" value={regiformData.password} onChange={(e)=>handleChange(e,"password")} required
                                 className="px-4 py-2 rounded-md border-none appearance-none focus:outline-none bg-inputbg text-basetext placeholder-middlebrown" />
                         </div>
 
