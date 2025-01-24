@@ -203,9 +203,6 @@ export default function Home() {
         })
     }, []);
 
-
-    
-
   return (
     <div className="flex w-full h-screen ">
       <LeftNavigation/>
@@ -224,11 +221,12 @@ export default function Home() {
                     key={i}
                     className="w-[80%] bg-[#DDD4CF] rounded-md p-3 flex flex-col my-3"
                 >
-                    <Link href={"/posts/" + post.post_id}>
-                        <div className="flex items-center justify-between">
-                            <span className={`font-bold text-2xl m-3`}>
+                    <Link href={"/posts/" + post.post_id} className="m-3">
+                        <div className="flex items-center justify-between mb-5">
+                            <span className={`font-bold text-2xl`}>
                                 {post.title.slice(0,20)}
                             </span>
+
                             <div>
                                 <span className="mx-3">
                                     {post.created_at.slice(0,10).replace("-","年").replace("-","月")}日
@@ -238,7 +236,8 @@ export default function Home() {
                                 </span>
                             </div>
                         </div>
-                        <span className="m-3">
+
+                        <span>
                             {/* {post.content.slice(0,20)}*/}
                             {typeof post.content !== "string"
                                 ? post.content.map(c=>c.children?.map((e:any,i:number)=>(<span key={i}>{e.text}</span>)))
@@ -248,12 +247,13 @@ export default function Home() {
 
                       <div className="flex justify-between full m-3">
                           <div className="object-cover w-1/2 flex justify-between items-center">
-                              <button className="flex ml-3">
+                              <button className="flex">
                                   <Image
                                       src={comment_icon}
                                       width={30}
                                       height={30}
                                       alt="comment icon"
+                                      className="mr-1"
                                   />
                                   {comments.filter(
                                       (c) => post.post_id === c.post_id
